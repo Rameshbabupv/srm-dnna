@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T3: TensorFlow Neural Network - Tutorial Instructions</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --t3-primary: #f59e0b;
+            --t3-secondary: #d97706;
+            --t3-accent: #fbbf24;
+        }
+        
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--t3-primary), var(--t3-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+        
+        .navigation-breadcrumb {
+            background: rgba(245, 158, 11, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .navigation-breadcrumb a {
+            color: var(--t3-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .navigation-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .step-section {
+            background: rgba(245, 158, 11, 0.05);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .step-number {
+            background: var(--t3-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--t3-primary);
+            position: relative;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--t3-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--t3-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .theory-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .checkpoint {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .deliverable {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--t3-primary), var(--t3-secondary));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--t3-primary);
+            padding: 12px 24px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(245, 158, 11, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .tensorflow-highlight {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            color: #1f2937;
+        }
+        
+        .tensorflow-highlight h3 {
+            color: var(--t3-primary);
+            margin-bottom: 15px;
+        }
+        
+        .tensorflow-highlight strong {
+            color: #d97706;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tutorial-header {
+                padding: 20px 15px;
+            }
+            
+            .step-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-header">
+        <h1>T3: TensorFlow Neural Network</h1>
+        <p>🌱 Beginner Level • ⏱️ 2-3 hours • 📅 Week 3</p>
+        <p style="margin: 10px 0; font-size: 1rem; opacity: 0.9;">21CSE558T • M.Tech Course • SRM University</p>
+        <p style="margin: 5px 0; font-size: 1rem;">
+            👨‍🏫 Prof. Ramesh Babu • 
+            <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline;">myPage</a>
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">TensorFlow</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Keras</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Python</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="index.html">💻 Tutorials</a> → 
+            <span>T3: TensorFlow Neural Network</span>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="theory-box">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Learn TensorFlow and Keras fundamentals</li>
+                <li>Build neural networks using high-level APIs</li>
+                <li>Understand model compilation, training, and evaluation</li>
+                <li>Work with real datasets (MNIST, Fashion-MNIST)</li>
+                <li>Implement data preprocessing and model optimization</li>
+                <li>Compare framework implementation with manual coding</li>
+            </ul>
+        </div>
+
+        <!-- Setup and Installation -->
+        <div class="step-section" id="step-1">
+            <div class="step-number">1</div>
+            <h2>Environment Setup</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Install required packages
+!pip install tensorflow matplotlib numpy scikit-learn
+
+# Verify installation
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+
+print(f"TensorFlow version: {tf.__version__}")
+print(f"GPU Available: {tf.config.list_physical_devices('GPU')}")
+
+# Set random seeds for reproducibility
+tf.random.set_seed(42)
+np.random.seed(42)
+            </div>
+        </div>
+
+        <!-- TensorFlow Basics -->
+        <div class="step-section" id="step-2">
+            <div class="step-number">2</div>
+            <h2>TensorFlow Fundamentals</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Understanding Tensors - the building blocks of TensorFlow
+def explore_tensors():
+    """
+    Explore basic tensor operations in TensorFlow
+    """
+    print("=== TensorFlow Tensor Basics ===")
+    
+    # Create different types of tensors
+    scalar = tf.constant(42)
+    vector = tf.constant([1, 2, 3, 4])
+    matrix = tf.constant([[1, 2], [3, 4]])
+    tensor_3d = tf.constant([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+    
+    print(f"Scalar: {scalar}, shape: {scalar.shape}")
+    print(f"Vector: {vector}, shape: {vector.shape}")
+    print(f"Matrix: {matrix}, shape: {matrix.shape}")
+    print(f"3D Tensor: {tensor_3d}, shape: {tensor_3d.shape}")
+    
+    # Basic operations
+    a = tf.constant([[1.0, 2.0], [3.0, 4.0]])
+    b = tf.constant([[2.0, 1.0], [1.0, 2.0]])
+    
+    print(f"\nMatrix A:\n{a}")
+    print(f"Matrix B:\n{b}")
+    print(f"A + B:\n{tf.add(a, b)}")
+    print(f"A * B (element-wise):\n{tf.multiply(a, b)}")
+    print(f"A @ B (matrix multiplication):\n{tf.matmul(a, b)}")
+    
+    # Variables (trainable parameters)
+    w = tf.Variable([[1.0, 2.0], [3.0, 4.0]], name='weights')
+    print(f"\nTrainable Variable:\n{w}")
+    print(f"Variable name: {w.name}")
+    
+    return w
+
+# Automatic differentiation - core of backpropagation
+def demonstrate_autodiff():
+    """
+    Show how TensorFlow computes gradients automatically
+    """
+    print("\n=== Automatic Differentiation ===")
+    
+    # Define a simple function: f(x) = x^2 + 2x + 1
+    x = tf.Variable(3.0)
+    
+    with tf.GradientTape() as tape:
+        y = x**2 + 2*x + 1
+    
+    # Compute gradient dy/dx = 2x + 2
+    dy_dx = tape.gradient(y, x)
+    
+    print(f"f(x) = x^2 + 2x + 1")
+    print(f"x = {x.numpy()}")
+    print(f"f(x) = {y.numpy()}")
+    print(f"f'(x) = {dy_dx.numpy()}")
+    print(f"Expected f'(3) = 2*3 + 2 = 8")
+
+# Run basic explorations
+weights = explore_tensors()
+demonstrate_autodiff()
+            </div>
+        </div>
+
+        <!-- Building Your First Neural Network -->
+        <div class="step-section" id="step-3">
+            <div class="step-number">3</div>
+            <h2>Building Neural Networks with Keras</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Load and preprocess MNIST dataset
+def load_and_preprocess_mnist():
+    """
+    Load MNIST dataset and perform preprocessing
+    """
+    print("Loading MNIST dataset...")
+    
+    # Load data
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+    
+    print(f"Training data shape: {x_train.shape}")
+    print(f"Training labels shape: {y_train.shape}")
+    print(f"Test data shape: {x_test.shape}")
+    print(f"Test labels shape: {y_test.shape}")
+    
+    # Normalize pixel values to [0, 1]
+    x_train = x_train.astype('float32') / 255.0
+    x_test = x_test.astype('float32') / 255.0
+    
+    # Reshape data: flatten 28x28 images to 784-dimensional vectors
+    x_train_flat = x_train.reshape(-1, 28*28)
+    x_test_flat = x_test.reshape(-1, 28*28)
+    
+    print(f"Flattened training data shape: {x_train_flat.shape}")
+    
+    # Visualize some samples
+    plt.figure(figsize=(12, 8))
+    for i in range(12):
+        plt.subplot(3, 4, i+1)
+        plt.imshow(x_train[i], cmap='gray')
+        plt.title(f'Label: {y_train[i]}')
+        plt.axis('off')
+    plt.suptitle('MNIST Dataset Samples')
+    plt.tight_layout()
+    plt.show()
+    
+    return (x_train_flat, y_train), (x_test_flat, y_test)
+
+# Build neural network using Sequential API
+def build_sequential_model():
+    """
+    Build a neural network using Keras Sequential API
+    """
+    print("\n=== Building Neural Network with Sequential API ===")
+    
+    model = tf.keras.Sequential([
+        # Input layer (implicitly defined by first layer)
+        tf.keras.layers.Dense(128, activation='relu', input_shape=(784,), name='hidden_layer_1'),
+        tf.keras.layers.Dropout(0.2, name='dropout_1'),
+        tf.keras.layers.Dense(64, activation='relu', name='hidden_layer_2'),
+        tf.keras.layers.Dropout(0.2, name='dropout_2'),
+        tf.keras.layers.Dense(10, activation='softmax', name='output_layer')
+    ])
+    
+    # Display model architecture
+    print("Model Architecture:")
+    model.summary()
+    
+    return model
+
+# Build the same network using Functional API
+def build_functional_model():
+    """
+    Build the same network using Keras Functional API (more flexible)
+    """
+    print("\n=== Building Neural Network with Functional API ===")
+    
+    # Define inputs
+    inputs = tf.keras.Input(shape=(784,), name='input_layer')
+    
+    # Define layers
+    x = tf.keras.layers.Dense(128, activation='relu', name='hidden_layer_1')(inputs)
+    x = tf.keras.layers.Dropout(0.2, name='dropout_1')(x)
+    x = tf.keras.layers.Dense(64, activation='relu', name='hidden_layer_2')(x)
+    x = tf.keras.layers.Dropout(0.2, name='dropout_2')(x)
+    outputs = tf.keras.layers.Dense(10, activation='softmax', name='output_layer')(x)
+    
+    # Create model
+    model = tf.keras.Model(inputs=inputs, outputs=outputs, name='mnist_classifier')
+    
+    print("Model Architecture:")
+    model.summary()
+    
+    return model
+
+# Load data and build models
+(x_train, y_train), (x_test, y_test) = load_and_preprocess_mnist()
+sequential_model = build_sequential_model()
+functional_model = build_functional_model()
+            </div>
+        </div>
+
+        <!-- Model Compilation and Training -->
+        <div class="step-section" id="step-4">
+            <div class="step-number">4</div>
+            <h2>Model Compilation and Training</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def compile_and_train_model(model, x_train, y_train, x_test, y_test):
+    """
+    Compile and train the neural network
+    """
+    print("\n=== Model Compilation ===")
+    
+    # Compile the model
+    model.compile(
+        optimizer='adam',  # Adaptive Moment Estimation
+        loss='sparse_categorical_crossentropy',  # For integer labels
+        metrics=['accuracy']
+    )
+    
+    print("Model compiled with:")
+    print("- Optimizer: Adam")
+    print("- Loss function: Sparse Categorical Crossentropy")
+    print("- Metrics: Accuracy")
+    
+    # Set up callbacks for training
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(
+            monitor='val_loss',
+            patience=5,
+            restore_best_weights=True,
+            verbose=1
+        ),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor='val_loss',
+            factor=0.5,
+            patience=3,
+            min_lr=1e-7,
+            verbose=1
+        )
+    ]
+    
+    print("\n=== Training Model ===")
+    
+    # Train the model
+    history = model.fit(
+        x_train, y_train,
+        batch_size=128,
+        epochs=20,
+        validation_data=(x_test, y_test),
+        callbacks=callbacks,
+        verbose=1
+    )
+    
+    return history
+
+def evaluate_model(model, x_test, y_test):
+    """
+    Evaluate model performance
+    """
+    print("\n=== Model Evaluation ===")
+    
+    # Evaluate on test set
+    test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=0)
+    print(f"Test Loss: {test_loss:.4f}")
+    print(f"Test Accuracy: {test_accuracy:.4f}")
+    
+    # Make predictions
+    predictions = model.predict(x_test, verbose=0)
+    predicted_classes = np.argmax(predictions, axis=1)
+    
+    # Detailed classification report
+    print("\nClassification Report:")
+    print(classification_report(y_test, predicted_classes))
+    
+    # Confusion matrix
+    cm = confusion_matrix(y_test, predicted_classes)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+    plt.title('Confusion Matrix')
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.show()
+    
+    return predictions, predicted_classes
+
+def plot_training_history(history):
+    """
+    Plot training and validation metrics
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    
+    # Plot training & validation accuracy
+    ax1.plot(history.history['accuracy'], label='Training Accuracy', marker='o')
+    ax1.plot(history.history['val_accuracy'], label='Validation Accuracy', marker='s')
+    ax1.set_title('Model Accuracy')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Accuracy')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot training & validation loss
+    ax2.plot(history.history['loss'], label='Training Loss', marker='o')
+    ax2.plot(history.history['val_loss'], label='Validation Loss', marker='s')
+    ax2.set_title('Model Loss')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Loss')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
+# Train and evaluate the model
+history = compile_and_train_model(sequential_model, x_train, y_train, x_test, y_test)
+predictions, predicted_classes = evaluate_model(sequential_model, x_test, y_test)
+plot_training_history(history)
+            </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div class="step-section" id="step-5">
+            <div class="step-number">5</div>
+            <h2>Advanced TensorFlow Features</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def demonstrate_custom_training():
+    """
+    Demonstrate custom training loop for more control
+    """
+    print("\n=== Custom Training Loop ===")
+    
+    # Build a simple model
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(64, activation='relu', input_shape=(784,)),
+        tf.keras.layers.Dense(10, activation='softmax')
+    ])
+    
+    # Define loss function and optimizer
+    loss_fn = tf.keras.losses.SparseCategoricalCrossentropy()
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+    
+    # Metrics
+    train_loss = tf.keras.metrics.Mean(name='train_loss')
+    train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy')
+    
+    @tf.function
+    def train_step(x, y):
+        """Single training step"""
+        with tf.GradientTape() as tape:
+            predictions = model(x, training=True)
+            loss = loss_fn(y, predictions)
+        
+        gradients = tape.gradient(loss, model.trainable_variables)
+        optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+        
+        train_loss(loss)
+        train_accuracy(y, predictions)
+    
+    # Custom training loop
+    EPOCHS = 5
+    train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
+    train_dataset = train_dataset.shuffle(10000).batch(128)
+    
+    for epoch in range(EPOCHS):
+        # Reset metrics
+        train_loss.reset_states()
+        train_accuracy.reset_states()
+        
+        for x_batch, y_batch in train_dataset:
+            train_step(x_batch, y_batch)
+        
+        print(f'Epoch {epoch + 1}: Loss = {train_loss.result():.4f}, '
+              f'Accuracy = {train_accuracy.result():.4f}')
+
+def save_and_load_model(model):
+    """
+    Demonstrate model saving and loading
+    """
+    print("\n=== Model Saving and Loading ===")
+    
+    # Save the entire model
+    model.save('mnist_model.h5')
+    print("Model saved as 'mnist_model.h5'")
+    
+    # Save only weights
+    model.save_weights('mnist_weights.h5')
+    print("Weights saved as 'mnist_weights.h5'")
+    
+    # Load the model
+    loaded_model = tf.keras.models.load_model('mnist_model.h5')
+    print("Model loaded successfully")
+    
+    # Verify loaded model works
+    test_loss, test_accuracy = loaded_model.evaluate(x_test, y_test, verbose=0)
+    print(f"Loaded model accuracy: {test_accuracy:.4f}")
+
+def model_interpretability(model, x_test, y_test):
+    """
+    Basic model interpretability techniques
+    """
+    print("\n=== Model Interpretability ===")
+    
+    # Get layer outputs
+    layer_outputs = [layer.output for layer in model.layers[:-1]]  # Exclude output layer
+    activation_model = tf.keras.Model(inputs=model.input, outputs=layer_outputs)
+    
+    # Visualize activations for a sample
+    sample_idx = 0
+    sample_input = x_test[sample_idx:sample_idx+1]
+    activations = activation_model.predict(sample_input, verbose=0)
+    
+    # Plot original image
+    original_image = sample_input.reshape(28, 28)
+    plt.figure(figsize=(15, 10))
+    
+    plt.subplot(2, 3, 1)
+    plt.imshow(original_image, cmap='gray')
+    plt.title(f'Original Image (Label: {y_test[sample_idx]})')
+    plt.axis('off')
+    
+    # Plot activations from different layers
+    for i, activation in enumerate(activations[:2]):  # First two hidden layers
+        plt.subplot(2, 3, i+2)
+        # Show first 64 neurons for visualization
+        neurons_to_show = min(64, activation.shape[1])
+        activation_matrix = activation[0, :neurons_to_show].reshape(8, 8)
+        plt.imshow(activation_matrix, cmap='viridis')
+        plt.title(f'Layer {i+1} Activations')
+        plt.colorbar()
+    
+    plt.tight_layout()
+    plt.show()
+
+# Run advanced features
+demonstrate_custom_training()
+save_and_load_model(sequential_model)
+model_interpretability(sequential_model, x_test, y_test)
+            </div>
+        </div>
+
+        <!-- Fashion-MNIST Challenge -->
+        <div class="step-section" id="step-6">
+            <div class="step-number">6</div>
+            <h2>Challenge: Fashion-MNIST Classification</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def fashion_mnist_challenge():
+    """
+    Challenge: Build a classifier for Fashion-MNIST dataset
+    """
+    print("\n=== Fashion-MNIST Challenge ===")
+    
+    # Load Fashion-MNIST dataset
+    (x_train_fashion, y_train_fashion), (x_test_fashion, y_test_fashion) = \
+        tf.keras.datasets.fashion_mnist.load_data()
+    
+    # Class names for Fashion-MNIST
+    class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                   'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+    
+    print(f"Fashion-MNIST classes: {class_names}")
+    
+    # Preprocess data
+    x_train_fashion = x_train_fashion.astype('float32') / 255.0
+    x_test_fashion = x_test_fashion.astype('float32') / 255.0
+    x_train_fashion_flat = x_train_fashion.reshape(-1, 28*28)
+    x_test_fashion_flat = x_test_fashion.reshape(-1, 28*28)
+    
+    # Visualize samples
+    plt.figure(figsize=(15, 10))
+    for i in range(20):
+        plt.subplot(4, 5, i+1)
+        plt.imshow(x_train_fashion[i], cmap='gray')
+        plt.title(f'{class_names[y_train_fashion[i]]}')
+        plt.axis('off')
+    plt.suptitle('Fashion-MNIST Dataset Samples')
+    plt.tight_layout()
+    plt.show()
+    
+    # Build and train model
+    fashion_model = tf.keras.Sequential([
+        tf.keras.layers.Dense(256, activation='relu', input_shape=(784,)),
+        tf.keras.layers.Dropout(0.3),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.3),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(10, activation='softmax')
+    ])
+    
+    fashion_model.compile(
+        optimizer='adam',
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    
+    print("Training Fashion-MNIST classifier...")
+    fashion_history = fashion_model.fit(
+        x_train_fashion_flat, y_train_fashion,
+        batch_size=128,
+        epochs=15,
+        validation_data=(x_test_fashion_flat, y_test_fashion),
+        verbose=1
+    )
+    
+    # Evaluate model
+    test_loss, test_accuracy = fashion_model.evaluate(x_test_fashion_flat, y_test_fashion, verbose=0)
+    print(f"Fashion-MNIST Test Accuracy: {test_accuracy:.4f}")
+    
+    # Plot training history
+    plot_training_history(fashion_history)
+    
+    # Make predictions and show some results
+    fashion_predictions = fashion_model.predict(x_test_fashion_flat, verbose=0)
+    fashion_predicted_classes = np.argmax(fashion_predictions, axis=1)
+    
+    # Show prediction examples
+    plt.figure(figsize=(15, 8))
+    for i in range(12):
+        plt.subplot(3, 4, i+1)
+        plt.imshow(x_test_fashion[i], cmap='gray')
+        predicted_class = class_names[fashion_predicted_classes[i]]
+        true_class = class_names[y_test_fashion[i]]
+        confidence = np.max(fashion_predictions[i])
+        
+        color = 'green' if fashion_predicted_classes[i] == y_test_fashion[i] else 'red'
+        plt.title(f'Pred: {predicted_class}\nTrue: {true_class}\nConf: {confidence:.2f}', 
+                 color=color)
+        plt.axis('off')
+    
+    plt.suptitle('Fashion-MNIST Predictions')
+    plt.tight_layout()
+    plt.show()
+    
+    return fashion_model, fashion_history
+
+# Run the Fashion-MNIST challenge
+fashion_model, fashion_history = fashion_mnist_challenge()
+            </div>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="deliverable">
+            <h2>📤 Tutorial Deliverables</h2>
+            <h3>Required Submissions:</h3>
+            <ol>
+                <li><strong>Complete TensorFlow implementation</strong> with both Sequential and Functional APIs</li>
+                <li><strong>MNIST classifier</strong> achieving >95% accuracy with proper training curves</li>
+                <li><strong>Fashion-MNIST classifier</strong> as an independent challenge project</li>
+                <li><strong>Model analysis</strong> including:
+                    <ul>
+                        <li>Architecture comparison (Sequential vs Functional API)</li>
+                        <li>Training history visualization</li>
+                        <li>Confusion matrix and classification reports</li>
+                        <li>Layer activation visualizations</li>
+                    </ul>
+                </li>
+                <li><strong>Custom training loop</strong> implementation demonstrating low-level TensorFlow</li>
+                <li><strong>Model saving/loading</strong> demonstration with verification</li>
+                <li><strong>Comparison report</strong> (2-3 pages) discussing:
+                    <ul>
+                        <li>TensorFlow vs manual implementation (from T1-T2)</li>
+                        <li>Benefits of using deep learning frameworks</li>
+                        <li>Performance comparison between datasets</li>
+                        <li>Impact of different architectures and hyperparameters</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button onclick="markAsCompleted()" class="btn-primary" style="margin: 0 10px;">✅ Mark as Completed</button>
+            <a href="tutorial-T4.html" class="btn-secondary">➡️ Next Tutorial (T4)</a>
+            <a href="tutorial-T2.html" class="btn-secondary">⬅️ Previous Tutorial (T2)</a>
+            <a href="index.html" class="btn-secondary">🏠 Back to Tutorials</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre') || button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        function markAsCompleted() {
+            localStorage.setItem('tutorial-T3-status', 'completed');
+            localStorage.setItem('tutorial-T3-completed-date', new Date().toISOString());
+            alert('Tutorial T3 marked as completed! 🎉');
+        }
+        
+        // Load tutorial status
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = localStorage.getItem('tutorial-T3-status');
+            if (status === 'completed') {
+                document.querySelector('.btn-primary').innerHTML = '✅ Completed';
+                document.querySelector('.btn-primary').style.background = 'var(--t3-primary)';
+            }
+        });
+        
+        function openMyPage() {
+            const username = 'rbabu';
+            const pin = '2228';
+            
+            // Simple authentication simulation
+            const enteredPin = prompt(`Welcome ${username}!\nPlease enter your PIN to access myPage:`);
+            
+            if (enteredPin === pin) {
+                alert('🎉 Access Granted!\n\nWelcome to Prof. Ramesh Babu\'s myPage\n\n📚 Course: Deep Neural Network Architectures\n🎓 Students: M.Tech Batch 2025\n📊 Progress Tracking Available\n💬 Office Hours: Mon-Fri 2-4 PM');
+            } else if (enteredPin !== null) {
+                alert('❌ Access Denied\nIncorrect PIN. Please contact Prof. Ramesh Babu for assistance.');
+            }
+        }
+    </script>
+</body>
+</html>

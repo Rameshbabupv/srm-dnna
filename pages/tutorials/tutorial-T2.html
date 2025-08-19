@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T2: Multi-Layer Perceptron with Backpropagation - Tutorial Instructions</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --t2-primary: #3b82f6;
+            --t2-secondary: #2563eb;
+            --t2-accent: #60a5fa;
+        }
+        
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--t2-primary), var(--t2-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+        
+        .navigation-breadcrumb {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .navigation-breadcrumb a {
+            color: var(--t2-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .navigation-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .step-section {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .step-number {
+            background: var(--t2-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--t2-primary);
+            position: relative;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--t2-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--t2-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .theory-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .math-section {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            color: #1f2937;
+        }
+        
+        .math-section h3 {
+            color: var(--t2-primary);
+            margin-bottom: 15px;
+        }
+        
+        .math-section h4 {
+            color: var(--t2-secondary);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .math-section ul li {
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+        
+        .math-section strong {
+            color: #1e40af;
+        }
+        
+        .checkpoint {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .deliverable {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--t2-primary), var(--t2-secondary));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--t2-primary);
+            padding: 12px 24px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tutorial-header {
+                padding: 20px 15px;
+            }
+            
+            .step-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-header">
+        <h1>T2: Multi-Layer Perceptron with Backpropagation</h1>
+        <p>🌱 Beginner Level • ⏱️ 3-4 hours • 📅 Week 2</p>
+        <p style="margin: 10px 0; font-size: 1rem; opacity: 0.9;">21CSE558T • M.Tech Course • SRM University</p>
+        <p style="margin: 5px 0; font-size: 1rem;">
+            👨‍🏫 Prof. Ramesh Babu • 
+            <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline;">myPage</a>
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Python</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">NumPy</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Mathematics</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="index.html">💻 Tutorials</a> → 
+            <span>T2: MLP & Backpropagation</span>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="theory-box">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Understand multi-layer perceptron architecture</li>
+                <li>Implement forward propagation through multiple layers</li>
+                <li>Derive and implement backpropagation algorithm</li>
+                <li>Solve the XOR problem that single perceptron cannot handle</li>
+                <li>Understand gradient descent optimization</li>
+                <li>Visualize learning curves and decision boundaries</li>
+            </ul>
+        </div>
+
+        <!-- Mathematical Foundation -->
+        <div class="step-section" id="step-1">
+            <div class="step-number">1</div>
+            <h2>Mathematical Foundation</h2>
+            
+            <div class="math-section">
+                <h3>🧮 Multi-Layer Perceptron Mathematics</h3>
+                
+                <h4>Forward Propagation:</h4>
+                <ul>
+                    <li><strong>Layer 1 (Hidden):</strong> z₁ = W₁ · x + b₁, a₁ = σ(z₁)</li>
+                    <li><strong>Layer 2 (Output):</strong> z₂ = W₂ · a₁ + b₂, a₂ = σ(z₂)</li>
+                </ul>
+                
+                <h4>Backpropagation (Chain Rule):</h4>
+                <ul>
+                    <li><strong>Output Layer Error:</strong> δ₂ = (a₂ - y) ⊙ σ'(z₂)</li>
+                    <li><strong>Hidden Layer Error:</strong> δ₁ = (W₂ᵀ · δ₂) ⊙ σ'(z₁)</li>
+                </ul>
+                
+                <h4>Weight Updates:</h4>
+                <ul>
+                    <li><strong>W₂ Update:</strong> W₂ = W₂ - η · δ₂ · a₁ᵀ</li>
+                    <li><strong>W₁ Update:</strong> W₁ = W₁ - η · δ₁ · xᵀ</li>
+                    <li><strong>Bias Updates:</strong> b₂ = b₂ - η · δ₂, b₁ = b₁ - η · δ₁</li>
+                </ul>
+                
+                <p><strong>Key:</strong> σ = activation function, η = learning rate, ⊙ = element-wise multiplication</p>
+            </div>
+        </div>
+
+        <!-- Implementation -->
+        <div class="step-section" id="step-2">
+            <div class="step-number">2</div>
+            <h2>MLP Class Implementation</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+import numpy as np
+import matplotlib.pyplot as plt
+
+class MLP:
+    """
+    Multi-Layer Perceptron with backpropagation
+    """
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1):
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+        self.output_size = output_size
+        self.learning_rate = learning_rate
+        
+        # Initialize weights with small random values
+        self.W1 = np.random.randn(hidden_size, input_size) * 0.1
+        self.b1 = np.zeros((hidden_size, 1))
+        self.W2 = np.random.randn(output_size, hidden_size) * 0.1
+        self.b2 = np.zeros((output_size, 1))
+        
+        # Track training history
+        self.cost_history = []
+        self.accuracy_history = []
+    
+    def sigmoid(self, z):
+        """Sigmoid activation function"""
+        # Clip z to prevent overflow
+        z = np.clip(z, -500, 500)
+        return 1 / (1 + np.exp(-z))
+    
+    def sigmoid_derivative(self, z):
+        """Derivative of sigmoid function"""
+        s = self.sigmoid(z)
+        return s * (1 - s)
+    
+    def forward_propagation(self, X):
+        """
+        Forward pass through the network
+        
+        Parameters:
+        X: input data (input_size, m) where m is number of examples
+        
+        Returns:
+        A2: output predictions
+        cache: intermediate values for backpropagation
+        """
+        m = X.shape[1]  # number of examples
+        
+        # Layer 1 (Hidden layer)
+        Z1 = np.dot(self.W1, X) + self.b1
+        A1 = self.sigmoid(Z1)
+        
+        # Layer 2 (Output layer)
+        Z2 = np.dot(self.W2, A1) + self.b2
+        A2 = self.sigmoid(Z2)
+        
+        cache = {
+            'Z1': Z1, 'A1': A1,
+            'Z2': Z2, 'A2': A2,
+            'X': X
+        }
+        
+        return A2, cache
+    
+    def compute_cost(self, A2, Y):
+        """
+        Compute binary cross-entropy cost
+        """
+        m = Y.shape[1]
+        
+        # Prevent log(0) by adding small epsilon
+        epsilon = 1e-15
+        A2 = np.clip(A2, epsilon, 1 - epsilon)
+        
+        cost = -np.sum(Y * np.log(A2) + (1 - Y) * np.log(1 - A2)) / m
+        return cost
+    
+    def backward_propagation(self, cache, Y):
+        """
+        Backward pass to compute gradients
+        
+        Parameters:
+        cache: intermediate values from forward pass
+        Y: true labels (output_size, m)
+        
+        Returns:
+        gradients: dictionary containing gradients
+        """
+        m = Y.shape[1]
+        
+        # Extract cached values
+        A1, A2 = cache['A1'], cache['A2']
+        Z1, Z2 = cache['Z1'], cache['Z2']
+        X = cache['X']
+        
+        # Backward propagation
+        dZ2 = A2 - Y  # Output layer error
+        dW2 = np.dot(dZ2, A1.T) / m
+        db2 = np.sum(dZ2, axis=1, keepdims=True) / m
+        
+        dA1 = np.dot(self.W2.T, dZ2)
+        dZ1 = dA1 * self.sigmoid_derivative(Z1)  # Hidden layer error
+        dW1 = np.dot(dZ1, X.T) / m
+        db1 = np.sum(dZ1, axis=1, keepdims=True) / m
+        
+        gradients = {
+            'dW1': dW1, 'db1': db1,
+            'dW2': dW2, 'db2': db2
+        }
+        
+        return gradients
+    
+    def update_parameters(self, gradients):
+        """
+        Update parameters using gradient descent
+        """
+        self.W1 -= self.learning_rate * gradients['dW1']
+        self.b1 -= self.learning_rate * gradients['db1']
+        self.W2 -= self.learning_rate * gradients['dW2']
+        self.b2 -= self.learning_rate * gradients['db2']
+    
+    def train(self, X, Y, epochs=1000, print_cost=True):
+        """
+        Train the neural network
+        
+        Parameters:
+        X: training data (input_size, m)
+        Y: training labels (output_size, m)
+        epochs: number of training iterations
+        """
+        for epoch in range(epochs):
+            # Forward propagation
+            A2, cache = self.forward_propagation(X)
+            
+            # Compute cost
+            cost = self.compute_cost(A2, Y)
+            
+            # Backward propagation
+            gradients = self.backward_propagation(cache, Y)
+            
+            # Update parameters
+            self.update_parameters(gradients)
+            
+            # Track progress
+            self.cost_history.append(cost)
+            
+            # Compute accuracy
+            predictions = (A2 > 0.5).astype(int)
+            accuracy = np.mean(predictions == Y)
+            self.accuracy_history.append(accuracy)
+            
+            # Print progress
+            if print_cost and epoch % 100 == 0:
+                print(f"Epoch {epoch}: Cost = {cost:.6f}, Accuracy = {accuracy:.4f}")
+    
+    def predict(self, X):
+        """Make predictions on new data"""
+        A2, _ = self.forward_propagation(X)
+        return (A2 > 0.5).astype(int)
+    
+    def predict_proba(self, X):
+        """Return prediction probabilities"""
+        A2, _ = self.forward_propagation(X)
+        return A2
+            </div>
+        </div>
+
+        <!-- XOR Problem Solution -->
+        <div class="step-section" id="step-3">
+            <div class="step-number">3</div>
+            <h2>Solving the XOR Problem</h2>
+            
+            <div class="theory-box">
+                <h3>🔍 Why XOR Needs Multiple Layers</h3>
+                <p>The XOR function is not linearly separable - no single line can separate the true and false cases. However, we can solve it by combining multiple linear separators (hidden layer neurons).</p>
+            </div>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Solve XOR problem with MLP
+def solve_xor_problem():
+    """
+    Train MLP to solve XOR problem that single perceptron cannot solve
+    """
+    # XOR dataset
+    X = np.array([[0, 0, 1, 1],
+                  [0, 1, 0, 1]])  # Shape: (2, 4)
+    
+    Y = np.array([[0, 1, 1, 0]])  # Shape: (1, 4)
+    
+    print("XOR Problem Dataset:")
+    print("Inputs:", X.T)
+    print("Expected outputs:", Y.T)
+    
+    # Create and train MLP
+    mlp = MLP(input_size=2, hidden_size=4, output_size=1, learning_rate=1.0)
+    
+    print("\nTraining MLP on XOR problem...")
+    mlp.train(X, Y, epochs=2000, print_cost=True)
+    
+    # Test the trained network
+    predictions = mlp.predict(X)
+    probabilities = mlp.predict_proba(X)
+    
+    print("\nFinal Results:")
+    print("Inputs    | Expected | Predicted | Probability")
+    print("-" * 45)
+    for i in range(X.shape[1]):
+        input_vals = X[:, i]
+        expected = Y[0, i]
+        predicted = predictions[0, i]
+        prob = probabilities[0, i]
+        print(f"[{input_vals[0]}, {input_vals[1]}]   |    {expected}     |     {predicted}     |   {prob:.4f}")
+    
+    accuracy = np.mean(predictions == Y)
+    print(f"\nFinal Accuracy: {accuracy:.4f}")
+    
+    return mlp
+
+# Train on XOR
+xor_mlp = solve_xor_problem()
+            </div>
+        </div>
+
+        <!-- Visualization -->
+        <div class="step-section" id="step-4">
+            <div class="step-number">4</div>
+            <h2>Visualization and Analysis</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def plot_learning_curves(mlp, title="MLP Training Progress"):
+    """
+    Plot cost and accuracy curves during training
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    
+    # Plot cost curve
+    ax1.plot(mlp.cost_history, 'b-', linewidth=2)
+    ax1.set_title('Cost Function')
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Cost')
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot accuracy curve
+    ax2.plot(mlp.accuracy_history, 'g-', linewidth=2)
+    ax2.set_title('Training Accuracy')
+    ax2.set_xlabel('Epoch')
+    ax2.set_ylabel('Accuracy')
+    ax2.grid(True, alpha=0.3)
+    ax2.set_ylim([0, 1.1])
+    
+    plt.suptitle(title)
+    plt.tight_layout()
+    plt.show()
+
+def plot_decision_boundary_mlp(mlp, X, Y, title="MLP Decision Boundary"):
+    """
+    Plot decision boundary for MLP
+    """
+    plt.figure(figsize=(10, 8))
+    
+    # Create mesh
+    h = 0.01
+    x_min, x_max = -0.5, 1.5
+    y_min, y_max = -0.5, 1.5
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    
+    # Make predictions on mesh
+    mesh_points = np.c_[xx.ravel(), yy.ravel()].T
+    Z = mlp.predict_proba(mesh_points)
+    Z = Z.reshape(xx.shape)
+    
+    # Plot decision boundary
+    plt.contourf(xx, yy, Z, levels=50, alpha=0.6, cmap='RdYlBu')
+    plt.colorbar(label='Probability')
+    
+    # Plot data points
+    colors = ['red' if y == 0 else 'blue' for y in Y[0]]
+    plt.scatter(X[0, :], X[1, :], c=colors, s=200, edgecolors='black', linewidth=2)
+    
+    # Add labels
+    for i in range(X.shape[1]):
+        plt.annotate(f'({int(X[0,i])},{int(X[1,i])})', 
+                    (X[0,i], X[1,i]), 
+                    xytext=(10, 10), textcoords='offset points',
+                    fontsize=12, fontweight='bold')
+    
+    plt.xlim(x_min, x_max)
+    plt.ylim(y_min, y_max)
+    plt.xlabel('Input 1')
+    plt.ylabel('Input 2')
+    plt.title(title)
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+def analyze_hidden_layer(mlp, X, title="Hidden Layer Analysis"):
+    """
+    Analyze what the hidden layer neurons learn
+    """
+    _, cache = mlp.forward_propagation(X)
+    A1 = cache['A1']  # Hidden layer activations
+    
+    print(f"\n{title}")
+    print("=" * 50)
+    print("Hidden layer activations for each input:")
+    print("Input     | Hidden Neuron Activations")
+    print("-" * 40)
+    
+    for i in range(X.shape[1]):
+        input_vals = X[:, i]
+        activations = A1[:, i]
+        print(f"[{input_vals[0]}, {input_vals[1]}] | {activations}")
+    
+    # Visualize hidden layer features
+    fig, axes = plt.subplots(1, mlp.hidden_size, figsize=(15, 3))
+    if mlp.hidden_size == 1:
+        axes = [axes]
+    
+    for neuron in range(mlp.hidden_size):
+        ax = axes[neuron]
+        
+        # Create mesh for this hidden neuron
+        h = 0.02
+        x_min, x_max = -0.5, 1.5
+        y_min, y_max = -0.5, 1.5
+        xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                             np.arange(y_min, y_max, h))
+        
+        mesh_points = np.c_[xx.ravel(), yy.ravel()].T
+        
+        # Compute this neuron's activation
+        Z1 = np.dot(mlp.W1[neuron:neuron+1], mesh_points) + mlp.b1[neuron:neuron+1]
+        A1_neuron = mlp.sigmoid(Z1)
+        A1_neuron = A1_neuron.reshape(xx.shape)
+        
+        # Plot
+        contour = ax.contourf(xx, yy, A1_neuron, levels=20, cmap='viridis', alpha=0.6)
+        ax.scatter(X[0, :], X[1, :], c=['red' if y == 0 else 'blue' for y in Y[0]], 
+                  s=100, edgecolors='black')
+        ax.set_title(f'Hidden Neuron {neuron + 1}')
+        ax.set_xlabel('Input 1')
+        ax.set_ylabel('Input 2')
+        plt.colorbar(contour, ax=ax)
+    
+    plt.tight_layout()
+    plt.show()
+
+# Visualize results
+X_xor = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])
+Y_xor = np.array([[0, 1, 1, 0]])
+
+plot_learning_curves(xor_mlp, "XOR Problem - MLP Training")
+plot_decision_boundary_mlp(xor_mlp, X_xor, Y_xor, "XOR Problem - MLP Decision Boundary")
+analyze_hidden_layer(xor_mlp, X_xor, "XOR Problem - Hidden Layer Analysis")
+            </div>
+        </div>
+
+        <!-- Extended Experiments -->
+        <div class="step-section" id="step-5">
+            <div class="step-number">5</div>
+            <h2>Extended Experiments</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Experiment with different architectures
+def architecture_comparison():
+    """
+    Compare different hidden layer sizes for XOR problem
+    """
+    X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])
+    Y = np.array([[0, 1, 1, 0]])
+    
+    hidden_sizes = [2, 3, 4, 8]
+    results = {}
+    
+    plt.figure(figsize=(15, 10))
+    
+    for i, hidden_size in enumerate(hidden_sizes):
+        print(f"\nTesting hidden size: {hidden_size}")
+        
+        mlp = MLP(input_size=2, hidden_size=hidden_size, output_size=1, learning_rate=1.0)
+        mlp.train(X, Y, epochs=1000, print_cost=False)
+        
+        final_accuracy = mlp.accuracy_history[-1]
+        final_cost = mlp.cost_history[-1]
+        
+        results[hidden_size] = {
+            'accuracy': final_accuracy,
+            'cost': final_cost,
+            'mlp': mlp
+        }
+        
+        print(f"Final accuracy: {final_accuracy:.4f}, Final cost: {final_cost:.6f}")
+        
+        # Plot learning curves
+        plt.subplot(2, 2, i + 1)
+        plt.plot(mlp.cost_history, 'b-', label='Cost', alpha=0.7)
+        plt.plot(mlp.accuracy_history, 'g-', label='Accuracy', alpha=0.7)
+        plt.title(f'Hidden Size: {hidden_size}')
+        plt.xlabel('Epoch')
+        plt.ylabel('Value')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return results
+
+# Learning rate sensitivity analysis
+def learning_rate_analysis():
+    """
+    Test different learning rates
+    """
+    X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])
+    Y = np.array([[0, 1, 1, 0]])
+    
+    learning_rates = [0.1, 0.5, 1.0, 2.0, 5.0]
+    
+    plt.figure(figsize=(15, 10))
+    
+    for i, lr in enumerate(learning_rates):
+        mlp = MLP(input_size=2, hidden_size=4, output_size=1, learning_rate=lr)
+        mlp.train(X, Y, epochs=1000, print_cost=False)
+        
+        plt.subplot(2, 3, i + 1)
+        plt.plot(mlp.cost_history, 'b-', linewidth=2)
+        plt.title(f'Learning Rate: {lr}')
+        plt.xlabel('Epoch')
+        plt.ylabel('Cost')
+        plt.grid(True, alpha=0.3)
+        plt.ylim([0, max(mlp.cost_history) * 1.1])
+    
+    plt.tight_layout()
+    plt.show()
+
+# Complex dataset experiment
+def complex_dataset_experiment():
+    """
+    Test MLP on a more complex 2D dataset
+    """
+    np.random.seed(42)
+    
+    # Generate spiral dataset
+    n_samples = 200
+    theta = np.linspace(0, 4*np.pi, n_samples//2)
+    
+    # Class 0: inner spiral
+    r1 = theta / (2*np.pi)
+    x1 = r1 * np.cos(theta) + 0.1 * np.random.randn(n_samples//2)
+    y1 = r1 * np.sin(theta) + 0.1 * np.random.randn(n_samples//2)
+    
+    # Class 1: outer spiral
+    r2 = (theta + np.pi) / (2*np.pi)
+    x2 = r2 * np.cos(theta + np.pi) + 0.1 * np.random.randn(n_samples//2)
+    y2 = r2 * np.sin(theta + np.pi) + 0.1 * np.random.randn(n_samples//2)
+    
+    # Combine data
+    X = np.hstack([np.vstack([x1, y1]), np.vstack([x2, y2])])
+    Y = np.hstack([np.zeros(n_samples//2), np.ones(n_samples//2)]).reshape(1, -1)
+    
+    # Shuffle data
+    indices = np.random.permutation(n_samples)
+    X = X[:, indices]
+    Y = Y[:, indices]
+    
+    # Train MLP
+    mlp = MLP(input_size=2, hidden_size=10, output_size=1, learning_rate=0.5)
+    mlp.train(X, Y, epochs=2000, print_cost=True)
+    
+    # Visualize results
+    plot_decision_boundary_mlp(mlp, X, Y, "Spiral Dataset - MLP Classification")
+    plot_learning_curves(mlp, "Spiral Dataset - Training Progress")
+    
+    return mlp
+
+# Run experiments
+print("1. Architecture Comparison:")
+arch_results = architecture_comparison()
+
+print("\n2. Learning Rate Analysis:")
+learning_rate_analysis()
+
+print("\n3. Complex Dataset Experiment:")
+spiral_mlp = complex_dataset_experiment()
+            </div>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="deliverable">
+            <h2>📤 Tutorial Deliverables</h2>
+            <h3>Required Submissions:</h3>
+            <ol>
+                <li><strong>Complete MLP implementation</strong> with proper backpropagation</li>
+                <li><strong>XOR problem solution</strong> demonstrating successful training</li>
+                <li><strong>Mathematical derivations</strong> showing:
+                    <ul>
+                        <li>Forward propagation equations</li>
+                        <li>Backpropagation gradient calculations</li>
+                        <li>Weight update formulas</li>
+                    </ul>
+                </li>
+                <li><strong>Comprehensive visualizations</strong>:
+                    <ul>
+                        <li>Learning curves (cost and accuracy)</li>
+                        <li>Decision boundary plots</li>
+                        <li>Hidden layer activation analysis</li>
+                    </ul>
+                </li>
+                <li><strong>Experimental analysis</strong>:
+                    <ul>
+                        <li>Architecture comparison (different hidden layer sizes)</li>
+                        <li>Learning rate sensitivity analysis</li>
+                        <li>Performance on complex datasets</li>
+                    </ul>
+                </li>
+                <li><strong>Technical report</strong> (2-3 pages) discussing:
+                    <ul>
+                        <li>Why MLP can solve XOR while perceptron cannot</li>
+                        <li>Role of hidden layers in feature learning</li>
+                        <li>Impact of hyperparameters on training</li>
+                        <li>Comparison with single perceptron results</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button onclick="markAsCompleted()" class="btn-primary" style="margin: 0 10px;">✅ Mark as Completed</button>
+            <a href="tutorial-T3.html" class="btn-secondary">➡️ Next Tutorial (T3)</a>
+            <a href="tutorial-T1.html" class="btn-secondary">⬅️ Previous Tutorial (T1)</a>
+            <a href="index.html" class="btn-secondary">🏠 Back to Tutorials</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre') || button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        function markAsCompleted() {
+            localStorage.setItem('tutorial-T2-status', 'completed');
+            localStorage.setItem('tutorial-T2-completed-date', new Date().toISOString());
+            alert('Tutorial T2 marked as completed! 🎉');
+        }
+        
+        // Load tutorial status
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = localStorage.getItem('tutorial-T2-status');
+            if (status === 'completed') {
+                document.querySelector('.btn-primary').innerHTML = '✅ Completed';
+                document.querySelector('.btn-primary').style.background = 'var(--t2-primary)';
+            }
+        });
+        
+        function openMyPage() {
+            const username = 'rbabu';
+            const pin = '2228';
+            
+            // Simple authentication simulation
+            const enteredPin = prompt(`Welcome ${username}!\nPlease enter your PIN to access myPage:`);
+            
+            if (enteredPin === pin) {
+                alert('🎉 Access Granted!\n\nWelcome to Prof. Ramesh Babu\'s myPage\n\n📚 Course: Deep Neural Network Architectures\n🎓 Students: M.Tech Batch 2025\n📊 Progress Tracking Available\n💬 Office Hours: Mon-Fri 2-4 PM');
+            } else if (enteredPin !== null) {
+                alert('❌ Access Denied\nIncorrect PIN. Please contact Prof. Ramesh Babu for assistance.');
+            }
+        }
+    </script>
+</body>
+</html>

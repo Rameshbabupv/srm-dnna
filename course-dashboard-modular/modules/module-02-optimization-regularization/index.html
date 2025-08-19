@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Optimization and Regularization - Deep Neural Network Architectures</title>
+    
+    <!-- Shared Foundation Styles -->
+    <link rel="stylesheet" href="../../shared/base.css">
+    <link rel="stylesheet" href="../../shared/components.css">
+    
+    <!-- Module-Specific Styles -->
+    <link rel="stylesheet" href="module.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Monaco:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Module Header -->
+        <header class="module-header">
+            <h1>Optimization and Regularization</h1>
+            <p class="module-subtitle">Advanced Training Techniques for Neural Networks</p>
+            <div class="module-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Weeks</div>
+                    <div class="meta-value">4-6</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Duration</div>
+                    <div class="meta-value">9 hours</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Difficulty</div>
+                    <div class="meta-value">Advanced</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Tutorials</div>
+                    <div class="meta-value">T4-T6</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Assessment</div>
+                    <div class="meta-value">Unit Test 1</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb">
+            <ul class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="../../index.html" class="breadcrumb-link">Course Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-current">Module 2: Optimization and Regularization</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="module-grid">
+            <div class="module-main">
+                <!-- Tab Navigation -->
+                <div id="module-tabs">
+                    <!-- Content will be dynamically loaded -->
+                </div>
+
+                <!-- Tab Content -->
+                <div id="module-content">
+                    <!-- Content will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="module-sidebar">
+                <div id="module-sidebar">
+                    <!-- Content will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Module Navigation -->
+        <footer id="module-navigation">
+            <!-- Content will be dynamically loaded -->
+        </footer>
+    </div>
+
+    <!-- Confetti Animation CSS -->
+    <style>
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Additional Module 2 Specific Styles */
+        .tab-navigation {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background: var(--module-light);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            border: 1px solid var(--module-border);
+        }
+
+        .tab-button {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--module-primary);
+        }
+
+        .tab-button.active {
+            background: var(--module-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-icon {
+            font-size: 1.2rem;
+        }
+
+        .tab-content {
+            min-height: 400px;
+        }
+
+        .sidebar-card {
+            background: var(--module-light);
+            border: 1px solid var(--module-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            color: var(--module-primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-small);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--module-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .tutorial-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tutorial-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-small);
+            padding: 15px;
+            border-left: 3px solid var(--module-primary);
+        }
+
+        .tutorial-info h5 {
+            color: var(--module-primary);
+            margin-bottom: 8px;
+        }
+
+        .tutorial-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .outcome-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-small);
+            padding: 15px;
+            border-left: 3px solid var(--module-primary);
+        }
+
+        .outcome-id {
+            background: var(--module-gradient);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .outcome-text {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .outcome-target, .outcome-contribution {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .module-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: var(--module-light);
+            border: 1px solid var(--module-border);
+            color: var(--light-text);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: var(--module-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-button.dashboard {
+            background: var(--module-gradient);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .tab-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tab-button {
+                justify-content: flex-start;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="../../shared/utils.js"></script>
+    <script src="data.js"></script>
+    <script src="module.js"></script>
+</body>
+</html>

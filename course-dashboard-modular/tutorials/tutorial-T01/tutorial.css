@@ -1,0 +1,477 @@
+/* Tutorial T1: Perceptron Implementation - Specific Styles */
+
+/* Tutorial-specific color theme */
+:root {
+    --tutorial-primary: #43e97b;
+    --tutorial-secondary: #38f9d7;
+    --tutorial-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --tutorial-light: rgba(67, 233, 123, 0.1);
+    --tutorial-border: rgba(67, 233, 123, 0.2);
+}
+
+/* Tutorial Header */
+.tutorial-header {
+    background: var(--tutorial-gradient);
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.tutorial-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 15px,
+        rgba(255, 255, 255, 0.03) 15px,
+        rgba(255, 255, 255, 0.03) 30px
+    );
+    animation: slide 15s linear infinite;
+}
+
+@keyframes slide {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(50%); }
+}
+
+.tutorial-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.tutorial-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.tutorial-meta {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.tutorial-meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.meta-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.meta-text {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Progress Tracker */
+.progress-tracker {
+    position: sticky;
+    top: 20px;
+    background: var(--tutorial-light);
+    border: 1px solid var(--tutorial-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.progress-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--tutorial-primary);
+}
+
+.progress-percentage {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--tutorial-primary);
+}
+
+.steps-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.step-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.step-dot.completed {
+    background: var(--tutorial-gradient);
+    color: white;
+}
+
+.step-dot.current {
+    background: rgba(67, 233, 123, 0.3);
+    border: 2px solid var(--tutorial-primary);
+    color: var(--tutorial-primary);
+}
+
+.step-dot.pending {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.step-connector {
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    position: relative;
+}
+
+.step-connector.completed {
+    background: var(--tutorial-gradient);
+}
+
+/* Tutorial Content */
+.tutorial-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.tutorial-main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.tutorial-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Step Cards */
+.step-card {
+    background: var(--tutorial-light);
+    border: 1px solid var(--tutorial-border);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.step-card.active {
+    border-color: var(--tutorial-primary);
+    box-shadow: 0 8px 25px rgba(67, 233, 123, 0.2);
+    transform: translateY(-3px);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    background: var(--tutorial-gradient);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.step-info h3 {
+    color: var(--tutorial-primary);
+    margin-bottom: 5px;
+}
+
+.step-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Code Blocks */
+.code-container {
+    background: #1a1a2e;
+    border-radius: var(--border-radius-small);
+    padding: 20px;
+    margin: 15px 0;
+    position: relative;
+    overflow-x: auto;
+}
+
+.code-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-title {
+    font-size: 0.9rem;
+    color: var(--tutorial-primary);
+    font-weight: 500;
+}
+
+.copy-btn {
+    background: var(--tutorial-gradient);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.copy-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(67, 233, 123, 0.3);
+}
+
+.code-content {
+    color: #e2e8f0;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+/* Syntax highlighting */
+.code-keyword { color: #ff7a85; }
+.code-string { color: #32d74b; }
+.code-comment { color: #8e8e93; }
+.code-function { color: #64d2ff; }
+.code-number { color: #d9c668; }
+
+/* Concept Boxes */
+.concept-box {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid var(--tutorial-primary);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 0 12px 12px 0;
+}
+
+.concept-title {
+    color: var(--tutorial-primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Interactive Elements */
+.run-code-btn {
+    background: var(--tutorial-gradient);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--border-radius-small);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin: 15px 0;
+}
+
+.run-code-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(67, 233, 123, 0.3);
+}
+
+.output-container {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: var(--border-radius-small);
+    padding: 15px;
+    margin: 15px 0;
+    font-family: monospace;
+    color: #e6edf3;
+}
+
+/* Checkpoint Markers */
+.checkpoint {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #1a1a2e;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkpoint-icon {
+    font-size: 1.5rem;
+}
+
+/* Step Actions */
+.step-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.step-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--tutorial-light);
+    border: 1px solid var(--tutorial-border);
+    color: var(--light-text);
+    text-decoration: none;
+    border-radius: var(--border-radius-small);
+    transition: var(--transition);
+}
+
+.step-btn:hover {
+    background: var(--tutorial-gradient);
+    transform: translateY(-1px);
+}
+
+.step-btn.primary {
+    background: var(--tutorial-gradient);
+}
+
+.step-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Quick Reference Sidebar */
+.quick-reference {
+    position: sticky;
+    top: 100px;
+}
+
+.reference-card {
+    background: var(--tutorial-light);
+    border: 1px solid var(--tutorial-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.reference-title {
+    color: var(--tutorial-primary);
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.reference-list {
+    list-style: none;
+    padding: 0;
+}
+
+.reference-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+}
+
+.reference-list li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tutorial-header h1 {
+        font-size: 2rem;
+    }
+    
+    .tutorial-meta {
+        gap: 15px;
+    }
+    
+    .tutorial-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .progress-tracker {
+        position: static;
+    }
+    
+    .steps-progress {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .step-connector {
+        width: 3px;
+        height: 30px;
+    }
+    
+    .step-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .step-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .tutorial-header {
+        padding: 30px 0;
+    }
+    
+    .step-card {
+        padding: 20px;
+    }
+    
+    .code-container {
+        margin: 10px -10px;
+        border-radius: 0;
+    }
+}

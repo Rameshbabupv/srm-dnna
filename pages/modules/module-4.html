@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: CNNs & Transfer Learning - Course Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .lecture-card {
+            background: linear-gradient(135deg, rgba(56, 249, 215, 0.1), rgba(79, 172, 254, 0.05));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 249, 215, 0.2);
+            transition: var(--transition);
+        }
+        .lecture-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(56, 249, 215, 0.2);
+        }
+        .concept-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .code-snippet {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #38f9d7;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .learning-path {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .prerequisite-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(56, 249, 215, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .difficulty-beginner { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .difficulty-intermediate { background: rgba(251, 191, 36, 0.2); color: #fde047; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .cnn-architecture {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .transfer-learning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .architecture-card {
+            background: rgba(79, 172, 254, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(79, 172, 254, 0.3);
+            text-align: center;
+        }
+        .convolution-demo {
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .layer-visualization {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(56, 249, 215, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav style="margin-bottom: 30px;">
+            <a href="../../index.html" style="color: #38f9d7; text-decoration: none; font-weight: 600;">← Back to Dashboard</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="../../index.html#modules" style="color: #38f9d7; text-decoration: none;">Modules</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-1.html" style="color: #60a5fa; text-decoration: none;">Module 1</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-2.html" style="color: #00f2fe; text-decoration: none;">Module 2</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-3.html" style="color: #43e97b; text-decoration: none;">Module 3</a>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header fade-in">
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div class="module-number" style="width: 80px; height: 80px; font-size: 2rem; background: linear-gradient(135deg, #38f9d7, #4facfe);">4</div>
+                <div>
+                    <h1 class="course-title" style="font-size: 2.5rem;">CNNs & Transfer Learning</h1>
+                    <p class="course-subtitle">Deep Learning Module • Weeks 10-12 • 9 Contact Hours</p>
+                </div>
+            </div>
+            <div class="course-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">3 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Difficulty</span>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Prerequisites</span>
+                    <span class="meta-value">Modules 1-3, Image Processing</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Learning Outcome</span>
+                    <span class="meta-value">CO-4, CO-5 Achievement</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Module Overview -->
+        <section class="overview-grid">
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, #38f9d7, #4facfe);">🎯</div>
+                    <div>
+                        <h3 class="card-title">Learning Objectives</h3>
+                        <p class="card-subtitle">Modern deep learning mastery</p>
+                    </div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #38f9d7;">🧠</span>
+                        Understand biological motivation and CNN architecture principles
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #38f9d7;">🔍</span>
+                        Master convolution operations in 1D, 2D, and 3D dimensions
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #38f9d7;">🏗️</span>
+                        Build complete CNN architectures with pooling and FC layers
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #38f9d7;">🔄</span>
+                        Apply transfer learning with pre-trained models (ImageNet)
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #38f9d7;">🏛️</span>
+                        Implement modern architectures: AlexNet, VGG, ResNet, MobileNet
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--warning-gradient);">📚</div>
+                    <div>
+                        <h3 class="card-title">Prerequisites</h3>
+                        <p class="card-subtitle">Required knowledge before starting</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Module 3 Mastery</strong>
+                        <small style="display: block; opacity: 0.8;">Image processing, feature extraction, OpenCV</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Neural Network Fundamentals</strong>
+                        <small style="display: block; opacity: 0.8;">Backpropagation, optimization, regularization</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>TensorFlow/Keras Proficiency</strong>
+                        <small style="display: block; opacity: 0.8;">Model building, training, evaluation</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #fbbf24; font-size: 1.2rem;">⚠</span>
+                    <div>
+                        <strong>GPU Computing</strong>
+                        <small style="display: block; opacity: 0.8;">CUDA, GPU memory management (recommended)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--success-gradient);">🏆</div>
+                    <div>
+                        <h3 class="card-title">Module Outcomes</h3>
+                        <p class="card-subtitle">Advanced CNN skills achieved</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="background: rgba(56, 249, 215, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #38f9d7;">
+                        <strong>CO-4 Achievement</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Implement convolutional neural networks for computer vision</p>
+                    </div>
+                </div>
+                <div>
+                    <div style="background: rgba(79, 172, 254, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #4facfe;">
+                        <strong>CO-5 Achievement</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Determine and apply appropriate transfer learning techniques</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Content Breakdown -->
+        <section>
+            <h2 style="text-align: center; margin: 40px 0 30px; font-size: 2rem; background: linear-gradient(45deg, #38f9d7, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Detailed Content Breakdown</h2>
+            
+            <!-- Week 10: CNN Fundamentals -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #38f9d7; margin: 0;">Week 10: CNN Architecture & Convolution Operations</h3>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+                
+                <div class="learning-path">
+                    <h4 style="color: #fbbf24; margin-bottom: 15px;">📋 Learning Path</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(56, 249, 215, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #38f9d7; font-weight: bold;">1</div>
+                            <small>Biological Motivation</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(56, 249, 215, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #38f9d7; font-weight: bold;">2</div>
+                            <small>Convolution Math</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(56, 249, 215, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #38f9d7; font-weight: bold;">3</div>
+                            <small>1D/2D/3D CNNs</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(56, 249, 215, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #38f9d7; font-weight: bold;">4</div>
+                            <small>CNN Implementation</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): CNN Foundations & Biology</h4>
+                <div style="background: rgba(56, 249, 215, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #38f9d7;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">🧠 Biological Visual Cortex Inspiration</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Hubel & Wiesel (1962):</strong> Discovery of simple and complex cells</li>
+                        <li><strong>Receptive Fields:</strong> Local connectivity and spatial hierarchy</li>
+                        <li><strong>Feature Detectors:</strong> Edge, orientation, and pattern detection</li>
+                        <li><strong>Translation Invariance:</strong> Recognition regardless of position</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔍 Convolution Operation Mathematics</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>2D Convolution:</strong> (I * K)[i,j] = ΣΣ I[m,n] × K[i-m, j-n]</li>
+                        <li><strong>Padding:</strong> VALID (no padding) vs SAME (zero padding)</li>
+                        <li><strong>Stride:</strong> Step size for filter movement</li>
+                        <li><strong>Output Size:</strong> (W-F+2P)/S + 1</li>
+                    </ul>
+                </div>
+
+                <div class="convolution-demo">
+                    <h5 style="color: #8b5cf6; margin-bottom: 15px;">🎯 Convolution Dimensions Comparison</h5>
+                    <div class="architecture-grid">
+                        <div class="architecture-card">
+                            <strong style="color: #4facfe;">1D Convolution</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                <strong>Input:</strong> [batch, time, features]<br>
+                                <strong>Use Cases:</strong> Text, Audio, Time Series<br>
+                                <strong>Example:</strong> NLP sequence processing
+                            </p>
+                        </div>
+                        <div class="architecture-card">
+                            <strong style="color: #4facfe;">2D Convolution</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                <strong>Input:</strong> [batch, height, width, channels]<br>
+                                <strong>Use Cases:</strong> Images, Computer Vision<br>
+                                <strong>Example:</strong> Image classification, detection
+                            </p>
+                        </div>
+                        <div class="architecture-card">
+                            <strong style="color: #4facfe;">3D Convolution</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                <strong>Input:</strong> [batch, depth, height, width, channels]<br>
+                                <strong>Use Cases:</strong> Video, Medical Imaging<br>
+                                <strong>Example:</strong> Action recognition, CT scans
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #38f9d7; margin-bottom: 15px;">💻 CNN Implementation from Scratch</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import numpy as np
+import tensorflow as tf
+from tensorflow.keras import layers, models
+import matplotlib.pyplot as plt
+
+class ConvolutionLayer:
+    def __init__(self, num_filters, filter_size, stride=1, padding='valid'):
+        self.num_filters = num_filters
+        self.filter_size = filter_size
+        self.stride = stride
+        self.padding = padding
+        
+        # Initialize filters with Xavier initialization
+        self.filters = np.random.randn(num_filters, filter_size, filter_size) / (filter_size * filter_size)
+        self.biases = np.zeros((num_filters,))
+    
+    def forward(self, input_data):
+        """Forward pass through convolution layer"""
+        self.last_input = input_data
+        batch_size, height, width, channels = input_data.shape
+        
+        # Calculate output dimensions
+        if self.padding == 'valid':
+            out_height = (height - self.filter_size) // self.stride + 1
+            out_width = (width - self.filter_size) // self.stride + 1
+        else:  # same padding
+            out_height = height // self.stride
+            out_width = width // self.stride
+            
+        output = np.zeros((batch_size, out_height, out_width, self.num_filters))
+        
+        # Apply convolution
+        for b in range(batch_size):
+            for f in range(self.num_filters):
+                for y in range(0, height - self.filter_size + 1, self.stride):
+                    for x in range(0, width - self.filter_size + 1, self.stride):
+                        # Extract region
+                        region = input_data[b, y:y+self.filter_size, x:x+self.filter_size, :]
+                        # Apply filter (sum across all input channels)
+                        output[b, y//self.stride, x//self.stride, f] = np.sum(region * self.filters[f]) + self.biases[f]
+        
+        return output
+    
+    def backward(self, output_gradient, learning_rate):
+        """Backward pass for convolution layer"""
+        batch_size, height, width, channels = self.last_input.shape
+        filter_gradient = np.zeros_like(self.filters)
+        bias_gradient = np.zeros_like(self.biases)
+        input_gradient = np.zeros_like(self.last_input)
+        
+        # Calculate gradients (simplified implementation)
+        for b in range(batch_size):
+            for f in range(self.num_filters):
+                for y in range(0, height - self.filter_size + 1, self.stride):
+                    for x in range(0, width - self.filter_size + 1, self.stride):
+                        region = self.last_input[b, y:y+self.filter_size, x:x+self.filter_size, :]
+                        grad = output_gradient[b, y//self.stride, x//self.stride, f]
+                        
+                        # Update filter gradient
+                        filter_gradient[f] += region[:,:,0] * grad  # Simplified for single channel
+                        bias_gradient[f] += grad
+                        
+                        # Update input gradient
+                        input_gradient[b, y:y+self.filter_size, x:x+self.filter_size, 0] += self.filters[f] * grad
+        
+        # Update parameters
+        self.filters -= learning_rate * filter_gradient
+        self.biases -= learning_rate * bias_gradient
+        
+        return input_gradient
+
+class CNNFromScratch:
+    def __init__(self):
+        self.layers = []
+        self.activations = []
+    
+    def add_conv_layer(self, num_filters, filter_size, stride=1, padding='valid'):
+        self.layers.append(ConvolutionLayer(num_filters, filter_size, stride, padding))
+        self.activations.append('relu')
+    
+    def add_pooling_layer(self, pool_size=2, stride=2):
+        self.layers.append(MaxPoolingLayer(pool_size, stride))
+        self.activations.append(None)
+    
+    def relu(self, x):
+        return np.maximum(0, x)
+    
+    def relu_derivative(self, x):
+        return (x > 0).astype(float)
+
+# Modern CNN using TensorFlow/Keras
+def create_modern_cnn(input_shape, num_classes):
+    """Build modern CNN architecture"""
+    model = models.Sequential([
+        # First Convolutional Block
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
+        layers.BatchNormalization(),
+        layers.Conv2D(32, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Second Convolutional Block
+        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.BatchNormalization(),
+        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Third Convolutional Block
+        layers.Conv2D(128, (3, 3), activation='relu'),
+        layers.BatchNormalization(),
+        layers.Conv2D(128, (3, 3), activation='relu'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Classifier
+        layers.Flatten(),
+        layers.Dense(512, activation='relu'),
+        layers.BatchNormalization(),
+        layers.Dropout(0.5),
+        layers.Dense(num_classes, activation='softmax')
+    ])
+    
+    return model
+
+def demonstrate_convolution_operation():
+    """Visual demonstration of convolution operation"""
+    # Create simple image and filter
+    image = np.array([
+        [1, 2, 3, 0],
+        [0, 1, 2, 3],
+        [3, 0, 1, 2],
+        [2, 3, 0, 1]
+    ])
+    
+    # Edge detection filter (Sobel-like)
+    filter_edge = np.array([
+        [-1, -1, -1],
+        [ 0,  0,  0],
+        [ 1,  1,  1]
+    ])
+    
+    # Manual convolution
+    output = np.zeros((2, 2))
+    for i in range(2):
+        for j in range(2):
+            region = image[i:i+3, j:j+3]
+            output[i, j] = np.sum(region * filter_edge)
+    
+    print("Original Image:")
+    print(image)
+    print("\nEdge Detection Filter:")
+    print(filter_edge)
+    print("\nConvolution Output:")
+    print(output)
+    
+    return image, filter_edge, output
+
+def visualize_cnn_architecture():
+    """Visualize CNN layer progression"""
+    # Create sample model for visualization
+    model = create_modern_cnn((32, 32, 3), 10)
+    model.summary()
+    
+    # Show layer outputs
+    layer_outputs = [layer.output for layer in model.layers[:8]]  # First 8 layers
+    activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
+    
+    print("\nCNN Architecture Progression:")
+    for i, layer in enumerate(model.layers[:8]):
+        print(f"Layer {i+1}: {layer.name} -> Output Shape: {layer.output_shape}")
+
+# Example usage
+def cnn_demonstration():
+    print("=== CNN From Scratch Demonstration ===")
+    
+    # Demonstrate convolution operation
+    img, filt, result = demonstrate_convolution_operation()
+    
+    print("\n=== Modern CNN Architecture ===")
+    
+    # Create and visualize modern CNN
+    model = create_modern_cnn((32, 32, 3), 10)
+    visualize_cnn_architecture()
+    
+    # Compile the model
+    model.compile(
+        optimizer='adam',
+        loss='categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    
+    print("\nModel ready for training!")
+    return model
+
+# Run demonstration
+# cnn_model = cnn_demonstration()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): CNN Architecture Overview</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>CNN Layer Architecture & Design Principles</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Understand complete CNN pipeline and layer hierarchy</li>
+                        <li>Design convolutional blocks with proper dimensions</li>
+                        <li>Calculate receptive fields and feature map sizes</li>
+                        <li>Implement basic CNN using TensorFlow/Keras</li>
+                        <li>Visualize feature maps and learned filters</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 10 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Manual convolution calculations and implementations</li>
+                        <li>1D/2D/3D convolution comparison study</li>
+                        <li>CNN concept mapping and architecture design</li>
+                        <li>Basic CNN implementation for image classification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 11: Advanced CNN Architecture -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #38f9d7; margin: 0;">Week 11: Pooling, FC Layers & CNN Regularization</h3>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): CNN Layer Architecture</h4>
+                <div style="background: rgba(56, 249, 215, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #38f9d7;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">🏊 Pooling Layer Functions</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Max Pooling:</strong> Max(region) - preserves strongest activations</li>
+                        <li><strong>Average Pooling:</strong> Mean(region) - smooths feature maps</li>
+                        <li><strong>Global Average Pooling:</strong> Replace FC layers, reduce parameters</li>
+                        <li><strong>Adaptive Pooling:</strong> Fixed output size regardless of input</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔗 Fully Connected Layers in CNNs</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Flattening:</strong> Convert feature maps to 1D vector</li>
+                        <li><strong>Classification Head:</strong> Final layers for class probabilities</li>
+                        <li><strong>Feature Integration:</strong> Combine spatial information globally</li>
+                        <li><strong>Parameter Count:</strong> Often 80-90% of total parameters</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🛡️ CNN-Specific Regularization</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Dropout:</strong> Applied after FC layers, not conv layers</li>
+                        <li><strong>Batch Normalization:</strong> After conv, before activation</li>
+                        <li><strong>Data Augmentation:</strong> Rotation, flip, crop, zoom</li>
+                        <li><strong>Weight Decay:</strong> L2 regularization on conv filters</li>
+                    </ul>
+                </div>
+
+                <div class="cnn-architecture">
+                    <h5 style="color: #a855f7; margin-bottom: 15px;">🏗️ Complete CNN Architecture Pipeline</h5>
+                    <div class="layer-visualization">
+                        <div style="background: rgba(79, 172, 254, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">Input<br><small>224×224×3</small></div>
+                        <span style="color: #a855f7;">→</span>
+                        <div style="background: rgba(56, 249, 215, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">Conv+ReLU<br><small>222×222×32</small></div>
+                        <span style="color: #a855f7;">→</span>
+                        <div style="background: rgba(251, 191, 36, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">MaxPool<br><small>111×111×32</small></div>
+                        <span style="color: #a855f7;">→</span>
+                        <div style="background: rgba(56, 249, 215, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">Conv+ReLU<br><small>109×109×64</small></div>
+                        <span style="color: #a855f7;">→</span>
+                        <div style="background: rgba(34, 197, 94, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">Flatten<br><small>759424×1</small></div>
+                        <span style="color: #a855f7;">→</span>
+                        <div style="background: rgba(239, 68, 68, 0.2); padding: 8px 15px; border-radius: 6px; font-weight: 600;">FC+Softmax<br><small>10×1</small></div>
+                    </div>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #38f9d7; margin-bottom: 15px;">💻 Advanced CNN Architecture Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import tensorflow as tf
+from tensorflow.keras import layers, models, regularizers
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+
+class AdvancedCNNArchitecture:
+    def __init__(self, input_shape, num_classes):
+        self.input_shape = input_shape
+        self.num_classes = num_classes
+        self.model = None
+        
+    def create_conv_block(self, filters, kernel_size=3, strides=1, dropout_rate=0.0):
+        """Create a convolutional block with batch norm and dropout"""
+        def apply(x):
+            x = layers.Conv2D(filters, kernel_size, strides=strides, 
+                            padding='same', use_bias=False,
+                            kernel_regularizer=regularizers.l2(1e-4))(x)
+            x = layers.BatchNormalization()(x)
+            x = layers.ReLU()(x)
+            if dropout_rate > 0:
+                x = layers.Dropout(dropout_rate)(x)
+            return x
+        return apply
+    
+    def create_residual_block(self, filters, strides=1):
+        """Create a residual block (inspired by ResNet)"""
+        def apply(x):
+            shortcut = x
+            
+            # First conv
+            x = self.create_conv_block(filters, 3, strides)(x)
+            x = self.create_conv_block(filters, 3, 1)(x)
+            
+            # Shortcut connection
+            if strides != 1 or shortcut.shape[-1] != filters:
+                shortcut = layers.Conv2D(filters, 1, strides=strides, 
+                                       padding='same', use_bias=False)(shortcut)
+                shortcut = layers.BatchNormalization()(shortcut)
+            
+            x = layers.Add()([x, shortcut])
+            x = layers.ReLU()(x)
+            return x
+        return apply
+    
+    def build_vgg_style(self):
+        """Build VGG-style architecture"""
+        model = models.Sequential([
+            # Block 1
+            layers.Conv2D(64, 3, activation='relu', padding='same', input_shape=self.input_shape),
+            layers.Conv2D(64, 3, activation='relu', padding='same'),
+            layers.MaxPooling2D(2),
+            
+            # Block 2
+            layers.Conv2D(128, 3, activation='relu', padding='same'),
+            layers.Conv2D(128, 3, activation='relu', padding='same'),
+            layers.MaxPooling2D(2),
+            
+            # Block 3
+            layers.Conv2D(256, 3, activation='relu', padding='same'),
+            layers.Conv2D(256, 3, activation='relu', padding='same'),
+            layers.Conv2D(256, 3, activation='relu', padding='same'),
+            layers.MaxPooling2D(2),
+            
+            # Block 4
+            layers.Conv2D(512, 3, activation='relu', padding='same'),
+            layers.Conv2D(512, 3, activation='relu', padding='same'),
+            layers.Conv2D(512, 3, activation='relu', padding='same'),
+            layers.MaxPooling2D(2),
+            
+            # Classifier
+            layers.GlobalAveragePooling2D(),  # Replace flatten + FC
+            layers.Dense(512, activation='relu'),
+            layers.Dropout(0.5),
+            layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        self.model = model
+        return model
+    
+    def build_modern_cnn(self):
+        """Build modern CNN with best practices"""
+        inputs = layers.Input(shape=self.input_shape)
+        
+        # Stem
+        x = self.create_conv_block(32, 7, 2)(inputs)
+        x = layers.MaxPooling2D(3, strides=2, padding='same')(x)
+        
+        # Feature extraction blocks
+        x = self.create_conv_block(64, 3, 1, 0.1)(x)
+        x = self.create_conv_block(64, 3, 1, 0.1)(x)
+        x = layers.MaxPooling2D(2)(x)
+        
+        x = self.create_conv_block(128, 3, 1, 0.2)(x)
+        x = self.create_conv_block(128, 3, 1, 0.2)(x)
+        x = layers.MaxPooling2D(2)(x)
+        
+        x = self.create_conv_block(256, 3, 1, 0.3)(x)
+        x = self.create_conv_block(256, 3, 1, 0.3)(x)
+        x = layers.MaxPooling2D(2)(x)
+        
+        # Global pooling instead of flatten
+        x = layers.GlobalAveragePooling2D()(x)
+        x = layers.Dense(512, activation='relu')(x)
+        x = layers.Dropout(0.5)(x)
+        outputs = layers.Dense(self.num_classes, activation='softmax')(x)
+        
+        self.model = models.Model(inputs, outputs)
+        return self.model
+    
+    def build_efficient_cnn(self):
+        """Build efficient CNN for resource-constrained environments"""
+        model = models.Sequential([
+            # Depthwise separable convolutions (MobileNet-inspired)
+            layers.SeparableConv2D(32, 3, activation='relu', padding='same', 
+                                 input_shape=self.input_shape),
+            layers.BatchNormalization(),
+            layers.MaxPooling2D(2),
+            
+            layers.SeparableConv2D(64, 3, activation='relu', padding='same'),
+            layers.BatchNormalization(),
+            layers.MaxPooling2D(2),
+            
+            layers.SeparableConv2D(128, 3, activation='relu', padding='same'),
+            layers.BatchNormalization(),
+            layers.GlobalAveragePooling2D(),
+            
+            # Minimal FC layers
+            layers.Dense(128, activation='relu'),
+            layers.Dropout(0.3),
+            layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        self.model = model
+        return model
+    
+    def add_data_augmentation(self):
+        """Create data augmentation pipeline"""
+        return ImageDataGenerator(
+            rotation_range=20,
+            width_shift_range=0.2,
+            height_shift_range=0.2,
+            horizontal_flip=True,
+            zoom_range=0.2,
+            shear_range=0.2,
+            brightness_range=[0.8, 1.2],
+            fill_mode='nearest'
+        )
+    
+    def compile_model(self, optimizer='adam', learning_rate=0.001):
+        """Compile model with appropriate settings"""
+        if optimizer == 'adam':
+            opt = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+        elif optimizer == 'sgd':
+            opt = tf.keras.optimizers.SGD(learning_rate=learning_rate, momentum=0.9)
+        
+        self.model.compile(
+            optimizer=opt,
+            loss='categorical_crossentropy',
+            metrics=['accuracy', 'top_5_accuracy']
+        )
+    
+    def get_model_summary(self):
+        """Get detailed model information"""
+        if self.model:
+            print("Model Summary:")
+            self.model.summary()
+            
+            # Calculate total parameters
+            total_params = self.model.count_params()
+            print(f"\nTotal Parameters: {total_params:,}")
+            
+            # Estimate memory usage
+            input_size = np.prod(self.input_shape)
+            memory_mb = (total_params * 4 + input_size * 4) / (1024 * 1024)
+            print(f"Estimated Memory Usage: {memory_mb:.2f} MB")
+
+def demonstrate_pooling_operations():
+    """Demonstrate different pooling operations"""
+    # Create sample feature map
+    feature_map = np.random.rand(1, 8, 8, 1) * 10
+    
+    # Different pooling operations
+    max_pool = layers.MaxPooling2D(2, 2)
+    avg_pool = layers.AveragePooling2D(2, 2)
+    global_avg_pool = layers.GlobalAveragePooling2D()
+    
+    max_result = max_pool(feature_map)
+    avg_result = avg_pool(feature_map)
+    global_result = global_avg_pool(feature_map)
+    
+    print("Original feature map shape:", feature_map.shape)
+    print("Max pooling result shape:", max_result.shape)
+    print("Average pooling result shape:", avg_result.shape)
+    print("Global average pooling result shape:", global_result.shape)
+    
+    return feature_map, max_result, avg_result, global_result
+
+def compare_cnn_architectures():
+    """Compare different CNN architecture approaches"""
+    input_shape = (32, 32, 3)
+    num_classes = 10
+    
+    architect = AdvancedCNNArchitecture(input_shape, num_classes)
+    
+    print("=== CNN Architecture Comparison ===\n")
+    
+    # VGG-style
+    vgg_model = architect.build_vgg_style()
+    architect.get_model_summary()
+    vgg_params = vgg_model.count_params()
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Modern CNN
+    modern_model = architect.build_modern_cnn()
+    architect.get_model_summary()
+    modern_params = modern_model.count_params()
+    
+    print("\n" + "="*50 + "\n")
+    
+    # Efficient CNN
+    efficient_model = architect.build_efficient_cnn()
+    architect.get_model_summary()
+    efficient_params = efficient_model.count_params()
+    
+    print(f"\nParameter Comparison:")
+    print(f"VGG-style: {vgg_params:,} parameters")
+    print(f"Modern CNN: {modern_params:,} parameters")
+    print(f"Efficient CNN: {efficient_params:,} parameters")
+    
+    return architect
+
+# Run demonstrations
+# pooling_demo = demonstrate_pooling_operations()
+# architecture_comparison = compare_cnn_architectures()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T10</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T10: Building Programs to Perform Classification Using CNN In Keras</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Build complete CNN from scratch using Keras</li>
+                        <li>Implement different pooling strategies and compare results</li>
+                        <li>Apply data augmentation and regularization techniques</li>
+                        <li>Train CNN on CIFAR-10 or Fashion-MNIST dataset</li>
+                        <li>Visualize feature maps and learned filters</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 11 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>CNN architecture design and justification report</li>
+                        <li>Image classification project using custom CNN</li>
+                        <li>Regularization techniques comparison in CNNs</li>
+                        <li>Feature map visualization and analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 12: Transfer Learning & Unit Test 2 -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #38f9d7; margin: 0;">Week 12: Transfer Learning & Pre-trained Networks</h3>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Transfer Learning Fundamentals</h4>
+                <div style="background: rgba(56, 249, 215, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #38f9d7;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="transfer-learning-box">
+                    <h5 style="margin-bottom: 10px;">🔄 Transfer Learning Concepts</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Domain Adaptation:</strong> Apply knowledge from source to target domain</li>
+                        <li><strong>Feature Reuse:</strong> Lower layers learn general features</li>
+                        <li><strong>Fine-tuning:</strong> Adapt pre-trained weights to new task</li>
+                        <li><strong>Feature Extraction:</strong> Freeze pre-trained layers, train only classifier</li>
+                    </ul>
+                </div>
+
+                <div class="transfer-learning-box" style="background: rgba(56, 249, 215, 0.1); border-left: 4px solid #38f9d7;">
+                    <h5 style="margin-bottom: 10px;">🌐 ImageNet & Pre-trained Models</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>ImageNet Dataset:</strong> 14M images, 1000 classes, visual benchmark</li>
+                        <li><strong>Hierarchical Features:</strong> Edges → Textures → Parts → Objects</li>
+                        <li><strong>Model Zoo:</strong> AlexNet, VGG, ResNet, Inception, MobileNet</li>
+                        <li><strong>Transfer Success:</strong> 90%+ accuracy with <1% of original training time</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="architecture-card">
+                        <strong style="color: #4facfe;">AlexNet (2012)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">
+                            <strong>Innovation:</strong> First GPU-based CNN<br>
+                            <strong>Architecture:</strong> 8 layers, ReLU, Dropout<br>
+                            <strong>Impact:</strong> Started deep learning revolution
+                        </p>
+                    </div>
+                    <div class="architecture-card">
+                        <strong style="color: #4facfe;">VGG-16/19 (2014)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">
+                            <strong>Innovation:</strong> Very deep, small filters<br>
+                            <strong>Architecture:</strong> 3×3 conv, simple design<br>
+                            <strong>Impact:</strong> Showed depth importance
+                        </p>
+                    </div>
+                    <div class="architecture-card">
+                        <strong style="color: #4facfe;">ResNet (2015)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">
+                            <strong>Innovation:</strong> Skip connections<br>
+                            <strong>Architecture:</strong> 50-152 layers possible<br>
+                            <strong>Impact:</strong> Solved vanishing gradients
+                        </p>
+                    </div>
+                    <div class="architecture-card">
+                        <strong style="color: #4facfe;">MobileNet (2017)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">
+                            <strong>Innovation:</strong> Depthwise separable conv<br>
+                            <strong>Architecture:</strong> Efficient for mobile<br>
+                            <strong>Impact:</strong> Edge computing enabler
+                        </p>
+                    </div>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #38f9d7; margin-bottom: 15px;">💻 Transfer Learning Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import tensorflow as tf
+from tensorflow.keras import layers, models, applications
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+
+class TransferLearningPipeline:
+    def __init__(self, base_model_name='ResNet50', input_shape=(224, 224, 3), num_classes=10):
+        self.base_model_name = base_model_name
+        self.input_shape = input_shape
+        self.num_classes = num_classes
+        self.base_model = None
+        self.model = None
+        
+    def load_base_model(self, include_top=False, weights='imagenet'):
+        """Load pre-trained base model"""
+        base_models = {
+            'VGG16': applications.VGG16,
+            'VGG19': applications.VGG19,
+            'ResNet50': applications.ResNet50,
+            'ResNet101': applications.ResNet101,
+            'InceptionV3': applications.InceptionV3,
+            'MobileNet': applications.MobileNet,
+            'MobileNetV2': applications.MobileNetV2,
+            'DenseNet121': applications.DenseNet121,
+            'EfficientNetB0': applications.EfficientNetB0
+        }
+        
+        if self.base_model_name not in base_models:
+            raise ValueError(f"Unsupported model: {self.base_model_name}")
+        
+        self.base_model = base_models[self.base_model_name](
+            weights=weights,
+            include_top=include_top,
+            input_shape=self.input_shape
+        )
+        
+        print(f"Loaded {self.base_model_name} with {self.base_model.count_params():,} parameters")
+        return self.base_model
+    
+    def create_feature_extractor(self, trainable=False):
+        """Create model for feature extraction (freeze base model)"""
+        self.base_model.trainable = trainable
+        
+        model = models.Sequential([
+            self.base_model,
+            layers.GlobalAveragePooling2D(),
+            layers.Dropout(0.5),
+            layers.Dense(128, activation='relu'),
+            layers.Dropout(0.3),
+            layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        self.model = model
+        return model
+    
+    def create_fine_tuning_model(self, unfreeze_layers=50):
+        """Create model for fine-tuning (partially trainable base)"""
+        # Freeze early layers
+        for layer in self.base_model.layers[:-unfreeze_layers]:
+            layer.trainable = False
+        
+        # Unfreeze later layers
+        for layer in self.base_model.layers[-unfreeze_layers:]:
+            layer.trainable = True
+        
+        model = models.Sequential([
+            self.base_model,
+            layers.GlobalAveragePooling2D(),
+            layers.Dropout(0.5),
+            layers.Dense(256, activation='relu'),
+            layers.BatchNormalization(),
+            layers.Dropout(0.3),
+            layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        self.model = model
+        return model
+    
+    def progressive_fine_tuning(self):
+        """Implement progressive fine-tuning strategy"""
+        # Phase 1: Feature extraction
+        print("Phase 1: Feature Extraction")
+        feature_model = self.create_feature_extractor(trainable=False)
+        feature_model.compile(
+            optimizer='adam',
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        # Phase 2: Fine-tuning top layers
+        print("Phase 2: Fine-tuning Top Layers")
+        finetune_model = self.create_fine_tuning_model(unfreeze_layers=30)
+        finetune_model.compile(
+            optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),  # Lower LR
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        return feature_model, finetune_model
+    
+    def create_multi_scale_model(self):
+        """Create model with multi-scale feature extraction"""
+        # Extract features from multiple layers
+        layer_names = ['block3_pool', 'block4_pool', 'block5_pool']  # For VGG
+        if 'ResNet' in self.base_model_name:
+            layer_names = ['conv3_block4_out', 'conv4_block6_out', 'conv5_block3_out']
+        
+        # Get intermediate outputs
+        intermediate_outputs = [self.base_model.get_layer(name).output for name in layer_names]
+        
+        # Create feature extraction branches
+        branches = []
+        for output in intermediate_outputs:
+            branch = layers.GlobalAveragePooling2D()(output)
+            branch = layers.Dense(64, activation='relu')(branch)
+            branches.append(branch)
+        
+        # Combine features
+        combined = layers.concatenate(branches)
+        combined = layers.Dropout(0.5)(combined)
+        combined = layers.Dense(128, activation='relu')(combined)
+        combined = layers.Dropout(0.3)(combined)
+        predictions = layers.Dense(self.num_classes, activation='softmax')(combined)
+        
+        model = models.Model(inputs=self.base_model.input, outputs=predictions)
+        self.model = model
+        return model
+    
+    def analyze_feature_maps(self, image, layer_names=None):
+        """Analyze feature maps from pre-trained model"""
+        if layer_names is None:
+            # Get some representative layers
+            layer_names = [layer.name for layer in self.base_model.layers[::10]][:8]
+        
+        # Create model for feature extraction
+        outputs = [self.base_model.get_layer(name).output for name in layer_names]
+        feature_model = models.Model(inputs=self.base_model.input, outputs=outputs)
+        
+        # Get feature maps
+        features = feature_model(image)
+        
+        feature_info = {}
+        for i, (name, feature) in enumerate(zip(layer_names, features)):
+            feature_info[name] = {
+                'shape': feature.shape,
+                'activation_stats': {
+                    'mean': float(np.mean(feature)),
+                    'std': float(np.std(feature)),
+                    'max': float(np.max(feature)),
+                    'min': float(np.min(feature))
+                }
+            }
+        
+        return feature_info
+    
+    def compare_architectures(self, architectures=['VGG16', 'ResNet50', 'MobileNetV2']):
+        """Compare different pre-trained architectures"""
+        comparison = {}
+        
+        for arch in architectures:
+            temp_pipeline = TransferLearningPipeline(arch, self.input_shape, self.num_classes)
+            base = temp_pipeline.load_base_model()
+            
+            comparison[arch] = {
+                'parameters': base.count_params(),
+                'layers': len(base.layers),
+                'top1_accuracy': self.get_imagenet_accuracy(arch),
+                'model_size_mb': base.count_params() * 4 / (1024 * 1024)  # Rough estimate
+            }
+        
+        return comparison
+    
+    def get_imagenet_accuracy(self, model_name):
+        """Get reported ImageNet accuracy for comparison"""
+        accuracies = {
+            'VGG16': 71.3,
+            'VGG19': 71.3,
+            'ResNet50': 74.9,
+            'ResNet101': 76.4,
+            'InceptionV3': 77.9,
+            'MobileNet': 70.4,
+            'MobileNetV2': 71.3,
+            'DenseNet121': 75.0,
+            'EfficientNetB0': 77.1
+        }
+        return accuracies.get(model_name, 'Unknown')
+
+def demonstrate_transfer_learning():
+    """Comprehensive transfer learning demonstration"""
+    print("=== Transfer Learning Demonstration ===\n")
+    
+    # Initialize pipeline
+    pipeline = TransferLearningPipeline('ResNet50', (224, 224, 3), 10)
+    
+    # Load base model
+    base_model = pipeline.load_base_model()
+    
+    # Compare different strategies
+    print("\n1. Feature Extraction Model:")
+    feature_model = pipeline.create_feature_extractor(trainable=False)
+    print(f"Trainable parameters: {sum([tf.keras.backend.count_params(w) for w in feature_model.trainable_weights]):,}")
+    
+    print("\n2. Fine-tuning Model:")
+    finetune_model = pipeline.create_fine_tuning_model(unfreeze_layers=50)
+    print(f"Trainable parameters: {sum([tf.keras.backend.count_params(w) for w in finetune_model.trainable_weights]):,}")
+    
+    # Architecture comparison
+    print("\n3. Architecture Comparison:")
+    comparison = pipeline.compare_architectures()
+    for arch, stats in comparison.items():
+        print(f"{arch}: {stats['parameters']:,} params, {stats['top1_accuracy']}% ImageNet accuracy")
+    
+    return pipeline
+
+# Run demonstration
+# transfer_demo = demonstrate_transfer_learning()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorials T11 & T12 + Unit Test 2</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T11: Multiclass Classification with Data Augmentation</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement comprehensive data augmentation pipeline</li>
+                        <li>Build multiclass classification using transfer learning</li>
+                        <li>Compare feature extraction vs fine-tuning approaches</li>
+                    </ul>
+                </div>
+                <div class="tutorial-item" style="margin-top: 15px;">
+                    <strong>T12: LSTM Model Development</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Introduction to sequence modeling and RNNs</li>
+                        <li>Build LSTM model for time series or text data</li>
+                        <li><strong>📝 Unit Test 2:</strong> Modules 3 & 4 assessment (45 minutes)</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #ef4444; margin-top: 20px;">
+                    <strong>📝 Week 12 Assessment:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Unit Test 2:</strong> 22.5% of total grade (Modules 3 & 4)</li>
+                        <li>Transfer learning implementation with fine-tuning</li>
+                        <li>Pre-trained architecture comparison study</li>
+                        <li>Data augmentation strategies implementation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Achievement Summary -->
+        <section class="card" style="margin-top: 40px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #38f9d7, #4facfe);">🏆</div>
+                <div>
+                    <h3 class="card-title">Module 4 Achievement Summary</h3>
+                    <p class="card-subtitle">Advanced CNN and Transfer Learning Mastery</p>
+                </div>
+            </div>
+            
+            <div class="overview-grid" style="margin-top: 20px;">
+                <div style="background: rgba(56, 249, 215, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #38f9d7;">
+                    <h4 style="color: #38f9d7; margin-bottom: 10px;">✅ CO-4 Achieved</h4>
+                    <p>Implement convolutional neural networks for computer vision</p>
+                    <small style="opacity: 0.8;">Mastered CNN architecture, pooling, and modern design patterns</small>
+                </div>
+                
+                <div style="background: rgba(79, 172, 254, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #4facfe;">
+                    <h4 style="color: #4facfe; margin-bottom: 10px;">✅ CO-5 Achieved</h4>
+                    <p>Determine and apply appropriate transfer learning techniques</p>
+                    <small style="opacity: 0.8;">Expert in pre-trained models, fine-tuning, and feature extraction</small>
+                </div>
+                
+                <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #a855f7;">
+                    <h4 style="color: #a855f7; margin-bottom: 10px;">🔄 Modern AI Skills</h4>
+                    <p>Industry-standard deep learning expertise</p>
+                    <small style="opacity: 0.8;">Ready for object detection, advanced computer vision</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preparation for Module 5 -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--warning-gradient);">🚀</div>
+                <div>
+                    <h3 class="card-title">Preparation for Module 5</h3>
+                    <p class="card-subtitle">Transition to Object Detection</p>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h4>📋 From Classification to Detection</h4>
+                <ul class="milestone-list">
+                    <li>Single object classification → Multiple object detection</li>
+                    <li>Image-level labels → Bounding box localization</li>
+                    <li>Transfer learning → Advanced architectures (YOLO, R-CNN)</li>
+                    <li>Static models → Real-time detection systems</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: rgba(56, 249, 215, 0.1); border-radius: 8px; border-left: 3px solid #38f9d7;">
+                <strong>💡 Achievement Unlocked:</strong> You now have the complete foundation for modern computer vision! Module 5 will show you how to detect and locate multiple objects in images - the technology behind autonomous vehicles, medical imaging, and surveillance systems.
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--success-gradient);">📖</div>
+                <div>
+                    <h3 class="card-title">Additional Resources</h3>
+                    <p class="card-subtitle">Advanced CNN and transfer learning materials</p>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h4>📚 Required Reading</h4>
+                <ul class="milestone-list">
+                    <li>Goodfellow et al. "Deep Learning" - Chapter 9 (Convolutional Networks)</li>
+                    <li>Original papers: AlexNet, VGG, ResNet, MobileNet</li>
+                    <li>TensorFlow Transfer Learning Guide and tutorials</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>🎥 Video Resources</h4>
+                <ul class="milestone-list">
+                    <li>CS231n Stanford: Convolutional Neural Networks</li>
+                    <li>deeplearning.ai: CNN and Transfer Learning courses</li>
+                    <li>Two Minute Papers: CNN architecture evolution</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>💻 Practice Projects</h4>
+                <ul class="milestone-list">
+                    <li>CIFAR-10 classification with custom CNN</li>
+                    <li>Transfer learning on specialized datasets</li>
+                    <li>Architecture comparison and benchmarking</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Navigation to Next Module -->
+        <section style="text-align: center; margin-top: 40px;">
+            <div style="background: linear-gradient(135deg, #f093fb, #f5576c); padding: 20px; border-radius: var(--border-radius); color: white;">
+                <h3 style="margin-bottom: 15px;">Ready for Module 5?</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Master Object Detection and Localization with YOLO, SSD, and R-CNN</p>
+                <a href="module-5.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3);">
+                    Module 5: Object Detection →
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../data/course-data.js"></script>
+</body>
+</html>

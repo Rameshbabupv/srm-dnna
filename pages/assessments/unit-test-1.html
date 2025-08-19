@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Test 1 - Deep Neural Network Architectures</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --assessment-primary: #667eea;
+            --assessment-secondary: #764ba2;
+            --assessment-accent: #f093fb;
+        }
+        
+        .assessment-header {
+            background: linear-gradient(135deg, var(--assessment-primary), var(--assessment-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .assessment-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .study-section {
+            background: rgba(102, 126, 234, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .practice-problems {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .code-example {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .assessment-checklist {
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        
+        .timeline-prep {
+            background: rgba(79, 172, 254, 0.05);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .day-schedule {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid var(--assessment-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="assessment-header">
+        <h1>📚 Unit Test 1 Preparation</h1>
+        <p>Comprehensive Study Guide for Modules 1 & 2</p>
+        <div class="assessment-info">
+            <div class="info-card">
+                <h3>📅 Date</h3>
+                <p>September 19, 2025</p>
+            </div>
+            <div class="info-card">
+                <h3>📊 Weight</h3>
+                <p>22.5% of Total</p>
+            </div>
+            <div class="info-card">
+                <h3>📖 Coverage</h3>
+                <p>Modules 1-2</p>
+            </div>
+            <div class="info-card">
+                <h3>⏱️ Duration</h3>
+                <p>90 Minutes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="../../index.html#assessments">📊 Assessments</a> → 
+            <span>Unit Test 1</span>
+        </div>
+
+        <!-- Module 1 Coverage -->
+        <div class="study-section">
+            <h2>🎯 Module 1: Introduction to Deep Learning</h2>
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>🧠 Perceptron & MLP</h3>
+                    <ul>
+                        <li>Single & Multi-layer Perceptron architecture</li>
+                        <li>Forward propagation mathematics</li>
+                        <li>Linear separability concepts</li>
+                        <li>XOR problem and its solution</li>
+                        <li>Universal approximation theorem</li>
+                    </ul>
+                    
+                    <div class="practice-problems">
+                        <h4>🔥 Practice Problems</h4>
+                        <ul>
+                            <li>Design a perceptron for AND, OR, NAND gates</li>
+                            <li>Calculate forward pass for given MLP architecture</li>
+                            <li>Analyze decision boundaries for different problems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔧 TensorFlow & Keras Basics</h3>
+                    <ul>
+                        <li>Tensor operations and data structures</li>
+                        <li>Model definition using Sequential and Functional API</li>
+                        <li>Layer types: Dense, Dropout, BatchNormalization</li>
+                        <li>Model compilation and training workflow</li>
+                        <li>Metrics and loss function selection</li>
+                    </ul>
+                    
+                    <div class="code-example">
+# Essential TensorFlow Code for Unit Test 1
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+# Basic MLP Model
+model = models.Sequential([
+    layers.Dense(128, activation='relu', input_shape=(784,)),
+    layers.Dropout(0.2),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+
+# Compilation
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Key concepts: understand each component!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⚡ Activation Functions</h3>
+                    <ul>
+                        <li>Sigmoid, Tanh, ReLU, Leaky ReLU, Swish</li>
+                        <li>Mathematical properties and derivatives</li>
+                        <li>Vanishing gradient problem</li>
+                        <li>When to use each activation function</li>
+                        <li>Output layer activation selection</li>
+                    </ul>
+                    
+                    <div class="practice-problems">
+                        <h4>🔥 Practice Problems</h4>
+                        <ul>
+                            <li>Calculate derivatives of activation functions</li>
+                            <li>Choose appropriate activations for different problems</li>
+                            <li>Analyze impact on gradient flow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2 Coverage -->
+        <div class="study-section">
+            <h2>🎯 Module 2: Optimization & Regularization</h2>
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>📈 Gradient Descent Variants</h3>
+                    <ul>
+                        <li>Batch, Mini-batch, Stochastic GD</li>
+                        <li>Momentum, RMSprop, Adam optimizers</li>
+                        <li>Learning rate scheduling</li>
+                        <li>Convergence analysis and learning curves</li>
+                        <li>Optimizer selection criteria</li>
+                    </ul>
+                    
+                    <div class="code-example">
+# Optimizer Configurations
+optimizers = {
+    'SGD': tf.keras.optimizers.SGD(learning_rate=0.01, momentum=0.9),
+    'Adam': tf.keras.optimizers.Adam(learning_rate=0.001),
+    'RMSprop': tf.keras.optimizers.RMSprop(learning_rate=0.001)
+}
+
+# Learning Rate Scheduling
+lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+    initial_learning_rate=1e-2,
+    decay_steps=10000,
+    decay_rate=0.9
+)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🛡️ Regularization Techniques</h3>
+                    <ul>
+                        <li>L1 and L2 regularization mathematics</li>
+                        <li>Dropout implementation and theory</li>
+                        <li>Early stopping strategies</li>
+                        <li>Data augmentation principles</li>
+                        <li>Cross-validation techniques</li>
+                    </ul>
+                    
+                    <div class="practice-problems">
+                        <h4>🔥 Practice Problems</h4>
+                        <ul>
+                            <li>Calculate regularization loss terms</li>
+                            <li>Design dropout schedules for different architectures</li>
+                            <li>Implement early stopping logic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Normalization Methods</h3>
+                    <ul>
+                        <li>Batch Normalization theory and implementation</li>
+                        <li>Layer Normalization differences</li>
+                        <li>Feature scaling and standardization</li>
+                        <li>Internal covariate shift problem</li>
+                        <li>Normalization in training vs inference</li>
+                    </ul>
+                    
+                    <div class="code-example">
+# Normalization Examples
+# Batch Normalization
+model.add(layers.BatchNormalization())
+
+# Manual feature scaling
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_train)
+
+# Layer Normalization (in transformers)
+layers.LayerNormalization(axis=-1)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Review -->
+        <div class="study-section">
+            <h2>💻 Tutorial Review (T1-T6)</h2>
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>T1: Perceptron Implementation</h3>
+                    <p>Implement perceptron from scratch, understand weight updates</p>
+                    <div class="code-example">
+# Key concepts to review
+class Perceptron:
+    def __init__(self, learning_rate=0.01):
+        self.lr = learning_rate
+        
+    def fit(self, X, y):
+        # Initialize weights
+        # Training loop with weight updates
+        # w = w + lr * (y - y_pred) * x
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>T2: MLP with Backpropagation</h3>
+                    <p>Multi-layer network training, gradient calculation</p>
+                </div>
+
+                <div class="card">
+                    <h3>T3: TensorFlow Neural Network</h3>
+                    <p>First TensorFlow implementation, model compilation</p>
+                </div>
+
+                <div class="card">
+                    <h3>T4: Activation Function Analysis</h3>
+                    <p>Compare different activation functions on same dataset</p>
+                </div>
+
+                <div class="card">
+                    <h3>T5: Optimizer Comparison</h3>
+                    <p>SGD vs Adam vs RMSprop performance analysis</p>
+                </div>
+
+                <div class="card">
+                    <h3>T6: Regularization Implementation</h3>
+                    <p>L1/L2 regularization and dropout effects</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7-Day Study Plan -->
+        <div class="timeline-prep">
+            <h2>📅 7-Day Intensive Study Plan</h2>
+            
+            <div class="day-schedule">
+                <h3>Day 1: Foundation Review</h3>
+                <ul>
+                    <li>Review perceptron mathematics and theory</li>
+                    <li>Practice manual calculations for simple networks</li>
+                    <li>Complete T1 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 2: MLP Deep Dive</h3>
+                <ul>
+                    <li>Multi-layer perceptron architecture</li>
+                    <li>Forward and backward propagation</li>
+                    <li>Complete T2 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 3: TensorFlow Mastery</h3>
+                <ul>
+                    <li>Keras Sequential and Functional API</li>
+                    <li>Model compilation and training loops</li>
+                    <li>Complete T3 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 4: Activation Functions</h3>
+                <ul>
+                    <li>Mathematical properties of activation functions</li>
+                    <li>Derivative calculations</li>
+                    <li>Complete T4 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 5: Optimization</h3>
+                <ul>
+                    <li>Gradient descent variants</li>
+                    <li>Optimizer mathematics and selection</li>
+                    <li>Complete T5 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 6: Regularization</h3>
+                <ul>
+                    <li>L1/L2 regularization theory</li>
+                    <li>Dropout and early stopping</li>
+                    <li>Complete T6 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 7: Final Review & Practice</h3>
+                <ul>
+                    <li>Complete practice problems</li>
+                    <li>Review all tutorials</li>
+                    <li>Mock test practice</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Assessment Checklist -->
+        <div class="assessment-checklist">
+            <h2>✅ Final Preparation Checklist</h2>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="theory1">
+                <label for="theory1">Understand perceptron vs MLP differences</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory2">
+                <label for="theory2">Can calculate forward pass manually</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory3">
+                <label for="theory3">Know all activation function properties</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory4">
+                <label for="theory4">Understand gradient descent mathematics</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory5">
+                <label for="theory5">Can explain regularization techniques</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="coding1">
+                <label for="coding1">Can write TensorFlow models from scratch</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="coding2">
+                <label for="coding2">Understand model compilation process</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="coding3">
+                <label for="coding3">Can implement different optimizers</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical1">
+                <label for="practical1">Completed all T1-T6 tutorials</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical2">
+                <label for="practical2">Practiced sample problems</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical3">
+                <label for="practical3">Reviewed key formulas and equations</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical4">
+                <label for="practical4">Can debug common TensorFlow issues</label>
+            </div>
+        </div>
+
+        <!-- Key Formulas Reference -->
+        <div class="study-section">
+            <h2>📐 Essential Formulas & Equations</h2>
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>Perceptron Learning Rule</h3>
+                    <div class="code-example">
+w_new = w_old + η(target - output) * input
+where η = learning rate
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Activation Functions</h3>
+                    <div class="code-example">
+Sigmoid: σ(x) = 1/(1 + e^(-x))
+ReLU: f(x) = max(0, x)
+Tanh: tanh(x) = (e^x - e^(-x))/(e^x + e^(-x))
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Loss Functions</h3>
+                    <div class="code-example">
+MSE: L = (1/2) * Σ(y_true - y_pred)²
+Cross-entropy: L = -Σ y_true * log(y_pred)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Regularization</h3>
+                    <div class="code-example">
+L1: L_reg = λ * Σ|w|
+L2: L_reg = λ * Σw²
+Total: L_total = L_original + L_reg
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="../../index.html" class="btn-primary">🏠 Back to Dashboard</a>
+            <a href="mid-term-practical.html" class="btn-secondary">➡️ Next Assessment</a>
+        </div>
+    </div>
+
+    <script>
+        // Save checklist progress to localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+            
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+    </script>
+</body>
+</html>

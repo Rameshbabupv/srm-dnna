@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Test 2 - Deep Neural Network Architectures</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --test2-primary: #8b5cf6;
+            --test2-secondary: #7c3aed;
+            --test2-accent: #a78bfa;
+        }
+        
+        .assessment-header {
+            background: linear-gradient(135deg, var(--test2-primary), var(--test2-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .advanced-topics {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .cnn-architecture {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .transfer-learning {
+            background: rgba(167, 139, 250, 0.05);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .model-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .architecture-diagram {
+            background: #1e1b4b;
+            color: #e0e7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--test2-primary);
+        }
+        
+        .mathematical-concepts {
+            background: rgba(99, 102, 241, 0.05);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .formula-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid var(--test2-primary);
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .pre-trained-models {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .model-card {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div class="assessment-header">
+        <h1>🧠 Unit Test 2 Preparation</h1>
+        <p>Advanced Deep Learning: CNNs & Transfer Learning</p>
+        <div class="assessment-info">
+            <div class="info-card">
+                <h3>📅 Date</h3>
+                <p>October 31, 2025</p>
+            </div>
+            <div class="info-card">
+                <h3>📊 Weight</h3>
+                <p>22.5% of Total</p>
+            </div>
+            <div class="info-card">
+                <h3>📖 Coverage</h3>
+                <p>Modules 3-4</p>
+            </div>
+            <div class="info-card">
+                <h3>⏱️ Duration</h3>
+                <p>90 Minutes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="../../index.html#assessments">📊 Assessments</a> → 
+            <span>Unit Test 2</span>
+        </div>
+
+        <!-- Module 3 Coverage -->
+        <div class="advanced-topics">
+            <h2>🎯 Module 3: Image Processing & Deep Neural Networks</h2>
+            
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>🖼️ Advanced Image Processing</h3>
+                    <ul>
+                        <li>Fourier Transform and frequency domain</li>
+                        <li>Wavelet transforms for multi-resolution analysis</li>
+                        <li>Advanced filtering techniques</li>
+                        <li>Image restoration and enhancement</li>
+                        <li>Geometric transformations and registration</li>
+                    </ul>
+                    
+                    <div class="mathematical-concepts">
+                        <h4>🔢 Key Mathematical Concepts</h4>
+                        <div class="formula-box">
+                            <strong>2D Fourier Transform:</strong><br>
+                            F(u,v) = ∫∫ f(x,y) e^(-j2π(ux+vy)) dx dy
+                        </div>
+                        <div class="formula-box">
+                            <strong>Convolution Theorem:</strong><br>
+                            f * g ↔ F · G (spatial ↔ frequency domain)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Feature Extraction & Selection</h3>
+                    <ul>
+                        <li>SIFT, SURF, and ORB descriptors</li>
+                        <li>Harris corner detection</li>
+                        <li>Principal Component Analysis (PCA)</li>
+                        <li>Linear Discriminant Analysis (LDA)</li>
+                        <li>Feature selection algorithms</li>
+                    </ul>
+                    
+                    <div class="architecture-diagram">
+# SIFT Feature Extraction Pipeline
+import cv2
+import numpy as np
+
+def extract_sift_features(image):
+    # Initialize SIFT detector
+    sift = cv2.SIFT_create()
+    
+    # Detect keypoints and compute descriptors
+    keypoints, descriptors = sift.detectAndCompute(image, None)
+    
+    # Draw keypoints for visualization
+    img_with_kp = cv2.drawKeypoints(image, keypoints, None)
+    
+    return keypoints, descriptors, img_with_kp
+
+# Key properties to understand:
+# - Scale invariance
+# - Rotation invariance  
+# - Illumination robustness
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🏷️ Pattern Recognition & Classification</h3>
+                    <ul>
+                        <li>Bayes decision theory</li>
+                        <li>Support Vector Machines (SVM)</li>
+                        <li>k-Nearest Neighbors (k-NN)</li>
+                        <li>Decision trees and random forests</li>
+                        <li>Performance evaluation metrics</li>
+                    </ul>
+                    
+                    <div class="mathematical-concepts">
+                        <h4>🎯 Classification Metrics</h4>
+                        <div class="formula-box">
+                            <strong>Precision:</strong> TP / (TP + FP)<br>
+                            <strong>Recall:</strong> TP / (TP + FN)<br>
+                            <strong>F1-Score:</strong> 2 × (Precision × Recall) / (Precision + Recall)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4 Coverage -->
+        <div class="advanced-topics">
+            <h2>🎯 Module 4: CNNs & Transfer Learning</h2>
+            
+            <div class="cnn-architecture">
+                <h3>🏗️ Convolutional Neural Network Architectures</h3>
+                
+                <div class="model-comparison">
+                    <div class="card">
+                        <h4>🔍 Convolutional Layers</h4>
+                        <ul>
+                            <li>Convolution operation mathematics</li>
+                            <li>Filter/kernel design principles</li>
+                            <li>Stride and padding strategies</li>
+                            <li>Feature map size calculations</li>
+                            <li>Parameter sharing concept</li>
+                        </ul>
+                        
+                        <div class="architecture-diagram">
+# CNN Layer Implementation
+import tensorflow as tf
+
+model = tf.keras.Sequential([
+    # Convolutional layers
+    tf.keras.layers.Conv2D(32, (3,3), activation='relu', 
+                          input_shape=(32,32,3)),
+    tf.keras.layers.MaxPooling2D((2,2)),
+    
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D((2,2)),
+    
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    
+    # Dense layers
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+# Output shape calculations:
+# Input: (32,32,3)
+# Conv2D(32): (30,30,32) 
+# MaxPool: (15,15,32)
+# etc...
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>🌊 Pooling Operations</h4>
+                        <ul>
+                            <li>Max pooling vs average pooling</li>
+                            <li>Global pooling strategies</li>
+                            <li>Adaptive pooling techniques</li>
+                            <li>Pooling size and stride effects</li>
+                            <li>Translation invariance properties</li>
+                        </ul>
+                        
+                        <div class="mathematical-concepts">
+                            <div class="formula-box">
+                                <strong>Max Pooling:</strong><br>
+                                y = max(x_i) for i in pooling window<br><br>
+                                <strong>Average Pooling:</strong><br>
+                                y = (1/n) Σ x_i for i in pooling window
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🏛️ Famous CNN Architectures</h3>
+                <div class="pre-trained-models">
+                    <div class="model-card">
+                        <h4>📚 LeNet-5 (1998)</h4>
+                        <p><strong>Pioneering CNN for digit recognition</strong></p>
+                        <ul>
+                            <li>32×32 input images</li>
+                            <li>2 convolutional layers</li>
+                            <li>3 fully connected layers</li>
+                            <li>~60K parameters</li>
+                        </ul>
+                    </div>
+
+                    <div class="model-card">
+                        <h4>🎯 AlexNet (2012)</h4>
+                        <p><strong>ImageNet breakthrough architecture</strong></p>
+                        <ul>
+                            <li>227×227×3 input</li>
+                            <li>5 convolutional layers</li>
+                            <li>3 fully connected layers</li>
+                            <li>~60M parameters</li>
+                            <li>ReLU activation, dropout</li>
+                        </ul>
+                    </div>
+
+                    <div class="model-card">
+                        <h4>🔎 VGG-16/19 (2014)</h4>
+                        <p><strong>Deep networks with small filters</strong></p>
+                        <ul>
+                            <li>224×224×3 input</li>
+                            <li>16/19 layers total</li>
+                            <li>3×3 convolutions only</li>
+                            <li>~138M parameters</li>
+                            <li>Simple, uniform architecture</li>
+                        </ul>
+                    </div>
+
+                    <div class="model-card">
+                        <h4>🏗️ ResNet (2015)</h4>
+                        <p><strong>Residual connections for deep networks</strong></p>
+                        <ul>
+                            <li>Skip connections</li>
+                            <li>50/101/152 layer variants</li>
+                            <li>Batch normalization</li>
+                            <li>Solves vanishing gradient</li>
+                        </ul>
+                    </div>
+
+                    <div class="model-card">
+                        <h4>🎪 Inception (GoogLeNet)</h4>
+                        <p><strong>Multi-scale feature extraction</strong></p>
+                        <ul>
+                            <li>Inception modules</li>
+                            <li>1×1 convolutions</li>
+                            <li>Multiple filter sizes</li>
+                            <li>Parameter efficiency</li>
+                        </ul>
+                    </div>
+
+                    <div class="model-card">
+                        <h4>🔥 EfficientNet (2019)</h4>
+                        <p><strong>Compound scaling methodology</strong></p>
+                        <ul>
+                            <li>Balanced scaling</li>
+                            <li>MobileNetV2 blocks</li>
+                            <li>Superior accuracy/efficiency</li>
+                            <li>B0-B7 variants</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transfer-learning">
+                <h3>🔄 Transfer Learning & Fine-tuning</h3>
+                
+                <div class="model-comparison">
+                    <div class="card">
+                        <h4>📈 Transfer Learning Strategies</h4>
+                        <ul>
+                            <li>Feature extraction vs fine-tuning</li>
+                            <li>Frozen layers vs trainable layers</li>
+                            <li>Layer-wise learning rates</li>
+                            <li>Domain adaptation techniques</li>
+                            <li>Pre-trained model selection</li>
+                        </ul>
+                        
+                        <div class="architecture-diagram">
+# Transfer Learning Implementation
+import tensorflow as tf
+
+# Load pre-trained model
+base_model = tf.keras.applications.VGG16(
+    weights='imagenet',
+    include_top=False,
+    input_shape=(224, 224, 3)
+)
+
+# Freeze base model layers
+base_model.trainable = False
+
+# Add custom classification head
+model = tf.keras.Sequential([
+    base_model,
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(num_classes, activation='softmax')
+])
+
+# Two-stage training:
+# 1. Train head only
+# 2. Unfreeze and fine-tune
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎯 Fine-tuning Best Practices</h4>
+                        <ul>
+                            <li>Lower learning rates for fine-tuning</li>
+                            <li>Gradual unfreezing strategies</li>
+                            <li>Learning rate scheduling</li>
+                            <li>Data augmentation importance</li>
+                            <li>Overfitting prevention</li>
+                        </ul>
+                        
+                        <div class="mathematical-concepts">
+                            <div class="formula-box">
+                                <strong>Fine-tuning Learning Rate:</strong><br>
+                                LR_finetune = LR_initial / 10<br><br>
+                                <strong>Layer-wise Learning Rates:</strong><br>
+                                LR_layer = LR_base × decay^(depth_factor)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🔧 Practical Implementation Techniques</h3>
+                <div class="topic-grid">
+                    <div class="card">
+                        <h4>📊 Data Augmentation</h4>
+                        <ul>
+                            <li>Geometric transformations</li>
+                            <li>Color space augmentations</li>
+                            <li>Noise injection techniques</li>
+                            <li>Mixup and CutMix</li>
+                            <li>AutoAugment strategies</li>
+                        </ul>
+                        
+                        <div class="architecture-diagram">
+# Data Augmentation Pipeline
+datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    horizontal_flip=True,
+    zoom_range=0.2,
+    brightness_range=[0.8, 1.2],
+    fill_mode='nearest'
+)
+
+# Advanced augmentations
+def mixup(x, y, alpha=0.2):
+    lambda_val = np.random.beta(alpha, alpha)
+    mixed_x = lambda_val * x[0] + (1 - lambda_val) * x[1]
+    mixed_y = lambda_val * y[0] + (1 - lambda_val) * y[1]
+    return mixed_x, mixed_y
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>📈 Training Optimization</h4>
+                        <ul>
+                            <li>Learning rate scheduling</li>
+                            <li>Early stopping with patience</li>
+                            <li>Model checkpointing</li>
+                            <li>Gradient clipping</li>
+                            <li>Mixed precision training</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h4>🎯 Model Evaluation</h4>
+                        <ul>
+                            <li>Validation strategies</li>
+                            <li>Cross-validation for deep learning</li>
+                            <li>Performance metrics selection</li>
+                            <li>Confusion matrix analysis</li>
+                            <li>Model interpretability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Review -->
+        <div class="study-section">
+            <h2>💻 Tutorial Review (T7-T12)</h2>
+            <div class="topic-grid">
+                <div class="card">
+                    <h3>T7: Advanced Image Processing</h3>
+                    <p>Fourier transforms, filtering, and enhancement techniques</p>
+                </div>
+
+                <div class="card">
+                    <h3>T8: Feature Extraction Methods</h3>
+                    <p>SIFT, HOG, LBP implementations and comparisons</p>
+                </div>
+
+                <div class="card">
+                    <h3>T9: Image Classification Pipeline</h3>
+                    <p>End-to-end classification with traditional ML</p>
+                </div>
+
+                <div class="card">
+                    <h3>T10: CNN from Scratch</h3>
+                    <p>Build and train CNN architecture manually</p>
+                    <div class="architecture-diagram">
+# T10 Key Implementation
+def create_simple_cnn():
+    model = tf.keras.Sequential([
+        tf.keras.layers.Conv2D(32, 3, activation='relu'),
+        tf.keras.layers.MaxPooling2D(),
+        tf.keras.layers.Conv2D(64, 3, activation='relu'),
+        tf.keras.layers.MaxPooling2D(),
+        tf.keras.layers.Conv2D(64, 3, activation='relu'),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(10)
+    ])
+    return model
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>T11: Transfer Learning Implementation</h3>
+                    <p>Use pre-trained models for custom classification</p>
+                </div>
+
+                <div class="card">
+                    <h3>T12: Model Comparison & Analysis</h3>
+                    <p>Compare different architectures and training strategies</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Timeline -->
+        <div class="practical-timeline">
+            <h2>📅 8-Day Intensive Study Plan</h2>
+            
+            <div class="day-schedule">
+                <h3>Day 1: Image Processing Fundamentals</h3>
+                <ul>
+                    <li>Fourier Transform theory and applications</li>
+                    <li>Advanced filtering techniques</li>
+                    <li>Complete T7 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 2: Feature Extraction Mastery</h3>
+                <ul>
+                    <li>SIFT, SURF, ORB descriptors</li>
+                    <li>Feature selection and dimensionality reduction</li>
+                    <li>Complete T8 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 3: Traditional Classification</h3>
+                <ul>
+                    <li>Pattern recognition algorithms</li>
+                    <li>Performance evaluation metrics</li>
+                    <li>Complete T9 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 4: CNN Architecture Deep Dive</h3>
+                <ul>
+                    <li>Convolution and pooling mathematics</li>
+                    <li>Architecture design principles</li>
+                    <li>Complete T10 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 5: Famous CNN Models</h3>
+                <ul>
+                    <li>LeNet, AlexNet, VGG analysis</li>
+                    <li>ResNet and Inception architectures</li>
+                    <li>Modern architectures (EfficientNet)</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 6: Transfer Learning Techniques</h3>
+                <ul>
+                    <li>Feature extraction vs fine-tuning</li>
+                    <li>Implementation strategies</li>
+                    <li>Complete T11 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 7: Model Optimization</h3>
+                <ul>
+                    <li>Training techniques and best practices</li>
+                    <li>Data augmentation strategies</li>
+                    <li>Complete T12 tutorial review</li>
+                </ul>
+            </div>
+
+            <div class="day-schedule">
+                <h3>Day 8: Final Review & Practice</h3>
+                <ul>
+                    <li>Architecture comparison exercises</li>
+                    <li>Mathematical derivations</li>
+                    <li>Mock test practice</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Final Checklist -->
+        <div class="assessment-checklist">
+            <h2>✅ Unit Test 2 Preparation Checklist</h2>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="theory-img1">
+                <label for="theory-img1">Understand Fourier Transform applications in image processing</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory-img2">
+                <label for="theory-img2">Can explain SIFT, SURF, and ORB feature descriptors</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory-cnn1">
+                <label for="theory-cnn1">Know convolution and pooling mathematics</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory-cnn2">
+                <label for="theory-cnn2">Understand famous CNN architectures and their innovations</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="theory-transfer1">
+                <label for="theory-transfer1">Can explain transfer learning strategies</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical-cnn1">
+                <label for="practical-cnn1">Can implement CNN from scratch in TensorFlow</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical-transfer1">
+                <label for="practical-transfer1">Can implement transfer learning with pre-trained models</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="practical-augment1">
+                <label for="practical-augment1">Understand data augmentation implementation</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="tutorials-all">
+                <label for="tutorials-all">Completed all T7-T12 tutorials thoroughly</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="math-formulas">
+                <label for="math-formulas">Memorized key formulas and calculations</label>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="mid-term-practical.html" class="btn-secondary">⬅️ Previous Assessment</a>
+            <a href="../../index.html" class="btn-primary">🏠 Back to Dashboard</a>
+            <a href="final-examination.html" class="btn-secondary">➡️ Next Assessment</a>
+        </div>
+    </div>
+
+    <script>
+        // Save checklist progress
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+            
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+    </script>
+</body>
+</html>

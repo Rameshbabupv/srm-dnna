@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5: Object Detection & Localization - Course Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .lecture-card {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.05));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(240, 147, 251, 0.2);
+            transition: var(--transition);
+        }
+        .lecture-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.2);
+        }
+        .concept-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .code-snippet {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #f093fb;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .learning-path {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .prerequisite-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(240, 147, 251, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .difficulty-beginner { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .difficulty-intermediate { background: rgba(251, 191, 36, 0.2); color: #fde047; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .detection-comparison {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .yolo-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .rcnn-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric-card {
+            background: rgba(245, 87, 108, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(245, 87, 108, 0.3);
+            text-align: center;
+        }
+        .architecture-timeline {
+            background: rgba(240, 147, 251, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(240, 147, 251, 0.2);
+        }
+        .timeline-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        .step-number {
+            background: var(--secondary-gradient);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav style="margin-bottom: 30px;">
+            <a href="../../index.html" style="color: #f093fb; text-decoration: none; font-weight: 600;">← Back to Dashboard</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="../../index.html#modules" style="color: #f093fb; text-decoration: none;">Modules</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-1.html" style="color: #60a5fa; text-decoration: none;">Module 1</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-2.html" style="color: #00f2fe; text-decoration: none;">Module 2</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-3.html" style="color: #43e97b; text-decoration: none;">Module 3</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-4.html" style="color: #38f9d7; text-decoration: none;">Module 4</a>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header fade-in">
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div class="module-number" style="width: 80px; height: 80px; font-size: 2rem; background: var(--secondary-gradient);">5</div>
+                <div>
+                    <h1 class="course-title" style="font-size: 2.5rem;">Object Detection & Localization</h1>
+                    <p class="course-subtitle">Advanced AI Module • Weeks 13-15 • 9 Contact Hours</p>
+                </div>
+            </div>
+            <div class="course-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">3 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Difficulty</span>
+                    <span class="difficulty-badge difficulty-advanced">Expert</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Prerequisites</span>
+                    <span class="meta-value">All Previous Modules</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Applications</span>
+                    <span class="meta-value">Real-time AI Systems</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Module Overview -->
+        <section class="overview-grid">
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--secondary-gradient);">🎯</div>
+                    <div>
+                        <h3 class="card-title">Learning Objectives</h3>
+                        <p class="card-subtitle">Cutting-edge computer vision</p>
+                    </div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #f093fb;">🎯</span>
+                        Master object localization vs detection paradigms
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #f093fb;">⚡</span>
+                        Implement single-shot detection (YOLO, SSD) for real-time systems
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #f093fb;">🏗️</span>
+                        Build two-stage detection systems (R-CNN family)
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #f093fb;">📊</span>
+                        Apply advanced evaluation metrics (IoU, mAP, NMS)
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #f093fb;">🚀</span>
+                        Deploy production-ready object detection systems
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--warning-gradient);">📚</div>
+                    <div>
+                        <h3 class="card-title">Prerequisites</h3>
+                        <p class="card-subtitle">Master-level requirements</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>CNN Mastery (Module 4)</strong>
+                        <small style="display: block; opacity: 0.8;">Transfer learning, modern architectures, fine-tuning</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Image Processing (Module 3)</strong>
+                        <small style="display: block; opacity: 0.8;">Feature extraction, segmentation, OpenCV</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Advanced Deep Learning</strong>
+                        <small style="display: block; opacity: 0.8;">Optimization, regularization, model design</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #fbbf24; font-size: 1.2rem;">⚠</span>
+                    <div>
+                        <strong>High-Performance Computing</strong>
+                        <small style="display: block; opacity: 0.8;">GPU optimization, real-time processing</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--success-gradient);">🏆</div>
+                    <div>
+                        <h3 class="card-title">Industry Applications</h3>
+                        <p class="card-subtitle">Real-world impact</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="background: rgba(240, 147, 251, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #f093fb;">
+                        <strong>Autonomous Vehicles</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Real-time object detection for self-driving cars</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="background: rgba(245, 87, 108, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #f5576c;">
+                        <strong>Medical Imaging</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Disease detection and organ localization</p>
+                    </div>
+                </div>
+                <div>
+                    <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24;">
+                        <strong>Security & Surveillance</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Face detection, intrusion detection systems</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Content Breakdown -->
+        <section>
+            <h2 style="text-align: center; margin: 40px 0 30px; font-size: 2rem; background: linear-gradient(45deg, #f093fb, #f5576c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Detailed Content Breakdown</h2>
+            
+            <!-- Week 13: Object Detection Fundamentals -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin: 0;">Week 13: Object Detection Fundamentals</h3>
+                    <span class="difficulty-badge difficulty-advanced">Expert</span>
+                </div>
+                
+                <div class="learning-path">
+                    <h4 style="color: #fbbf24; margin-bottom: 15px;">📋 Learning Path</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(240, 147, 251, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #f093fb; font-weight: bold;">1</div>
+                            <small>Problem Definition</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(240, 147, 251, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #f093fb; font-weight: bold;">2</div>
+                            <small>Bounding Boxes</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(240, 147, 251, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #f093fb; font-weight: bold;">3</div>
+                            <small>Evaluation Metrics</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(240, 147, 251, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #f093fb; font-weight: bold;">4</div>
+                            <small>Dataset Analysis</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Detection Problem Formulation</h4>
+                <div style="background: rgba(240, 147, 251, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #f093fb;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="detection-comparison">
+                    <h5 style="color: #a855f7; margin-bottom: 15px;">🎯 Computer Vision Task Hierarchy</h5>
+                    <div class="metrics-grid">
+                        <div class="metric-card" style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3);">
+                            <strong style="color: #22c55e;">Classification</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                What objects are in the image?<br>
+                                <small>Output: Class labels with probabilities</small>
+                            </p>
+                        </div>
+                        <div class="metric-card" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3);">
+                            <strong style="color: #3b82f6;">Localization</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                Where is the single object?<br>
+                                <small>Output: Class + bounding box</small>
+                            </p>
+                        </div>
+                        <div class="metric-card">
+                            <strong style="color: #f5576c;">Detection</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                What and where are multiple objects?<br>
+                                <small>Output: Multiple classes + boxes</small>
+                            </p>
+                        </div>
+                        <div class="metric-card" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3);">
+                            <strong style="color: #a855f7;">Segmentation</strong>
+                            <p style="margin: 10px 0; font-size: 0.9rem;">
+                                Pixel-level object boundaries?<br>
+                                <small>Output: Pixel masks per object</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">📦 Bounding Box Representation</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Coordinate Systems:</strong> (x₁,y₁,x₂,y₂) vs (x,y,w,h) vs (cx,cy,w,h)</li>
+                        <li><strong>Normalization:</strong> Absolute pixels vs relative [0,1] coordinates</li>
+                        <li><strong>Anchor Boxes:</strong> Predefined shapes for object detection</li>
+                        <li><strong>Ground Truth:</strong> Human-annotated bounding box labels</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">📊 Detection Evaluation Metrics</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>IoU (Intersection over Union):</strong> Area_overlap / Area_union</li>
+                        <li><strong>Precision:</strong> TP / (TP + FP) - How many detections are correct?</li>
+                        <li><strong>Recall:</strong> TP / (TP + FN) - How many objects are found?</li>
+                        <li><strong>mAP (mean Average Precision):</strong> Area under precision-recall curve</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #f093fb; margin-bottom: 15px;">💻 Detection Metrics Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import numpy as np
+import matplotlib.pyplot as plt
+from collections import defaultdict
+
+class DetectionMetrics:
+    def __init__(self, iou_threshold=0.5):
+        self.iou_threshold = iou_threshold
+        self.detections = []
+        self.ground_truths = []
+    
+    def calculate_iou(self, box1, box2):
+        """Calculate Intersection over Union (IoU) for two bounding boxes"""
+        # box format: [x1, y1, x2, y2]
+        x1 = max(box1[0], box2[0])
+        y1 = max(box1[1], box2[1])
+        x2 = min(box1[2], box2[2])
+        y2 = min(box1[3], box2[3])
+        
+        if x2 <= x1 or y2 <= y1:
+            return 0.0
+        
+        intersection = (x2 - x1) * (y2 - y1)
+        area1 = (box1[2] - box1[0]) * (box1[3] - box1[1])
+        area2 = (box2[2] - box2[0]) * (box2[3] - box2[1])
+        union = area1 + area2 - intersection
+        
+        return intersection / union if union > 0 else 0.0
+    
+    def calculate_ap(self, precisions, recalls):
+        """Calculate Average Precision using interpolation"""
+        # Add sentinel values
+        recalls = np.concatenate(([0.0], recalls, [1.0]))
+        precisions = np.concatenate(([0.0], precisions, [0.0]))
+        
+        # Compute the precision envelope
+        for i in range(precisions.size - 1, 0, -1):
+            precisions[i - 1] = np.maximum(precisions[i - 1], precisions[i])
+        
+        # Find points where recall changes
+        indices = np.where(recalls[1:] != recalls[:-1])[0]
+        
+        # Calculate area under curve
+        ap = np.sum((recalls[indices + 1] - recalls[indices]) * precisions[indices + 1])
+        return ap
+    
+    def evaluate_detections(self, detections, ground_truths, num_classes):
+        """
+        Evaluate detections against ground truth
+        
+        detections: List of (image_id, class_id, confidence, bbox)
+        ground_truths: List of (image_id, class_id, bbox)
+        """
+        # Sort detections by confidence
+        detections = sorted(detections, key=lambda x: x[2], reverse=True)
+        
+        # Group ground truths by image and class
+        gt_by_image_class = defaultdict(list)
+        for image_id, class_id, bbox in ground_truths:
+            gt_by_image_class[(image_id, class_id)].append(bbox)
+        
+        # Track which ground truths have been matched
+        gt_matched = defaultdict(lambda: defaultdict(list))
+        for (image_id, class_id), bboxes in gt_by_image_class.items():
+            gt_matched[image_id][class_id] = [False] * len(bboxes)
+        
+        # Calculate precision and recall for each class
+        class_metrics = {}
+        
+        for class_id in range(num_classes):
+            tp = []  # True positives
+            fp = []  # False positives
+            confidences = []
+            
+            class_detections = [d for d in detections if d[1] == class_id]
+            
+            for image_id, cls_id, confidence, det_bbox in class_detections:
+                confidences.append(confidence)
+                
+                if (image_id, class_id) in gt_by_image_class:
+                    gt_bboxes = gt_by_image_class[(image_id, class_id)]
+                    gt_matches = gt_matched[image_id][class_id]
+                    
+                    best_iou = 0
+                    best_gt_idx = -1
+                    
+                    # Find best matching ground truth
+                    for gt_idx, gt_bbox in enumerate(gt_bboxes):
+                        if not gt_matches[gt_idx]:
+                            iou = self.calculate_iou(det_bbox, gt_bbox)
+                            if iou > best_iou:
+                                best_iou = iou
+                                best_gt_idx = gt_idx
+                    
+                    if best_iou >= self.iou_threshold:
+                        tp.append(1)
+                        fp.append(0)
+                        gt_matches[best_gt_idx] = True
+                    else:
+                        tp.append(0)
+                        fp.append(1)
+                else:
+                    tp.append(0)
+                    fp.append(1)
+            
+            # Calculate cumulative precision and recall
+            tp_cumsum = np.cumsum(tp)
+            fp_cumsum = np.cumsum(fp)
+            
+            num_gt = sum(len(bboxes) for (img_id, cls_id), bboxes in gt_by_image_class.items() if cls_id == class_id)
+            
+            if num_gt == 0:
+                class_metrics[class_id] = {'ap': 0.0, 'precision': [], 'recall': []}
+                continue
+            
+            precisions = tp_cumsum / (tp_cumsum + fp_cumsum + 1e-6)
+            recalls = tp_cumsum / num_gt
+            
+            ap = self.calculate_ap(precisions, recalls)
+            
+            class_metrics[class_id] = {
+                'ap': ap,
+                'precision': precisions.tolist(),
+                'recall': recalls.tolist(),
+                'confidences': confidences
+            }
+        
+        # Calculate mAP
+        valid_aps = [metrics['ap'] for metrics in class_metrics.values() if metrics['ap'] > 0]
+        mAP = np.mean(valid_aps) if valid_aps else 0.0
+        
+        return {
+            'mAP': mAP,
+            'class_metrics': class_metrics,
+            'num_detections': len(detections),
+            'num_ground_truths': len(ground_truths)
+        }
+    
+    def non_max_suppression(self, detections, iou_threshold=0.5):
+        """Apply Non-Maximum Suppression to remove duplicate detections"""
+        if len(detections) == 0:
+            return []
+        
+        # Sort by confidence score
+        detections = sorted(detections, key=lambda x: x[2], reverse=True)
+        
+        keep = []
+        while detections:
+            # Take the detection with highest confidence
+            current = detections.pop(0)
+            keep.append(current)
+            
+            # Remove detections with high IoU with current detection
+            remaining = []
+            for det in detections:
+                if det[1] != current[1]:  # Different class
+                    remaining.append(det)
+                elif self.calculate_iou(current[3], det[3]) <= iou_threshold:
+                    remaining.append(det)
+                # else: suppress this detection (high IoU)
+            
+            detections = remaining
+        
+        return keep
+    
+    def visualize_precision_recall_curve(self, class_metrics, class_names=None):
+        """Visualize precision-recall curves for all classes"""
+        plt.figure(figsize=(12, 8))
+        
+        for class_id, metrics in class_metrics.items():
+            if len(metrics['precision']) > 0:
+                class_name = class_names[class_id] if class_names else f'Class {class_id}'
+                plt.plot(metrics['recall'], metrics['precision'], 
+                        label=f'{class_name} (AP={metrics["ap"]:.3f})')
+        
+        plt.xlabel('Recall')
+        plt.ylabel('Precision')
+        plt.title('Precision-Recall Curves')
+        plt.legend()
+        plt.grid(True)
+        plt.xlim([0, 1])
+        plt.ylim([0, 1])
+        plt.show()
+
+def demonstrate_detection_metrics():
+    """Demonstrate object detection evaluation"""
+    # Create sample data
+    detections = [
+        # (image_id, class_id, confidence, bbox [x1,y1,x2,y2])
+        (0, 0, 0.9, [10, 10, 50, 50]),
+        (0, 0, 0.8, [15, 15, 55, 55]),  # High IoU with first
+        (0, 1, 0.7, [100, 100, 140, 140]),
+        (1, 0, 0.6, [20, 20, 60, 60]),
+        (1, 1, 0.5, [80, 80, 120, 120])
+    ]
+    
+    ground_truths = [
+        # (image_id, class_id, bbox)
+        (0, 0, [12, 12, 52, 52]),
+        (0, 1, [98, 98, 138, 138]),
+        (1, 0, [22, 22, 62, 62])
+    ]
+    
+    metrics = DetectionMetrics(iou_threshold=0.5)
+    
+    # Apply NMS
+    nms_detections = metrics.non_max_suppression(detections, iou_threshold=0.3)
+    print(f"Detections before NMS: {len(detections)}")
+    print(f"Detections after NMS: {len(nms_detections)}")
+    
+    # Evaluate
+    results = metrics.evaluate_detections(nms_detections, ground_truths, num_classes=2)
+    
+    print(f"\nEvaluation Results:")
+    print(f"mAP: {results['mAP']:.3f}")
+    print(f"Total detections: {results['num_detections']}")
+    print(f"Total ground truths: {results['num_ground_truths']}")
+    
+    for class_id, class_metrics in results['class_metrics'].items():
+        print(f"Class {class_id} AP: {class_metrics['ap']:.3f}")
+    
+    return metrics, results
+
+# Run demonstration
+# metrics_demo, eval_results = demonstrate_detection_metrics()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Detection Pipeline Overview</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>Detection Pipeline & Dataset Exploration</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Understand end-to-end object detection workflow</li>
+                        <li>Explore PASCAL VOC and COCO dataset formats</li>
+                        <li>Implement bounding box visualization and manipulation</li>
+                        <li>Calculate and visualize detection evaluation metrics</li>
+                        <li>Set up detection frameworks and tools</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 13 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Object detection problem analysis and formulation</li>
+                        <li>Evaluation metrics implementation from scratch</li>
+                        <li>Dataset annotation and exploration project</li>
+                        <li>Detection pipeline design document</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 14: Single-Shot vs Two-Stage Detection -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin: 0;">Week 14: YOLO, SSD & R-CNN Architectures</h3>
+                    <span class="difficulty-badge difficulty-advanced">Expert</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Single-Shot Detection</h4>
+                <div style="background: rgba(240, 147, 251, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #f093fb;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="yolo-box">
+                    <h5 style="margin-bottom: 10px;">⚡ YOLO: You Only Look Once</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Philosophy:</strong> Single forward pass for detection</li>
+                        <li><strong>Grid System:</strong> Divide image into S×S grid cells</li>
+                        <li><strong>Prediction:</strong> Each cell predicts B bounding boxes + class probabilities</li>
+                        <li><strong>Loss Function:</strong> Localization + Confidence + Classification losses</li>
+                        <li><strong>Advantages:</strong> Real-time performance, global context</li>
+                    </ul>
+                </div>
+
+                <div class="yolo-box" style="background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7;">
+                    <h5 style="margin-bottom: 10px;">🎯 SSD: Single Shot MultiBox Detector</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Multi-scale Detection:</strong> Feature maps at different resolutions</li>
+                        <li><strong>Default Boxes:</strong> Multiple aspect ratios and scales per cell</li>
+                        <li><strong>Architecture:</strong> VGG backbone + additional convolutional layers</li>
+                        <li><strong>Improvements:</strong> Better small object detection than YOLO</li>
+                        <li><strong>Speed vs Accuracy:</strong> Configurable trade-offs</li>
+                    </ul>
+                </div>
+
+                <div class="architecture-timeline">
+                    <h5 style="color: #f093fb; margin-bottom: 15px;">🏗️ YOLO Architecture Evolution</h5>
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>YOLOv1 (2016):</strong> 7×7 grid, real-time detection breakthrough
+                            <br><small>45 FPS, but struggles with small objects</small>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>YOLOv2/YOLO9000 (2017):</strong> Batch normalization, anchor boxes
+                            <br><small>Improved accuracy while maintaining speed</small>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>YOLOv3 (2018):</strong> Multi-scale predictions, Darknet-53
+                            <br><small>Better small object detection, competitive with SSD</small>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <strong>YOLOv4 (2020):</strong> CSPDarknet, PANet, advanced training
+                            <br><small>State-of-the-art speed-accuracy trade-off</small>
+                        </div>
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">5</div>
+                        <div>
+                            <strong>YOLOv5+ (2020+):</strong> PyTorch implementation, continuous improvements
+                            <br><small>Production-ready, easy deployment</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🏗️ Two-Stage Detection: R-CNN Family</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Stage 1:</strong> Region Proposal Network (RPN) generates object candidates</li>
+                        <li><strong>Stage 2:</strong> Classification and refinement of proposals</li>
+                        <li><strong>R-CNN (2014):</strong> Selective search + CNN features + SVM classification</li>
+                        <li><strong>Fast R-CNN (2015):</strong> End-to-end training + RoI pooling</li>
+                        <li><strong>Faster R-CNN (2016):</strong> RPN + Fast R-CNN, fully convolutional</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #f093fb; margin-bottom: 15px;">💻 YOLO Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import tensorflow as tf
+from tensorflow.keras import layers, models
+import numpy as np
+
+class YOLOv3Architecture:
+    def __init__(self, input_shape=(416, 416, 3), num_classes=80):
+        self.input_shape = input_shape
+        self.num_classes = num_classes
+        self.anchors = [
+            [[10, 13], [16, 30], [33, 23]],      # Small objects
+            [[30, 61], [62, 45], [59, 119]],     # Medium objects  
+            [[116, 90], [156, 198], [373, 326]]  # Large objects
+        ]
+    
+    def conv_block(self, x, filters, size, strides=1, batch_norm=True):
+        """Convolutional block with batch normalization and LeakyReLU"""
+        x = layers.Conv2D(filters, size, strides=strides, padding='same', use_bias=not batch_norm)(x)
+        if batch_norm:
+            x = layers.BatchNormalization()(x)
+        x = layers.LeakyReLU(alpha=0.1)(x)
+        return x
+    
+    def residual_block(self, x, filters):
+        """Residual block for DarkNet backbone"""
+        shortcut = x
+        x = self.conv_block(x, filters // 2, 1)
+        x = self.conv_block(x, filters, 3)
+        x = layers.Add()([shortcut, x])
+        return x
+    
+    def darknet53_backbone(self, x):
+        """DarkNet-53 backbone for feature extraction"""
+        # Initial convolution
+        x = self.conv_block(x, 32, 3)
+        x = self.conv_block(x, 64, 3, strides=2)
+        
+        # Residual blocks
+        for i in range(1):
+            x = self.residual_block(x, 64)
+        
+        x = self.conv_block(x, 128, 3, strides=2)
+        for i in range(2):
+            x = self.residual_block(x, 128)
+        
+        x = self.conv_block(x, 256, 3, strides=2)
+        route_1 = x  # Save for later
+        for i in range(8):
+            x = self.residual_block(x, 256)
+        
+        x = self.conv_block(x, 512, 3, strides=2)
+        route_2 = x  # Save for later
+        for i in range(8):
+            x = self.residual_block(x, 512)
+        
+        x = self.conv_block(x, 1024, 3, strides=2)
+        for i in range(4):
+            x = self.residual_block(x, 1024)
+        
+        return route_1, route_2, x
+    
+    def yolo_head(self, x, num_anchors=3):
+        """YOLO detection head"""
+        # Output: (batch, grid, grid, anchors * (4 + 1 + num_classes))
+        # 4: bbox coordinates, 1: objectness, num_classes: class probabilities
+        output_filters = num_anchors * (5 + self.num_classes)
+        
+        x = self.conv_block(x, 512, 1)
+        x = self.conv_block(x, 1024, 3)
+        x = self.conv_block(x, 512, 1)
+        x = self.conv_block(x, 1024, 3)
+        x = self.conv_block(x, 512, 1)
+        
+        route = x
+        x = self.conv_block(x, 1024, 3)
+        x = layers.Conv2D(output_filters, 1, padding='same')(x)
+        
+        return route, x
+    
+    def upsample_and_concat(self, x, route):
+        """Upsample and concatenate for multi-scale detection"""
+        x = self.conv_block(x, 256, 1)
+        x = layers.UpSampling2D(2)(x)
+        x = layers.Concatenate()([x, route])
+        return x
+    
+    def build_model(self):
+        """Build complete YOLOv3 model"""
+        inputs = layers.Input(shape=self.input_shape)
+        
+        # Backbone
+        route_1, route_2, backbone_out = self.darknet53_backbone(inputs)
+        
+        # Large objects (13x13)
+        route, output_1 = self.yolo_head(backbone_out)
+        
+        # Medium objects (26x26)
+        x = self.upsample_and_concat(route, route_2)
+        route, output_2 = self.yolo_head(x)
+        
+        # Small objects (52x52)
+        x = self.upsample_and_concat(route, route_1)
+        _, output_3 = self.yolo_head(x)
+        
+        model = models.Model(inputs, [output_1, output_2, output_3])
+        return model
+    
+    def decode_predictions(self, predictions, anchors, num_classes, input_shape):
+        """Decode YOLO predictions to bounding boxes"""
+        batch_size = tf.shape(predictions)[0]
+        grid_size = tf.shape(predictions)[1]
+        num_anchors = len(anchors)
+        
+        # Reshape predictions
+        predictions = tf.reshape(predictions, 
+                               [batch_size, grid_size, grid_size, num_anchors, 5 + num_classes])
+        
+        # Create coordinate grids
+        grid_y, grid_x = tf.meshgrid(tf.range(grid_size), tf.range(grid_size))
+        grid = tf.stack([grid_x, grid_y], axis=-1)
+        grid = tf.cast(tf.expand_dims(grid, axis=2), tf.float32)
+        
+        # Decode box coordinates
+        box_xy = (tf.sigmoid(predictions[..., :2]) + grid) / tf.cast(grid_size, tf.float32)
+        box_wh = tf.exp(predictions[..., 2:4]) * anchors / tf.cast(input_shape[:2], tf.float32)
+        
+        # Decode objectness and class probabilities
+        box_confidence = tf.sigmoid(predictions[..., 4:5])
+        box_class_probs = tf.sigmoid(predictions[..., 5:])
+        
+        return box_xy, box_wh, box_confidence, box_class_probs
+    
+    def yolo_loss(self, y_true, y_pred, anchors, num_classes, ignore_thresh=0.5):
+        """YOLOv3 loss function"""
+        batch_size = tf.shape(y_pred)[0]
+        grid_size = tf.shape(y_pred)[1]
+        
+        # Decode predictions
+        pred_xy, pred_wh, pred_conf, pred_class = self.decode_predictions(
+            y_pred, anchors, num_classes, self.input_shape)
+        
+        # Ground truth
+        true_xy = y_true[..., :2]
+        true_wh = y_true[..., 2:4]
+        true_conf = y_true[..., 4:5]
+        true_class = y_true[..., 5:]
+        
+        # Object mask
+        object_mask = true_conf
+        
+        # Coordinate loss (only for objects)
+        xy_loss = object_mask * tf.reduce_sum(tf.square(true_xy - pred_xy), axis=-1, keepdims=True)
+        wh_loss = object_mask * tf.reduce_sum(tf.square(tf.sqrt(true_wh) - tf.sqrt(pred_wh)), axis=-1, keepdims=True)
+        
+        # Confidence loss
+        conf_loss = (object_mask * tf.square(true_conf - pred_conf) + 
+                    (1 - object_mask) * tf.square(true_conf - pred_conf))
+        
+        # Class loss (only for objects)
+        class_loss = object_mask * tf.reduce_sum(tf.square(true_class - pred_class), axis=-1, keepdims=True)
+        
+        # Total loss
+        total_loss = tf.reduce_mean(xy_loss + wh_loss + conf_loss + class_loss)
+        
+        return total_loss
+
+class YOLODetector:
+    def __init__(self, model_path=None):
+        self.model = None
+        self.class_names = None
+        if model_path:
+            self.load_model(model_path)
+    
+    def load_model(self, model_path):
+        """Load pre-trained YOLO model"""
+        self.model = tf.keras.models.load_model(model_path)
+    
+    def preprocess_image(self, image, input_size=(416, 416)):
+        """Preprocess image for YOLO input"""
+        image = tf.image.resize(image, input_size)
+        image = tf.cast(image, tf.float32) / 255.0
+        return tf.expand_dims(image, 0)
+    
+    def postprocess_detections(self, predictions, conf_threshold=0.5, nms_threshold=0.4):
+        """Post-process YOLO predictions to final detections"""
+        # This is a simplified version - actual implementation would be more complex
+        boxes = []
+        scores = []
+        classes = []
+        
+        for prediction in predictions:
+            # Extract boxes, confidences, and class probabilities
+            # Apply confidence thresholding
+            # Apply NMS
+            pass
+        
+        return boxes, scores, classes
+    
+    def detect_objects(self, image, conf_threshold=0.5, nms_threshold=0.4):
+        """Detect objects in image"""
+        # Preprocess
+        input_image = self.preprocess_image(image)
+        
+        # Predict
+        predictions = self.model(input_image)
+        
+        # Post-process
+        boxes, scores, classes = self.postprocess_detections(
+            predictions, conf_threshold, nms_threshold)
+        
+        return boxes, scores, classes
+
+def demonstrate_yolo():
+    """Demonstrate YOLO architecture and detection"""
+    print("=== YOLO Architecture Demonstration ===")
+    
+    # Build YOLO model
+    yolo = YOLOv3Architecture(input_shape=(416, 416, 3), num_classes=80)
+    model = yolo.build_model()
+    
+    print(f"YOLO Model Summary:")
+    print(f"Input shape: {yolo.input_shape}")
+    print(f"Number of classes: {yolo.num_classes}")
+    print(f"Total parameters: {model.count_params():,}")
+    
+    # Show model architecture
+    for i, layer in enumerate(model.layers[:10]):  # First 10 layers
+        print(f"Layer {i+1}: {layer.name} -> {layer.output_shape}")
+    
+    print("\nYOLO detection pipeline ready!")
+    return yolo, model
+
+# Run demonstration
+# yolo_demo, yolo_model = demonstrate_yolo()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T13</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T13: Building Programs to Implement Prediction using Pre-trained Model</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Use pre-trained YOLO or SSD models for object detection</li>
+                        <li>Implement real-time detection on webcam/video streams</li>
+                        <li>Compare single-shot vs two-stage detection speeds</li>
+                        <li>Build detection visualization and annotation tools</li>
+                        <li>Optimize inference for different hardware platforms</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 14 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>YOLO vs SSD implementation and analysis</li>
+                        <li>R-CNN family comparison study</li>
+                        <li>Real-time detection application development</li>
+                        <li>Architecture performance benchmarking</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 15: Advanced Detection & Course Integration -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin: 0;">Week 15: Advanced Detection & Course Integration</h3>
+                    <span class="difficulty-badge difficulty-advanced">Expert</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Advanced Detection Methods</h4>
+                <div style="background: rgba(240, 147, 251, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #f093fb;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="rcnn-box">
+                    <h5 style="margin-bottom: 10px;">🏗️ Faster R-CNN: End-to-End Detection</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Region Proposal Network (RPN):</strong> Learnable region proposals</li>
+                        <li><strong>Anchor Boxes:</strong> Multiple scales and aspect ratios</li>
+                        <li><strong>RoI Pooling:</strong> Fixed-size feature extraction from variable regions</li>
+                        <li><strong>Multi-task Loss:</strong> Classification + Bounding box regression</li>
+                        <li><strong>Performance:</strong> Higher accuracy than single-shot methods</li>
+                    </ul>
+                </div>
+
+                <div class="rcnn-box" style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e;">
+                    <h5 style="margin-bottom: 10px;">🎯 Non-Maximum Suppression (NMS)</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Problem:</strong> Multiple detections per object</li>
+                        <li><strong>Solution:</strong> Suppress overlapping detections with lower confidence</li>
+                        <li><strong>Algorithm:</strong> IoU-based filtering with confidence ranking</li>
+                        <li><strong>Variants:</strong> Soft-NMS, DIoU-NMS for better performance</li>
+                        <li><strong>Implementation:</strong> Critical for production systems</li>
+                    </ul>
+                </div>
+
+                <div class="rcnn-box" style="background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7;">
+                    <h5 style="margin-bottom: 10px;">🔬 Modern Detection Advances</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Feature Pyramid Networks (FPN):</strong> Multi-scale feature fusion</li>
+                        <li><strong>Mask R-CNN:</strong> Instance segmentation extension</li>
+                        <li><strong>EfficientDet:</strong> Efficient compound scaling</li>
+                        <li><strong>Transformer-based:</strong> DETR, Detection Transformer</li>
+                        <li><strong>Real-time Optimization:</strong> TensorRT, ONNX deployment</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔄 Course Integration: From Perceptron to Detection</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Module 1:</strong> Perceptron → Neural Networks → Foundation for CNN features</li>
+                        <li><strong>Module 2:</strong> Optimization → Advanced training for complex detection models</li>
+                        <li><strong>Module 3:</strong> Image Processing → Feature extraction understanding</li>
+                        <li><strong>Module 4:</strong> CNNs → Backbone networks for detection systems</li>
+                        <li><strong>Module 5:</strong> Detection → Complete AI vision systems</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #f093fb; margin-bottom: 15px;">💻 Production-Ready Detection System</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import cv2
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.applications import ResNet50
+from tensorflow.keras import layers, models
+import time
+
+class ProductionDetectionSystem:
+    def __init__(self, model_type='faster_rcnn', config=None):
+        self.model_type = model_type
+        self.model = None
+        self.class_names = config.get('class_names', []) if config else []
+        self.input_size = config.get('input_size', (416, 416)) if config else (416, 416)
+        self.conf_threshold = config.get('conf_threshold', 0.5) if config else 0.5
+        self.nms_threshold = config.get('nms_threshold', 0.4) if config else 0.4
+        
+    def load_pretrained_model(self, model_path=None):
+        """Load optimized pre-trained detection model"""
+        if model_path:
+            # Load custom model
+            self.model = tf.keras.models.load_model(model_path)
+        else:
+            # Use TensorFlow Hub pre-trained model
+            import tensorflow_hub as hub
+            if self.model_type == 'faster_rcnn':
+                model_url = "https://tfhub.dev/tensorflow/faster_rcnn/resnet50_v1_640x640/1"
+            elif self.model_type == 'ssd':
+                model_url = "https://tfhub.dev/tensorflow/ssd_mobilenet_v2/2"
+            elif self.model_type == 'efficientdet':
+                model_url = "https://tfhub.dev/tensorflow/efficientdet/d0/1"
+            
+            self.model = hub.load(model_url)
+    
+    def preprocess_image(self, image):
+        """Optimized image preprocessing"""
+        if isinstance(image, str):
+            image = cv2.imread(image)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        original_shape = image.shape[:2]
+        
+        # Resize image
+        image_resized = cv2.resize(image, self.input_size)
+        
+        # Normalize
+        image_normalized = image_resized.astype(np.float32) / 255.0
+        
+        # Add batch dimension
+        image_batch = np.expand_dims(image_normalized, axis=0)
+        
+        return image_batch, original_shape
+    
+    def advanced_nms(self, boxes, scores, classes, iou_threshold=0.5, score_threshold=0.5):
+        """Advanced Non-Maximum Suppression with multiple improvements"""
+        # Filter by score threshold
+        valid_indices = scores >= score_threshold
+        boxes = boxes[valid_indices]
+        scores = scores[valid_indices]
+        classes = classes[valid_indices]
+        
+        if len(boxes) == 0:
+            return [], [], []
+        
+        # Sort by score
+        indices = np.argsort(scores)[::-1]
+        
+        keep = []
+        while len(indices) > 0:
+            # Pick the detection with highest score
+            current = indices[0]
+            keep.append(current)
+            
+            if len(indices) == 1:
+                break
+            
+            # Calculate IoU with remaining detections
+            current_box = boxes[current]
+            remaining_boxes = boxes[indices[1:]]
+            
+            ious = self.calculate_iou_vectorized(current_box, remaining_boxes)
+            
+            # Keep detections with IoU below threshold
+            # Also consider class-specific NMS
+            remaining_indices = []
+            for i, iou in enumerate(ious):
+                idx = indices[i + 1]
+                if iou <= iou_threshold or classes[current] != classes[idx]:
+                    remaining_indices.append(idx)
+            
+            indices = np.array(remaining_indices)
+        
+        return boxes[keep], scores[keep], classes[keep]
+    
+    def calculate_iou_vectorized(self, box1, boxes):
+        """Vectorized IoU calculation for efficiency"""
+        # box1: [x1, y1, x2, y2]
+        # boxes: [N, 4]
+        
+        # Calculate intersection
+        x1 = np.maximum(box1[0], boxes[:, 0])
+        y1 = np.maximum(box1[1], boxes[:, 1])
+        x2 = np.minimum(box1[2], boxes[:, 2])
+        y2 = np.minimum(box1[3], boxes[:, 3])
+        
+        intersection = np.maximum(0, x2 - x1) * np.maximum(0, y2 - y1)
+        
+        # Calculate areas
+        area1 = (box1[2] - box1[0]) * (box1[3] - box1[1])
+        areas = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
+        
+        # Calculate union
+        union = area1 + areas - intersection
+        
+        # Calculate IoU
+        iou = intersection / (union + 1e-6)
+        
+        return iou
+    
+    def detect_objects(self, image, return_timing=False):
+        """Detect objects with performance monitoring"""
+        start_time = time.time()
+        
+        # Preprocess
+        preprocess_start = time.time()
+        processed_image, original_shape = self.preprocess_image(image)
+        preprocess_time = time.time() - preprocess_start
+        
+        # Inference
+        inference_start = time.time()
+        if self.model_type in ['faster_rcnn', 'ssd', 'efficientdet']:
+            # TensorFlow Hub models
+            detections = self.model(processed_image)
+            boxes = detections['detection_boxes'][0].numpy()
+            scores = detections['detection_scores'][0].numpy()
+            classes = detections['detection_classes'][0].numpy().astype(int)
+        else:
+            # Custom model inference
+            predictions = self.model(processed_image)
+            boxes, scores, classes = self.parse_predictions(predictions)
+        
+        inference_time = time.time() - inference_start
+        
+        # Post-process
+        postprocess_start = time.time()
+        
+        # Convert normalized coordinates to pixel coordinates
+        if np.max(boxes) <= 1.0:  # Normalized coordinates
+            h, w = original_shape
+            boxes[:, [0, 2]] *= w
+            boxes[:, [1, 3]] *= h
+        
+        # Apply NMS
+        final_boxes, final_scores, final_classes = self.advanced_nms(
+            boxes, scores, classes, self.nms_threshold, self.conf_threshold)
+        
+        postprocess_time = time.time() - postprocess_start
+        total_time = time.time() - start_time
+        
+        results = {
+            'boxes': final_boxes,
+            'scores': final_scores,
+            'classes': final_classes,
+            'num_detections': len(final_boxes)
+        }
+        
+        if return_timing:
+            results['timing'] = {
+                'preprocess': preprocess_time,
+                'inference': inference_time,
+                'postprocess': postprocess_time,
+                'total': total_time,
+                'fps': 1.0 / total_time
+            }
+        
+        return results
+    
+    def visualize_detections(self, image, detections, save_path=None):
+        """Visualize detection results with professional styling"""
+        vis_image = image.copy()
+        
+        boxes = detections['boxes']
+        scores = detections['scores']
+        classes = detections['classes']
+        
+        # Color palette for different classes
+        colors = [
+            (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),
+            (255, 0, 255), (0, 255, 255), (128, 0, 128), (255, 165, 0)
+        ]
+        
+        for i, (box, score, class_id) in enumerate(zip(boxes, scores, classes)):
+            x1, y1, x2, y2 = box.astype(int)
+            color = colors[int(class_id) % len(colors)]
+            
+            # Draw bounding box
+            cv2.rectangle(vis_image, (x1, y1), (x2, y2), color, 2)
+            
+            # Draw label
+            label = f'{self.class_names[int(class_id)] if self.class_names else f"Class {int(class_id)}"}: {score:.2f}'
+            
+            # Calculate text size for background
+            (text_width, text_height), baseline = cv2.getTextSize(
+                label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+            
+            # Draw background rectangle for text
+            cv2.rectangle(vis_image, (x1, y1 - text_height - baseline), 
+                         (x1 + text_width, y1), color, -1)
+            
+            # Draw text
+            cv2.putText(vis_image, label, (x1, y1 - baseline), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+        
+        if save_path:
+            cv2.imwrite(save_path, cv2.cvtColor(vis_image, cv2.COLOR_RGB2BGR))
+        
+        return vis_image
+    
+    def real_time_detection(self, source=0, display=True):
+        """Real-time detection from webcam or video"""
+        cap = cv2.VideoCapture(source)
+        
+        # Performance monitoring
+        fps_counter = 0
+        fps_start_time = time.time()
+        
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            
+            # Convert BGR to RGB
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+            # Detect objects
+            detections = self.detect_objects(frame_rgb, return_timing=True)
+            
+            # Visualize
+            vis_frame = self.visualize_detections(frame_rgb, detections)
+            vis_frame_bgr = cv2.cvtColor(vis_frame, cv2.COLOR_RGB2BGR)
+            
+            # Add performance info
+            fps_counter += 1
+            if fps_counter % 30 == 0:  # Update every 30 frames
+                elapsed = time.time() - fps_start_time
+                avg_fps = fps_counter / elapsed
+                print(f"Average FPS: {avg_fps:.2f}")
+                fps_counter = 0
+                fps_start_time = time.time()
+            
+            # Display current frame info
+            timing = detections['timing']
+            info_text = f"FPS: {timing['fps']:.1f} | Objects: {detections['num_detections']}"
+            cv2.putText(vis_frame_bgr, info_text, (10, 30), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+            
+            if display:
+                cv2.imshow('Real-time Object Detection', vis_frame_bgr)
+                
+                # Break on 'q' key
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+        
+        cap.release()
+        cv2.destroyAllWindows()
+
+def demonstrate_production_system():
+    """Demonstrate complete production detection system"""
+    print("=== Production Object Detection System ===")
+    
+    # Initialize system
+    config = {
+        'class_names': ['person', 'bicycle', 'car', 'motorcycle', 'airplane'],
+        'input_size': (640, 640),
+        'conf_threshold': 0.5,
+        'nms_threshold': 0.4
+    }
+    
+    detector = ProductionDetectionSystem('faster_rcnn', config)
+    
+    print("Detection system initialized!")
+    print(f"Model type: {detector.model_type}")
+    print(f"Input size: {detector.input_size}")
+    print(f"Confidence threshold: {detector.conf_threshold}")
+    print(f"NMS threshold: {detector.nms_threshold}")
+    
+    # Load model (would normally load from file)
+    # detector.load_pretrained_model()
+    
+    print("\nSystem ready for real-time detection!")
+    return detector
+
+# Run demonstration
+# production_system = demonstrate_production_system()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Final Tutorials & Course Wrap-up</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T14: Transfer Learning with Fine Tuning</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Advanced transfer learning for detection models</li>
+                        <li>Fine-tune pre-trained detection networks</li>
+                        <li>Domain adaptation for specialized applications</li>
+                    </ul>
+                </div>
+                <div class="tutorial-item" style="margin-top: 15px;">
+                    <strong>T15: Object Detection using R-CNN</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement complete R-CNN detection pipeline</li>
+                        <li>Compare all detection architectures learned</li>
+                        <li>Build production-ready detection application</li>
+                    </ul>
+                </div>
+                <div class="tutorial-item" style="margin-top: 15px;">
+                    <strong>Course Integration & Final Project</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Comprehensive review of all 5 modules</li>
+                        <li>Integration projects demonstrating complete pipeline</li>
+                        <li>Final exam preparation and study guide</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #22c55e; margin-top: 20px;">
+                    <strong>🏆 Week 15 Final Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Complete object detection system implementation</li>
+                        <li>Course integration project (perceptron → detection)</li>
+                        <li>Final project: Real-world detection application</li>
+                        <li>Portfolio: All T1-T15 tutorials completed</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complete Course Achievement -->
+        <section class="card" style="margin-top: 40px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--secondary-gradient);">🎓</div>
+                <div>
+                    <h3 class="card-title">Complete Course Mastery Achieved</h3>
+                    <p class="card-subtitle">From perceptron to production AI systems</p>
+                </div>
+            </div>
+            
+            <div class="overview-grid" style="margin-top: 20px;">
+                <div style="background: rgba(240, 147, 251, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #f093fb;">
+                    <h4 style="color: #f093fb; margin-bottom: 10px;">✅ All Learning Outcomes</h4>
+                    <p><strong>CO-1 to CO-5:</strong> Complete mastery of deep neural networks</p>
+                    <small style="opacity: 0.8;">From basic perceptron to advanced object detection</small>
+                </div>
+                
+                <div style="background: rgba(245, 87, 108, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #f5576c;">
+                    <h4 style="color: #f5576c; margin-bottom: 10px;">🚀 Industry Readiness</h4>
+                    <p><strong>Production Skills:</strong> Real-time AI system development</p>
+                    <small style="opacity: 0.8;">Autonomous vehicles, medical imaging, surveillance</small>
+                </div>
+                
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #fbbf24;">
+                    <h4 style="color: #fbbf24; margin-bottom: 10px;">🔬 Research Foundation</h4>
+                    <p><strong>Advanced Knowledge:</strong> Ready for cutting-edge AI research</p>
+                    <small style="opacity: 0.8;">Transformer-based detection, novel architectures</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Assessment Preparation -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--warning-gradient);">📝</div>
+                <div>
+                    <h3 class="card-title">Final Examination Preparation</h3>
+                    <p class="card-subtitle">Comprehensive assessment (40% of total grade)</p>
+                </div>
+            </div>
+            
+            <div style="background: rgba(240, 147, 251, 0.05); padding: 20px; border-radius: 12px; margin-top: 20px;">
+                <h4 style="color: #f093fb; margin-bottom: 15px;">📊 Exam Coverage Distribution</h4>
+                <div class="metrics-grid">
+                    <div class="metric-card" style="background: rgba(79, 172, 254, 0.1);">
+                        <strong style="color: #4facfe;">Module 1 (20%)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Neural network fundamentals, perceptron, backpropagation</p>
+                    </div>
+                    <div class="metric-card" style="background: rgba(0, 242, 254, 0.1);">
+                        <strong style="color: #00f2fe;">Module 2 (20%)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Optimization, regularization, normalization</p>
+                    </div>
+                    <div class="metric-card" style="background: rgba(67, 233, 123, 0.1);">
+                        <strong style="color: #43e97b;">Module 3 (20%)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Image processing, feature extraction, computer vision</p>
+                    </div>
+                    <div class="metric-card" style="background: rgba(56, 249, 215, 0.1);">
+                        <strong style="color: #38f9d7;">Module 4 (25%)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">CNNs, transfer learning, pre-trained networks</p>
+                    </div>
+                    <div class="metric-card">
+                        <strong style="color: #f5576c;">Module 5 (15%)</strong>
+                        <p style="margin: 10px 0; font-size: 0.9rem;">Object detection, modern architectures</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; border-left: 4px solid #22c55e;">
+                <h4 style="color: #22c55e; margin-bottom: 15px;">🎯 Final Success Metrics</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Technical Mastery:</strong> Complete neural network and CNN implementation skills
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Practical Application:</strong> Real-world computer vision project portfolio
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Industry Readiness:</strong> Production-level AI system development capability
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Research Foundation:</strong> Advanced knowledge for AI/ML specialization
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Course Completion Message -->
+        <section style="text-align: center; margin-top: 40px;">
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c); padding: 30px; border-radius: var(--border-radius); color: white;">
+                <h2 style="margin-bottom: 20px; font-size: 2rem;">🎓 Congratulations!</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9; font-size: 1.2rem;">You have completed the comprehensive Deep Neural Network Architectures course</p>
+                <p style="margin-bottom: 30px; opacity: 0.8;">From basic perceptron to advanced object detection - you are now ready to build production AI systems</p>
+                <div style="background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3);">
+                    <strong style="font-size: 1.1rem;">Final Exam: November 24-28, 2025</strong>
+                    <br><small>40% of total grade • Comprehensive assessment • Integration emphasis</small>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../data/course-data.js"></script>
+</body>
+</html>

@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T15: End-to-End Application - Tutorial Instructions</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --t15-primary: #7c3aed;
+            --t15-secondary: #6d28d9;
+            --t15-accent: #a78bfa;
+        }
+        
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--t15-primary), var(--t15-secondary));
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        
+        .tutorial-header::before {
+            content: '🎓';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 3em;
+            opacity: 0.3;
+        }
+        
+        .navigation-breadcrumb {
+            background: rgba(124, 58, 237, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .navigation-breadcrumb a {
+            color: var(--t15-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .navigation-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .step-section {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .step-number {
+            background: var(--t15-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--t15-primary);
+            position: relative;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--t15-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--t15-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .theory-box {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .capstone-highlight {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(109, 40, 217, 0.1));
+            border: 2px solid var(--t15-primary);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .architecture-overview {
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            color: #1f2937;
+        }
+        
+        .architecture-overview h3 {
+            color: var(--t15-primary);
+            margin-bottom: 15px;
+        }
+        
+        .deployment-section {
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .deliverable {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--t15-primary), var(--t15-secondary));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--t15-primary);
+            padding: 12px 24px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(124, 58, 237, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .checkpoint {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        /* Special styling for capstone sections */
+        .capstone-section {
+            background: rgba(124, 58, 237, 0.08);
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .capstone-section h3 {
+            color: var(--t15-primary);
+            border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tutorial-header {
+                padding: 30px 15px;
+            }
+            
+            .step-section {
+                padding: 20px 15px;
+            }
+            
+            .capstone-highlight {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-header">
+        <h1>T15: End-to-End Computer Vision Application</h1>
+        <p>🚀 Advanced Level • ⏱️ 6-8 hours • 📅 Week 15 - Capstone Project</p>
+        <p style="margin: 10px 0; font-size: 1rem; opacity: 0.9;">21CSE558T • M.Tech Course • SRM University</p>
+        <p style="margin: 5px 0; font-size: 1rem;">
+            👨‍🏫 Prof. Ramesh Babu • 
+            <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline;">myPage</a>
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Full Stack</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Deployment</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Integration</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="index.html">💻 Tutorials</a> → 
+            <span>T15: End-to-End Application</span>
+        </div>
+
+        <!-- Capstone Overview -->
+        <div class="capstone-highlight">
+            <h2>🎓 Capstone Project Overview</h2>
+            <p style="font-size: 1.2em; margin: 20px 0;">
+                This is your final tutorial - a comprehensive project that integrates everything you've learned 
+                from T1-T14 into a production-ready computer vision application.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4>🧠 AI/ML Components</h4>
+                    <p>Deep learning models, preprocessing, post-processing</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4>🌐 Web Application</h4>
+                    <p>User interface, API, real-time processing</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4>☁️ Cloud Deployment</h4>
+                    <p>Scalable infrastructure, monitoring, CI/CD</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.8); padding: 15px; border-radius: 10px;">
+                    <h4>📊 Analytics</h4>
+                    <p>Performance metrics, user analytics, model monitoring</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="theory-box">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Integrate all course concepts into a single application</li>
+                <li>Build production-ready computer vision system</li>
+                <li>Implement web-based user interface with real-time processing</li>
+                <li>Deploy model to cloud infrastructure</li>
+                <li>Implement monitoring, logging, and analytics</li>
+                <li>Create comprehensive documentation and presentation</li>
+            </ul>
+        </div>
+
+        <!-- Project Options -->
+        <div class="step-section" id="step-1">
+            <div class="step-number">1</div>
+            <h2>Choose Your Application Domain</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="theory-box">
+                    <h3>🏥 Medical Image Analysis</h3>
+                    <p><strong>Complexity:</strong> High | <strong>Impact:</strong> High</p>
+                    <ul>
+                        <li>X-ray/CT scan abnormality detection</li>
+                        <li>Skin lesion classification</li>
+                        <li>Retinal disease diagnosis</li>
+                        <li>COVID-19 detection from chest images</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> Custom CNN, transfer learning, medical data handling, regulatory compliance considerations</p>
+                </div>
+
+                <div class="theory-box">
+                    <h3>🛡️ Security & Surveillance</h3>
+                    <p><strong>Complexity:</strong> High | <strong>Impact:</strong> High</p>
+                    <ul>
+                        <li>Real-time intruder detection</li>
+                        <li>Weapon/threat detection</li>
+                        <li>Crowd analysis and behavior monitoring</li>
+                        <li>License plate recognition system</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> Real-time processing, object detection, video analytics, edge deployment</p>
+                </div>
+
+                <div class="theory-box">
+                    <h3>🚗 Autonomous Systems</h3>
+                    <p><strong>Complexity:</strong> Very High | <strong>Impact:</strong> Very High</p>
+                    <ul>
+                        <li>Traffic sign recognition</li>
+                        <li>Pedestrian and vehicle detection</li>
+                        <li>Lane detection and tracking</li>
+                        <li>Driver drowsiness detection</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> Multi-modal processing, real-time constraints, safety-critical systems</p>
+                </div>
+
+                <div class="theory-box">
+                    <h3>🏭 Industrial Quality Control</h3>
+                    <p><strong>Complexity:</strong> Medium | <strong>Impact:</strong> High</p>
+                    <ul>
+                        <li>Manufacturing defect detection</li>
+                        <li>Product quality assessment</li>
+                        <li>Assembly line monitoring</li>
+                        <li>Automated sorting systems</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> High accuracy, industrial integration, real-time processing</p>
+                </div>
+
+                <div class="theory-box">
+                    <h3>🛍️ Retail & E-commerce</h3>
+                    <p><strong>Complexity:</strong> Medium | <strong>Impact:</strong> Medium</p>
+                    <ul>
+                        <li>Visual product search</li>
+                        <li>Inventory management</li>
+                        <li>Customer behavior analysis</li>
+                        <li>Fashion recommendation system</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> Large-scale deployment, user experience, recommendation algorithms</p>
+                </div>
+
+                <div class="theory-box">
+                    <h3>🌱 Environmental Monitoring</h3>
+                    <p><strong>Complexity:</strong> Medium | <strong>Impact:</strong> High</p>
+                    <ul>
+                        <li>Crop disease detection</li>
+                        <li>Wildlife monitoring</li>
+                        <li>Pollution assessment</li>
+                        <li>Deforestation tracking</li>
+                    </ul>
+                    <p><strong>Technical Requirements:</strong> Satellite/drone imagery, large-scale processing, geographic integration</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Architecture -->
+        <div class="step-section" id="step-2">
+            <div class="step-number">2</div>
+            <h2>System Architecture Design</h2>
+            
+            <div class="architecture-overview">
+                <h3>🏗️ Full-Stack Architecture</h3>
+                <div style="font-family: monospace; line-height: 2; margin: 20px 0; text-align: center;">
+                    <strong>Frontend (React/Vue.js)</strong><br>
+                    ↕ REST API / WebSocket<br>
+                    <strong>Backend (FastAPI/Flask)</strong><br>
+                    ↕ Model Inference<br>
+                    <strong>ML Pipeline (TensorFlow/PyTorch)</strong><br>
+                    ↕ Data Storage<br>
+                    <strong>Database (PostgreSQL/MongoDB)</strong><br>
+                    ↕ Cloud Services<br>
+                    <strong>Deployment (Docker/Kubernetes)</strong>
+                </div>
+            </div>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Project Structure Template
+computer_vision_app/
+├── README.md
+├── requirements.txt
+├── docker-compose.yml
+├── Dockerfile
+│
+├── frontend/                 # React/Vue.js application
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   └── utils/
+│   ├── package.json
+│   └── webpack.config.js
+│
+├── backend/                  # FastAPI/Flask backend
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   ├── api/
+│   │   │   ├── endpoints/
+│   │   │   └── dependencies.py
+│   │   ├── models/          # ML models
+│   │   ├── services/        # Business logic
+│   │   ├── utils/           # Utilities
+│   │   └── tests/
+│   └── requirements.txt
+│
+├── ml_pipeline/             # Machine learning components
+│   ├── data/
+│   │   ├── raw/
+│   │   ├── processed/
+│   │   └── datasets.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── base_model.py
+│   │   ├── cnn_model.py
+│   │   └── transfer_learning.py
+│   ├── training/
+│   │   ├── train.py
+│   │   ├── evaluate.py
+│   │   └── hyperparameter_tuning.py
+│   ├── inference/
+│   │   ├── predictor.py
+│   │   └── batch_processor.py
+│   └── utils/
+│       ├── preprocessing.py
+│       ├── postprocessing.py
+│       └── visualization.py
+│
+├── deployment/              # Deployment configurations
+│   ├── docker/
+│   ├── kubernetes/
+│   ├── terraform/
+│   └── monitoring/
+│
+├── tests/                   # Comprehensive testing
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+│
+└── docs/                    # Documentation
+    ├── api_docs/
+    ├── user_guide/
+    └── technical_specs/
+            </div>
+        </div>
+
+        <!-- Implementation Steps -->
+        <div class="step-section" id="step-3">
+            <div class="step-number">3</div>
+            <h2>ML Pipeline Implementation</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# ml_pipeline/models/base_model.py
+import tensorflow as tf
+import numpy as np
+from abc import ABC, abstractmethod
+from typing import Tuple, Dict, Any
+import logging
+import json
+from pathlib import Path
+
+class BaseModel(ABC):
+    """
+    Abstract base class for all ML models in the application
+    """
+    
+    def __init__(self, model_name: str, config: Dict[str, Any]):
+        self.model_name = model_name
+        self.config = config
+        self.model = None
+        self.is_trained = False
+        self.metrics = {}
+        self.logger = logging.getLogger(f"{__name__}.{model_name}")
+        
+    @abstractmethod
+    def build_model(self) -> tf.keras.Model:
+        """Build the model architecture"""
+        pass
+    
+    @abstractmethod
+    def preprocess(self, data: np.ndarray) -> np.ndarray:
+        """Preprocess input data"""
+        pass
+    
+    @abstractmethod
+    def postprocess(self, predictions: np.ndarray) -> Dict[str, Any]:
+        """Postprocess model predictions"""
+        pass
+    
+    def train(self, train_data: Tuple[np.ndarray, np.ndarray], 
+              val_data: Tuple[np.ndarray, np.ndarray]) -> Dict[str, Any]:
+        """Train the model"""
+        if self.model is None:
+            self.model = self.build_model()
+            
+        self.logger.info(f"Starting training for {self.model_name}")
+        
+        # Compile model
+        self.model.compile(
+            optimizer=self.config['optimizer'],
+            loss=self.config['loss'],
+            metrics=self.config['metrics']
+        )
+        
+        # Setup callbacks
+        callbacks = self._setup_callbacks()
+        
+        # Train model
+        history = self.model.fit(
+            train_data[0], train_data[1],
+            validation_data=val_data,
+            epochs=self.config['epochs'],
+            batch_size=self.config['batch_size'],
+            callbacks=callbacks,
+            verbose=1
+        )
+        
+        self.is_trained = True
+        self.metrics = history.history
+        
+        self.logger.info(f"Training completed for {self.model_name}")
+        return history.history
+    
+    def predict(self, data: np.ndarray) -> Dict[str, Any]:
+        """Make predictions"""
+        if not self.is_trained:
+            raise ValueError("Model must be trained before making predictions")
+            
+        # Preprocess data
+        processed_data = self.preprocess(data)
+        
+        # Make predictions
+        predictions = self.model.predict(processed_data)
+        
+        # Postprocess predictions
+        result = self.postprocess(predictions)
+        
+        return result
+    
+    def save_model(self, save_path: str):
+        """Save model and metadata"""
+        if self.model is None:
+            raise ValueError("No model to save")
+            
+        save_path = Path(save_path)
+        save_path.mkdir(parents=True, exist_ok=True)
+        
+        # Save model
+        model_path = save_path / f"{self.model_name}.h5"
+        self.model.save(str(model_path))
+        
+        # Save metadata
+        metadata = {
+            'model_name': self.model_name,
+            'config': self.config,
+            'is_trained': self.is_trained,
+            'metrics': self.metrics
+        }
+        
+        metadata_path = save_path / f"{self.model_name}_metadata.json"
+        with open(metadata_path, 'w') as f:
+            json.dump(metadata, f, indent=2)
+            
+        self.logger.info(f"Model saved to {save_path}")
+    
+    def load_model(self, load_path: str):
+        """Load model and metadata"""
+        load_path = Path(load_path)
+        
+        # Load model
+        model_path = load_path / f"{self.model_name}.h5"
+        self.model = tf.keras.models.load_model(str(model_path))
+        
+        # Load metadata
+        metadata_path = load_path / f"{self.model_name}_metadata.json"
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+            
+        self.config = metadata['config']
+        self.is_trained = metadata['is_trained']
+        self.metrics = metadata['metrics']
+        
+        self.logger.info(f"Model loaded from {load_path}")
+    
+    def _setup_callbacks(self) -> list:
+        """Setup training callbacks"""
+        callbacks = [
+            tf.keras.callbacks.EarlyStopping(
+                monitor='val_loss',
+                patience=self.config.get('patience', 10),
+                restore_best_weights=True
+            ),
+            tf.keras.callbacks.ReduceLROnPlateau(
+                monitor='val_loss',
+                factor=0.5,
+                patience=5,
+                min_lr=1e-7
+            ),
+            tf.keras.callbacks.ModelCheckpoint(
+                f"checkpoints/{self.model_name}_best.h5",
+                monitor='val_accuracy',
+                save_best_only=True
+            )
+        ]
+        
+        return callbacks
+
+# ml_pipeline/models/vision_classifier.py
+from .base_model import BaseModel
+import tensorflow as tf
+import numpy as np
+from typing import Dict, Any
+import cv2
+
+class VisionClassifier(BaseModel):
+    """
+    Computer vision classifier for end-to-end application
+    """
+    
+    def __init__(self, config: Dict[str, Any]):
+        super().__init__("vision_classifier", config)
+        self.input_shape = config['input_shape']
+        self.num_classes = config['num_classes']
+        self.class_names = config['class_names']
+        
+    def build_model(self) -> tf.keras.Model:
+        """Build CNN architecture"""
+        
+        # Choose architecture based on config
+        if self.config['architecture'] == 'custom_cnn':
+            return self._build_custom_cnn()
+        elif self.config['architecture'] == 'transfer_learning':
+            return self._build_transfer_learning_model()
+        else:
+            raise ValueError(f"Unknown architecture: {self.config['architecture']}")
+    
+    def _build_custom_cnn(self) -> tf.keras.Model:
+        """Build custom CNN architecture"""
+        model = tf.keras.Sequential([
+            # First block
+            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', 
+                                 input_shape=self.input_shape, padding='same'),
+            tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
+            tf.keras.layers.MaxPooling2D((2, 2)),
+            tf.keras.layers.Dropout(0.25),
+            
+            # Second block
+            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+            tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+            tf.keras.layers.MaxPooling2D((2, 2)),
+            tf.keras.layers.Dropout(0.25),
+            
+            # Third block
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+            tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+            tf.keras.layers.MaxPooling2D((2, 2)),
+            tf.keras.layers.Dropout(0.25),
+            
+            # Classification head
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(512, activation='relu'),
+            tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Dropout(0.5),
+            tf.keras.layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        return model
+    
+    def _build_transfer_learning_model(self) -> tf.keras.Model:
+        """Build transfer learning model"""
+        # Load pre-trained base model
+        base_model = tf.keras.applications.EfficientNetB0(
+            weights='imagenet',
+            include_top=False,
+            input_shape=self.input_shape
+        )
+        
+        # Freeze base model initially
+        base_model.trainable = False
+        
+        # Add classification head
+        model = tf.keras.Sequential([
+            base_model,
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(128, activation='relu'),
+            tf.keras.layers.Dropout(0.2),
+            tf.keras.layers.Dense(self.num_classes, activation='softmax')
+        ])
+        
+        return model
+    
+    def preprocess(self, data: np.ndarray) -> np.ndarray:
+        """Preprocess input images"""
+        # Handle single image or batch
+        if len(data.shape) == 3:
+            data = np.expand_dims(data, axis=0)
+        
+        # Resize images if needed
+        if data.shape[1:3] != self.input_shape[:2]:
+            resized_data = []
+            for img in data:
+                resized_img = cv2.resize(img, self.input_shape[:2])
+                resized_data.append(resized_img)
+            data = np.array(resized_data)
+        
+        # Normalize to [0, 1]
+        data = data.astype(np.float32) / 255.0
+        
+        return data
+    
+    def postprocess(self, predictions: np.ndarray) -> Dict[str, Any]:
+        """Postprocess model predictions"""
+        results = []
+        
+        for pred in predictions:
+            # Get top predictions
+            top_indices = np.argsort(pred)[::-1][:3]
+            
+            result = {
+                'predictions': [
+                    {
+                        'class': self.class_names[idx],
+                        'confidence': float(pred[idx]),
+                        'class_id': int(idx)
+                    }
+                    for idx in top_indices
+                ],
+                'top_prediction': {
+                    'class': self.class_names[top_indices[0]],
+                    'confidence': float(pred[top_indices[0]]),
+                    'class_id': int(top_indices[0])
+                }
+            }
+            
+            results.append(result)
+        
+        return {'results': results} if len(results) > 1 else results[0]
+            </div>
+        </div>
+
+        <!-- Backend API Implementation -->
+        <div class="step-section" id="step-4">
+            <div class="step-number">4</div>
+            <h2>Backend API Development</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# backend/app/main.py
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+import uvicorn
+import numpy as np
+import cv2
+from PIL import Image
+import io
+import logging
+from typing import List, Dict, Any
+import asyncio
+from datetime import datetime
+
+from .services.ml_service import MLService
+from .services.database_service import DatabaseService
+from .models.schemas import PredictionResponse, AnalyticsData
+from .utils.image_utils import ImageProcessor
+from .utils.logging_config import setup_logging
+
+# Setup logging
+setup_logging()
+logger = logging.getLogger(__name__)
+
+# Initialize FastAPI app
+app = FastAPI(
+    title="Computer Vision API",
+    description="End-to-end computer vision application API",
+    version="1.0.0"
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Configure appropriately for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize services
+ml_service = MLService()
+db_service = DatabaseService()
+image_processor = ImageProcessor()
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize services on startup"""
+    logger.info("Starting up application...")
+    await ml_service.initialize()
+    await db_service.initialize()
+    logger.info("Application started successfully")
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Cleanup on shutdown"""
+    logger.info("Shutting down application...")
+    await ml_service.cleanup()
+    await db_service.cleanup()
+    logger.info("Application shut down successfully")
+
+@app.get("/")
+async def root():
+    """Health check endpoint"""
+    return {"message": "Computer Vision API is running", "timestamp": datetime.now()}
+
+@app.get("/health")
+async def health_check():
+    """Detailed health check"""
+    health_status = {
+        "api": "healthy",
+        "ml_service": await ml_service.health_check(),
+        "database": await db_service.health_check(),
+        "timestamp": datetime.now()
+    }
+    return health_status
+
+@app.post("/predict", response_model=PredictionResponse)
+async def predict_image(
+    background_tasks: BackgroundTasks,
+    file: UploadFile = File(...),
+    model_name: str = "default"
+):
+    """
+    Make prediction on uploaded image
+    """
+    try:
+        # Validate file
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Read and process image
+        contents = await file.read()
+        image = Image.open(io.BytesIO(contents))
+        image_array = np.array(image)
+        
+        # Validate image
+        if len(image_array.shape) != 3 or image_array.shape[2] != 3:
+            # Convert to RGB if needed
+            if len(image_array.shape) == 2:
+                image_array = cv2.cvtColor(image_array, cv2.COLOR_GRAY2RGB)
+            elif image_array.shape[2] == 4:
+                image_array = cv2.cvtColor(image_array, cv2.COLOR_RGBA2RGB)
+        
+        # Make prediction
+        prediction_result = await ml_service.predict(image_array, model_name)
+        
+        # Store analytics data in background
+        analytics_data = AnalyticsData(
+            image_name=file.filename,
+            prediction=prediction_result,
+            model_name=model_name,
+            timestamp=datetime.now()
+        )
+        background_tasks.add_task(db_service.store_analytics, analytics_data)
+        
+        return PredictionResponse(
+            success=True,
+            prediction=prediction_result,
+            processing_time=prediction_result.get('processing_time', 0),
+            model_used=model_name
+        )
+        
+    except Exception as e:
+        logger.error(f"Prediction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+
+@app.post("/predict/batch")
+async def predict_batch(
+    background_tasks: BackgroundTasks,
+    files: List[UploadFile] = File(...),
+    model_name: str = "default"
+):
+    """
+    Make predictions on multiple images
+    """
+    try:
+        if len(files) > 10:  # Limit batch size
+            raise HTTPException(status_code=400, detail="Batch size limited to 10 images")
+        
+        results = []
+        
+        for file in files:
+            # Process each image
+            contents = await file.read()
+            image = Image.open(io.BytesIO(contents))
+            image_array = np.array(image)
+            
+            # Make prediction
+            prediction_result = await ml_service.predict(image_array, model_name)
+            
+            results.append({
+                "filename": file.filename,
+                "prediction": prediction_result
+            })
+            
+            # Store analytics
+            analytics_data = AnalyticsData(
+                image_name=file.filename,
+                prediction=prediction_result,
+                model_name=model_name,
+                timestamp=datetime.now()
+            )
+            background_tasks.add_task(db_service.store_analytics, analytics_data)
+        
+        return {
+            "success": True,
+            "results": results,
+            "total_processed": len(results)
+        }
+        
+    except Exception as e:
+        logger.error(f"Batch prediction error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Batch prediction failed: {str(e)}")
+
+@app.get("/models")
+async def get_available_models():
+    """Get list of available models"""
+    models = await ml_service.get_available_models()
+    return {"models": models}
+
+@app.get("/analytics")
+async def get_analytics(limit: int = 100):
+    """Get analytics data"""
+    try:
+        analytics = await db_service.get_analytics(limit)
+        return {"analytics": analytics}
+    except Exception as e:
+        logger.error(f"Analytics retrieval error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to retrieve analytics")
+
+@app.websocket("/ws/realtime")
+async def websocket_endpoint(websocket: WebSocket):
+    """WebSocket endpoint for real-time predictions"""
+    await websocket.accept()
+    
+    try:
+        while True:
+            # Receive image data
+            data = await websocket.receive_bytes()
+            
+            # Process image
+            image = Image.open(io.BytesIO(data))
+            image_array = np.array(image)
+            
+            # Make prediction
+            result = await ml_service.predict(image_array, "default")
+            
+            # Send result
+            await websocket.send_json(result)
+            
+    except WebSocketDisconnect:
+        logger.info("WebSocket client disconnected")
+    except Exception as e:
+        logger.error(f"WebSocket error: {str(e)}")
+        await websocket.close(code=1000)
+
+# Additional endpoints for model management
+@app.post("/models/{model_name}/retrain")
+async def retrain_model(model_name: str, background_tasks: BackgroundTasks):
+    """Trigger model retraining"""
+    background_tasks.add_task(ml_service.retrain_model, model_name)
+    return {"message": f"Retraining started for model: {model_name}"}
+
+@app.get("/models/{model_name}/metrics")
+async def get_model_metrics(model_name: str):
+    """Get model performance metrics"""
+    metrics = await ml_service.get_model_metrics(model_name)
+    return {"model": model_name, "metrics": metrics}
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )
+            </div>
+        </div>
+
+        <!-- Frontend Implementation -->
+        <div class="step-section" id="step-5">
+            <div class="step-number">5</div>
+            <h2>Frontend Development</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+// frontend/src/components/ImageClassifier.jsx
+import React, { useState, useRef, useCallback } from 'react';
+import { Upload, Camera, Loader, AlertCircle, CheckCircle } from 'lucide-react';
+import { useDropzone } from 'react-dropzone';
+import axios from 'axios';
+
+const ImageClassifier = () => {
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [prediction, setPrediction] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [dragActive, setDragActive] = useState(false);
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
+    const [cameraActive, setCameraActive] = useState(false);
+
+    const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
+    // Handle file drop
+    const onDrop = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        if (file) {
+            handleImageSelect(file);
+        }
+    }, []);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png', '.bmp', '.gif']
+        },
+        multiple: false
+    });
+
+    const handleImageSelect = (file) => {
+        setSelectedImage({
+            file,
+            preview: URL.createObjectURL(file)
+        });
+        setError(null);
+        setPrediction(null);
+    };
+
+    const startCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { width: 640, height: 480 } 
+            });
+            videoRef.current.srcObject = stream;
+            setCameraActive(true);
+        } catch (err) {
+            setError('Camera access denied or not available');
+        }
+    };
+
+    const stopCamera = () => {
+        if (videoRef.current?.srcObject) {
+            const tracks = videoRef.current.srcObject.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+        setCameraActive(false);
+    };
+
+    const captureImage = () => {
+        const canvas = canvasRef.current;
+        const video = videoRef.current;
+        const context = canvas.getContext('2d');
+        
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0);
+        
+        canvas.toBlob((blob) => {
+            const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
+            handleImageSelect(file);
+            stopCamera();
+        });
+    };
+
+    const makePrediction = async () => {
+        if (!selectedImage) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const formData = new FormData();
+            formData.append('file', selectedImage.file);
+
+            const response = await axios.post(`${API_BASE_URL}/predict`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                timeout: 30000, // 30 second timeout
+            });
+
+            setPrediction(response.data);
+        } catch (err) {
+            console.error('Prediction error:', err);
+            setError(
+                err.response?.data?.detail || 
+                'Failed to get prediction. Please try again.'
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const reset = () => {
+        setSelectedImage(null);
+        setPrediction(null);
+        setError(null);
+        stopCamera();
+    };
+
+    return (
+        <div className="max-w-4xl mx-auto p-6">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                {/* Header */}
+                <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6">
+                    <h1 className="text-3xl font-bold mb-2">AI Image Classifier</h1>
+                    <p className="text-purple-100">
+                        Upload an image or use your camera to get AI-powered predictions
+                    </p>
+                </div>
+
+                <div className="p-6">
+                    {/* Image Upload/Camera Section */}
+                    {!selectedImage && (
+                        <div className="space-y-6">
+                            {/* File Upload */}
+                            <div
+                                {...getRootProps()}
+                                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                                    isDragActive
+                                        ? 'border-purple-500 bg-purple-50'
+                                        : 'border-gray-300 hover:border-purple-400'
+                                }`}
+                            >
+                                <input {...getInputProps()} />
+                                <Upload className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+                                <p className="text-lg text-gray-600 mb-2">
+                                    Drag & drop an image here, or click to select
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    Supports: JPG, PNG, GIF, BMP (max 10MB)
+                                </p>
+                            </div>
+
+                            {/* Camera Option */}
+                            <div className="text-center">
+                                <p className="text-gray-600 mb-4">Or use your camera:</p>
+                                {!cameraActive ? (
+                                    <button
+                                        onClick={startCamera}
+                                        className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                    >
+                                        <Camera className="mr-2 h-5 w-5" />
+                                        Start Camera
+                                    </button>
+                                ) : (
+                                    <div className="space-y-4">
+                                        <video
+                                            ref={videoRef}
+                                            autoPlay
+                                            className="mx-auto rounded-lg shadow-lg"
+                                            style={{ maxWidth: '100%', maxHeight: '400px' }}
+                                        />
+                                        <div className="space-x-4">
+                                            <button
+                                                onClick={captureImage}
+                                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                            >
+                                                Capture Photo
+                                            </button>
+                                            <button
+                                                onClick={stopCamera}
+                                                className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                                <canvas ref={canvasRef} style={{ display: 'none' }} />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Selected Image Display */}
+                    {selectedImage && (
+                        <div className="space-y-6">
+                            <div className="text-center">
+                                <img
+                                    src={selectedImage.preview}
+                                    alt="Selected"
+                                    className="mx-auto max-w-full max-h-96 rounded-lg shadow-lg"
+                                />
+                                <div className="mt-4 space-x-4">
+                                    <button
+                                        onClick={makePrediction}
+                                        disabled={loading}
+                                        className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <Loader className="animate-spin mr-2 h-5 w-5" />
+                                                Analyzing...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <CheckCircle className="mr-2 h-5 w-5" />
+                                                Classify Image
+                                            </>
+                                        )}
+                                    </button>
+                                    <button
+                                        onClick={reset}
+                                        className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                                    >
+                                        Choose Different Image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Error Display */}
+                    {error && (
+                        <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <div className="flex items-center">
+                                <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
+                                <p className="text-red-700">{error}</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Prediction Results */}
+                    {prediction && (
+                        <div className="mt-6 p-6 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg">
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                                Prediction Results
+                            </h3>
+                            
+                            {/* Top Prediction */}
+                            <div className="mb-4 p-4 bg-white rounded-lg shadow">
+                                <h4 className="font-semibold text-lg text-green-700">
+                                    🎯 Top Prediction
+                                </h4>
+                                <p className="text-2xl font-bold text-gray-800">
+                                    {prediction.prediction.top_prediction.class}
+                                </p>
+                                <p className="text-lg text-gray-600">
+                                    Confidence: {(prediction.prediction.top_prediction.confidence * 100).toFixed(2)}%
+                                </p>
+                            </div>
+
+                            {/* All Predictions */}
+                            <div className="space-y-2">
+                                <h4 className="font-semibold text-gray-700">All Predictions:</h4>
+                                {prediction.prediction.predictions.map((pred, index) => (
+                                    <div key={index} className="flex justify-between items-center py-2 px-4 bg-white rounded">
+                                        <span className="font-medium">{pred.class}</span>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                <div
+                                                    className="bg-purple-600 h-2 rounded-full"
+                                                    style={{ width: `${pred.confidence * 100}%` }}
+                                                />
+                                            </div>
+                                            <span className="text-sm text-gray-600">
+                                                {(pred.confidence * 100).toFixed(1)}%
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Metadata */}
+                            <div className="mt-4 pt-4 border-t border-gray-200">
+                                <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                                    <div>
+                                        <span className="font-medium">Processing Time:</span> {prediction.processing_time?.toFixed(3)}s
+                                    </div>
+                                    <div>
+                                        <span className="font-medium">Model Used:</span> {prediction.model_used}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ImageClassifier;
+            </div>
+        </div>
+
+        <!-- Deployment Configuration -->
+        <div class="step-section" id="step-6">
+            <div class="step-number">6</div>
+            <h2>Deployment & DevOps</h2>
+            
+            <div class="deployment-section">
+                <h3>🐳 Docker Configuration</h3>
+                <div class="code-block">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Dockerfile
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libgthread-2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Start application
+CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+                </div>
+            </div>
+
+            <div class="deployment-section">
+                <h3>🚀 Docker Compose</h3>
+                <div class="code-block">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/cv_app
+      - REDIS_URL=redis://redis:6379
+      - MODEL_PATH=/app/models
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+
+  # Database
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=cv_app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Deliverables -->
+        <div class="deliverable">
+            <h2>📤 Capstone Project Deliverables</h2>
+            <h3>🎯 Core Requirements (Must Complete):</h3>
+            <ol>
+                <li><strong>Complete Application Stack</strong>:
+                    <ul>
+                        <li>Production-ready ML model with >85% accuracy</li>
+                        <li>RESTful API with comprehensive endpoints</li>
+                        <li>Interactive web frontend with responsive design</li>
+                        <li>Database integration for analytics and logging</li>
+                    </ul>
+                </li>
+                <li><strong>Deployment Package</strong>:
+                    <ul>
+                        <li>Docker containers for all services</li>
+                        <li>Docker Compose for local development</li>
+                        <li>Cloud deployment configuration (AWS/GCP/Azure)</li>
+                        <li>CI/CD pipeline setup</li>
+                    </ul>
+                </li>
+                <li><strong>Documentation Suite</strong>:
+                    <ul>
+                        <li>API documentation (OpenAPI/Swagger)</li>
+                        <li>User guide with screenshots</li>
+                        <li>Technical architecture document</li>
+                        <li>Deployment and maintenance guide</li>
+                    </ul>
+                </li>
+                <li><strong>Testing & Quality Assurance</strong>:
+                    <ul>
+                        <li>Unit tests for all components (>80% coverage)</li>
+                        <li>Integration tests for API endpoints</li>
+                        <li>End-to-end tests for user workflows</li>
+                        <li>Performance benchmarks and optimization report</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>🌟 Advanced Features (Choose 2-3):</h3>
+            <ul>
+                <li><strong>Real-time Processing:</strong> WebSocket integration for live predictions</li>
+                <li><strong>Batch Processing:</strong> Queue-based system for handling multiple images</li>
+                <li><strong>Model Versioning:</strong> A/B testing framework for model comparison</li>
+                <li><strong>Advanced Analytics:</strong> Performance monitoring and user behavior tracking</li>
+                <li><strong>Security Features:</strong> Authentication, rate limiting, input validation</li>
+                <li><strong>Mobile Support:</strong> Progressive Web App (PWA) or React Native companion</li>
+                <li><strong>Multi-modal Support:</strong> Video processing or multiple AI models</li>
+            </ul>
+
+            <h3>📊 Final Presentation (15 minutes):</h3>
+            <ol>
+                <li><strong>Problem Statement & Solution (3 min):</strong> Real-world application and impact</li>
+                <li><strong>Technical Implementation (5 min):</strong> Architecture, ML pipeline, key features</li>
+                <li><strong>Live Demonstration (4 min):</strong> End-to-end workflow showcase</li>
+                <li><strong>Results & Learnings (3 min):</strong> Performance metrics, challenges, future work</li>
+            </ol>
+        </div>
+
+        <div class="capstone-highlight">
+            <h2>🎓 Congratulations on Completing the Course!</h2>
+            <p style="font-size: 1.1em; margin: 20px 0;">
+                This capstone project represents the culmination of your deep learning journey. 
+                You've built a production-ready application that integrates all the concepts 
+                from basic perceptrons to advanced computer vision systems.
+            </p>
+            <div style="margin: 30px 0;">
+                <strong>🏆 Skills Mastered:</strong>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 15px 0;">
+                    <div>✅ Neural Network Fundamentals</div>
+                    <div>✅ Deep Learning Architectures</div>
+                    <div>✅ Computer Vision Techniques</div>
+                    <div>✅ Transfer Learning</div>
+                    <div>✅ Object Detection</div>
+                    <div>✅ Production Deployment</div>
+                    <div>✅ Full-Stack Development</div>
+                    <div>✅ MLOps Best Practices</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button onclick="markAsCompleted()" class="btn-primary" style="margin: 0 10px; font-size: 1.2em; padding: 15px 30px;">🎉 Complete Capstone Project</button>
+            <a href="tutorial-T14.html" class="btn-secondary">⬅️ Previous Tutorial (T14)</a>
+            <a href="index.html" class="btn-secondary">🏠 Back to Tutorials</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre') || button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        function markAsCompleted() {
+            localStorage.setItem('tutorial-T15-status', 'completed');
+            localStorage.setItem('tutorial-T15-completed-date', new Date().toISOString());
+            
+            // Special celebration for capstone completion
+            const celebration = document.createElement('div');
+            celebration.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                           background: rgba(124, 58, 237, 0.9); z-index: 10000; 
+                           display: flex; align-items: center; justify-content: center;
+                           font-size: 2em; color: white; text-align: center;">
+                    <div>
+                        <div style="font-size: 4em; margin-bottom: 20px;">🎓🎉</div>
+                        <div>Congratulations!</div>
+                        <div style="font-size: 0.7em; margin-top: 10px;">
+                            You've completed the Deep Neural Network Architectures course!
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                               style="margin-top: 30px; padding: 15px 30px; font-size: 0.5em; 
+                                      background: white; color: var(--t15-primary); border: none; 
+                                      border-radius: 10px; cursor: pointer;">
+                            Continue to Celebration 🎊
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                alert('🎓 CAPSTONE COMPLETED! 🎉\n\nYou have successfully finished the Deep Neural Network Architectures course. Your journey from basic perceptrons to production-ready AI applications is complete!');
+            }, 3000);
+        }
+        
+        // Load tutorial status
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = localStorage.getItem('tutorial-T15-status');
+            if (status === 'completed') {
+                document.querySelector('.btn-primary').innerHTML = '🎓 Capstone Completed';
+                document.querySelector('.btn-primary').style.background = 'var(--t15-primary)';
+            }
+        });
+        
+        function openMyPage() {
+            const username = 'rbabu';
+            const pin = '2228';
+            
+            // Simple authentication simulation
+            const enteredPin = prompt(`Welcome ${username}!\nPlease enter your PIN to access myPage:`);
+            
+            if (enteredPin === pin) {
+                alert('🎉 Access Granted!\n\nWelcome to Prof. Ramesh Babu\'s myPage\n\n📚 Course: Deep Neural Network Architectures\n🎓 Students: M.Tech Batch 2025\n📊 Progress Tracking Available\n💬 Office Hours: Mon-Fri 2-4 PM');
+            } else if (enteredPin !== null) {
+                alert('❌ Access Denied\nIncorrect PIN. Please contact Prof. Ramesh Babu for assistance.');
+            }
+        }
+    </script>
+</body>
+</html>

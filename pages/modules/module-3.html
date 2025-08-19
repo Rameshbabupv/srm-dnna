@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Image Processing & Deep Neural Networks - Course Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .lecture-card {
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.05));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(67, 233, 123, 0.2);
+            transition: var(--transition);
+        }
+        .lecture-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(67, 233, 123, 0.2);
+        }
+        .concept-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .code-snippet {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #43e97b;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .learning-path {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .prerequisite-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(67, 233, 123, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .difficulty-beginner { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .difficulty-intermediate { background: rgba(251, 191, 36, 0.2); color: #fde047; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .image-processing-demo {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .opencv-box {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .feature-extraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: rgba(56, 249, 215, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 249, 215, 0.3);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav style="margin-bottom: 30px;">
+            <a href="../../index.html" style="color: #43e97b; text-decoration: none; font-weight: 600;">← Back to Dashboard</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="../../index.html#modules" style="color: #43e97b; text-decoration: none;">Modules</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-1.html" style="color: #60a5fa; text-decoration: none;">Module 1</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-2.html" style="color: #00f2fe; text-decoration: none;">Module 2</a>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header fade-in">
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div class="module-number" style="width: 80px; height: 80px; font-size: 2rem; background: var(--success-gradient);">3</div>
+                <div>
+                    <h1 class="course-title" style="font-size: 2.5rem;">Image Processing & Deep Neural Networks</h1>
+                    <p class="course-subtitle">Computer Vision Module • Weeks 7-9 • 9 Contact Hours</p>
+                </div>
+            </div>
+            <div class="course-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">3 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Difficulty</span>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Prerequisites</span>
+                    <span class="meta-value">Modules 1-2, OpenCV</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Learning Outcome</span>
+                    <span class="meta-value">CO-3 Achievement</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Module Overview -->
+        <section class="overview-grid">
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--success-gradient);">🎯</div>
+                    <div>
+                        <h3 class="card-title">Learning Objectives</h3>
+                        <p class="card-subtitle">Computer vision fundamentals</p>
+                    </div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #43e97b;">🖼️</span>
+                        Master digital image representation and enhancement techniques
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #43e97b;">🔍</span>
+                        Apply noise removal, filtering, and edge detection algorithms
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #43e97b;">✂️</span>
+                        Implement image segmentation and morphological operations
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #43e97b;">📊</span>
+                        Extract meaningful features from images for classification
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #43e97b;">🤖</span>
+                        Build end-to-end computer vision applications with OpenCV
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--warning-gradient);">📚</div>
+                    <div>
+                        <h3 class="card-title">Prerequisites</h3>
+                        <p class="card-subtitle">Required knowledge before starting</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Modules 1-2 Mastery</strong>
+                        <small style="display: block; opacity: 0.8;">Neural networks, optimization, regularization</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Python & NumPy</strong>
+                        <small style="display: block; opacity: 0.8;">Array operations, mathematical functions</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Basic Image Concepts</strong>
+                        <small style="display: block; opacity: 0.8;">Pixels, RGB channels, image formats</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #fbbf24; font-size: 1.2rem;">⚠</span>
+                    <div>
+                        <strong>OpenCV Installation</strong>
+                        <small style="display: block; opacity: 0.8;">cv2 library setup and basic usage</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--info-gradient);">🏆</div>
+                    <div>
+                        <h3 class="card-title">Module Outcomes</h3>
+                        <p class="card-subtitle">Computer vision skills achieved</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="background: rgba(67, 233, 123, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #43e97b;">
+                        <strong>CO-3 Achievement</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Apply deep neural networks to image processing problems</p>
+                    </div>
+                </div>
+                <div>
+                    <div style="background: rgba(56, 249, 215, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #38f9d7;">
+                        <strong>Mid-term Practical</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Complete image processing pipeline demonstration</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Content Breakdown -->
+        <section>
+            <h2 style="text-align: center; margin: 40px 0 30px; font-size: 2rem; background: linear-gradient(45deg, #43e97b, #38f9d7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Detailed Content Breakdown</h2>
+            
+            <!-- Week 7: Digital Image Fundamentals -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #43e97b; margin: 0;">Week 7: Digital Image Processing Fundamentals</h3>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+                
+                <div class="learning-path">
+                    <h4 style="color: #fbbf24; margin-bottom: 15px;">📋 Learning Path</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(67, 233, 123, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #43e97b; font-weight: bold;">1</div>
+                            <small>Image Representation</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(67, 233, 123, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #43e97b; font-weight: bold;">2</div>
+                            <small>Enhancement</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(67, 233, 123, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #43e97b; font-weight: bold;">3</div>
+                            <small>Noise Removal</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(67, 233, 123, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #43e97b; font-weight: bold;">4</div>
+                            <small>Edge Detection</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Digital Image Fundamentals</h4>
+                <div style="background: rgba(67, 233, 123, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #43e97b;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">🖼️ Digital Image Representation</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Pixel Structure:</strong> I(x,y) = intensity value at position (x,y)</li>
+                        <li><strong>Color Spaces:</strong> RGB, BGR, HSV, LAB, Grayscale</li>
+                        <li><strong>Image Dimensions:</strong> Height × Width × Channels</li>
+                        <li><strong>Data Types:</strong> uint8 (0-255), float32 (0.0-1.0)</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">✨ Image Enhancement Techniques</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Histogram Equalization:</strong> Improve contrast distribution</li>
+                        <li><strong>Gamma Correction:</strong> I_out = I_in^γ for brightness control</li>
+                        <li><strong>Contrast Stretching:</strong> Linear intensity transformation</li>
+                        <li><strong>Adaptive Enhancement:</strong> Local contrast improvement</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔍 Noise Removal & Edge Detection</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Gaussian Noise:</strong> Additive white noise removal</li>
+                        <li><strong>Salt & Pepper:</strong> Median filtering for impulse noise</li>
+                        <li><strong>Sobel Operator:</strong> Gradient-based edge detection</li>
+                        <li><strong>Canny Algorithm:</strong> Multi-stage optimal edge detection</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #43e97b; margin-bottom: 15px;">💻 OpenCV Image Processing Pipeline</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import ndimage
+
+class ImageProcessor:
+    def __init__(self):
+        self.processed_images = {}
+    
+    def load_image(self, path, color_mode='BGR'):
+        """Load image with different color modes"""
+        if color_mode == 'BGR':
+            image = cv2.imread(path)
+        elif color_mode == 'RGB':
+            image = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2RGB)
+        elif color_mode == 'GRAY':
+            image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+        
+        self.original = image
+        return image
+    
+    def enhance_image(self, image, method='histogram_eq'):
+        """Various image enhancement techniques"""
+        if len(image.shape) == 3:
+            # Convert to grayscale for processing
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image.copy()
+        
+        if method == 'histogram_eq':
+            # Global histogram equalization
+            enhanced = cv2.equalizeHist(gray)
+            
+        elif method == 'adaptive_eq':
+            # Adaptive histogram equalization
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+            enhanced = clahe.apply(gray)
+            
+        elif method == 'gamma_correction':
+            # Gamma correction for brightness
+            gamma = 1.5
+            look_up_table = np.array([((i / 255.0) ** gamma) * 255 
+                                    for i in np.arange(0, 256)]).astype("uint8")
+            enhanced = cv2.LUT(gray, look_up_table)
+            
+        elif method == 'contrast_stretch':
+            # Linear contrast stretching
+            min_val, max_val = np.min(gray), np.max(gray)
+            enhanced = ((gray - min_val) / (max_val - min_val) * 255).astype(np.uint8)
+        
+        self.processed_images[f'enhanced_{method}'] = enhanced
+        return enhanced
+    
+    def remove_noise(self, image, noise_type='gaussian'):
+        """Different noise removal techniques"""
+        if noise_type == 'gaussian':
+            # Gaussian blur for Gaussian noise
+            denoised = cv2.GaussianBlur(image, (5, 5), 0)
+            
+        elif noise_type == 'salt_pepper':
+            # Median filter for salt and pepper noise
+            denoised = cv2.medianBlur(image, 5)
+            
+        elif noise_type == 'bilateral':
+            # Bilateral filter (edge-preserving)
+            denoised = cv2.bilateralFilter(image, 9, 75, 75)
+            
+        elif noise_type == 'non_local_means':
+            # Non-local means denoising
+            if len(image.shape) == 3:
+                denoised = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+            else:
+                denoised = cv2.fastNlMeansDenoising(image, None, 10, 7, 21)
+        
+        self.processed_images[f'denoised_{noise_type}'] = denoised
+        return denoised
+    
+    def detect_edges(self, image, method='canny'):
+        """Edge detection algorithms"""
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image.copy()
+        
+        if method == 'canny':
+            # Canny edge detection
+            edges = cv2.Canny(gray, 50, 150)
+            
+        elif method == 'sobel':
+            # Sobel edge detection
+            sobel_x = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+            sobel_y = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+            edges = np.sqrt(sobel_x**2 + sobel_y**2)
+            edges = np.uint8(edges / edges.max() * 255)
+            
+        elif method == 'laplacian':
+            # Laplacian edge detection
+            edges = cv2.Laplacian(gray, cv2.CV_64F)
+            edges = np.uint8(np.absolute(edges))
+            
+        elif method == 'prewitt':
+            # Prewitt operator
+            kernelx = np.array([[1,1,1],[0,0,0],[-1,-1,-1]])
+            kernely = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
+            img_prewittx = cv2.filter2D(gray, -1, kernelx)
+            img_prewitty = cv2.filter2D(gray, -1, kernely)
+            edges = img_prewittx + img_prewitty
+        
+        self.processed_images[f'edges_{method}'] = edges
+        return edges
+    
+    def apply_custom_kernel(self, image, kernel):
+        """Apply custom convolution kernel"""
+        return cv2.filter2D(image, -1, kernel)
+    
+    def visualize_processing_pipeline(self):
+        """Display all processed images in a grid"""
+        num_images = len(self.processed_images) + 1  # +1 for original
+        cols = 3
+        rows = (num_images + cols - 1) // cols
+        
+        plt.figure(figsize=(15, 5 * rows))
+        
+        # Show original image
+        plt.subplot(rows, cols, 1)
+        if len(self.original.shape) == 3:
+            plt.imshow(cv2.cvtColor(self.original, cv2.COLOR_BGR2RGB))
+        else:
+            plt.imshow(self.original, cmap='gray')
+        plt.title('Original Image')
+        plt.axis('off')
+        
+        # Show processed images
+        for i, (name, image) in enumerate(self.processed_images.items(), 2):
+            plt.subplot(rows, cols, i)
+            if len(image.shape) == 3:
+                plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+            else:
+                plt.imshow(image, cmap='gray')
+            plt.title(name.replace('_', ' ').title())
+            plt.axis('off')
+        
+        plt.tight_layout()
+        plt.show()
+
+# Example usage
+processor = ImageProcessor()
+
+# Load and process an image
+# image = processor.load_image('sample_image.jpg', 'RGB')
+
+# Create synthetic noisy image for demonstration
+height, width = 300, 300
+clean_image = np.zeros((height, width), dtype=np.uint8)
+cv2.rectangle(clean_image, (50, 50), (250, 250), 255, -1)
+cv2.circle(clean_image, (150, 150), 50, 0, -1)
+
+# Add different types of noise
+gaussian_noise = np.random.normal(0, 25, (height, width))
+noisy_image = np.clip(clean_image + gaussian_noise, 0, 255).astype(np.uint8)
+
+# Process the image
+enhanced = processor.enhance_image(noisy_image, 'adaptive_eq')
+denoised = processor.remove_noise(enhanced, 'bilateral')
+edges = processor.detect_edges(denoised, 'canny')
+
+print("Image processing pipeline completed!")
+print(f"Original shape: {noisy_image.shape}")
+print(f"Processed images: {list(processor.processed_images.keys())}")</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T7</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T7: Building Programs on Image Processing Using OpenCV</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Load, display, and save images in different formats</li>
+                        <li>Apply color space conversions and channel manipulations</li>
+                        <li>Implement image enhancement and filtering operations</li>
+                        <li>Create interactive image processing applications</li>
+                        <li>Build image comparison and analysis tools</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 7 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Image enhancement portfolio with before/after examples</li>
+                        <li>Edge detection comparison report (Sobel, Canny, Laplacian)</li>
+                        <li>OpenCV programming assignment with 10 different operations</li>
+                        <li>Noise removal effectiveness analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 8: Image Segmentation -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #43e97b; margin: 0;">Week 8: Image Segmentation & Morphological Processing</h3>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Segmentation Techniques</h4>
+                <div style="background: rgba(67, 233, 123, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #43e97b;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">✂️ Image Segmentation Fundamentals</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Thresholding:</strong> Binary, Adaptive, Otsu's method</li>
+                        <li><strong>Watershed Algorithm:</strong> Gradient-based segmentation</li>
+                        <li><strong>Region Growing:</strong> Pixel similarity-based grouping</li>
+                        <li><strong>K-means Clustering:</strong> Color/intensity-based segmentation</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🎯 ROI Segmentation & Object Extraction</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Contour Detection:</strong> Object boundary identification</li>
+                        <li><strong>Bounding Boxes:</strong> Rectangular object localization</li>
+                        <li><strong>Convex Hull:</strong> Object shape approximation</li>
+                        <li><strong>Shape Analysis:</strong> Area, perimeter, circularity metrics</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔬 Morphological Operations</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Erosion:</strong> Shrinking object boundaries</li>
+                        <li><strong>Dilation:</strong> Expanding object boundaries</li>
+                        <li><strong>Opening:</strong> Erosion followed by dilation (noise removal)</li>
+                        <li><strong>Closing:</strong> Dilation followed by erosion (hole filling)</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #43e97b; margin-bottom: 15px;">💻 Advanced Segmentation Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import cv2
+import numpy as np
+from sklearn.cluster import KMeans
+from scipy import ndimage
+import matplotlib.pyplot as plt
+
+class ImageSegmentation:
+    def __init__(self):
+        self.segmented_results = {}
+    
+    def threshold_segmentation(self, image, method='otsu'):
+        """Various thresholding techniques"""
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image.copy()
+        
+        if method == 'binary':
+            _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+        elif method == 'otsu':
+            _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        elif method == 'adaptive_mean':
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, 
+                                         cv2.THRESH_BINARY, 11, 2)
+        elif method == 'adaptive_gaussian':
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+                                         cv2.THRESH_BINARY, 11, 2)
+        
+        self.segmented_results[f'threshold_{method}'] = thresh
+        return thresh
+    
+    def kmeans_segmentation(self, image, k=3):
+        """K-means clustering for color segmentation"""
+        # Reshape image to pixel array
+        pixel_values = image.reshape((-1, 3))
+        pixel_values = np.float32(pixel_values)
+        
+        # Apply K-means
+        criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 20, 1.0)
+        _, labels, centers = cv2.kmeans(pixel_values, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+        
+        # Convert back to image
+        centers = np.uint8(centers)
+        segmented_image = centers[labels.flatten()]
+        segmented_image = segmented_image.reshape(image.shape)
+        
+        self.segmented_results[f'kmeans_k{k}'] = segmented_image
+        return segmented_image
+    
+    def watershed_segmentation(self, image):
+        """Watershed algorithm for object separation"""
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        
+        # Noise removal
+        ret, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        
+        # Noise removal
+        kernel = np.ones((3,3), np.uint8)
+        opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
+        
+        # Sure background area
+        sure_bg = cv2.dilate(opening, kernel, iterations=3)
+        
+        # Sure foreground area
+        dist_transform = cv2.distanceTransform(opening, cv2.DIST_L2, 5)
+        _, sure_fg = cv2.threshold(dist_transform, 0.7*dist_transform.max(), 255, 0)
+        
+        # Unknown region
+        sure_fg = np.uint8(sure_fg)
+        unknown = cv2.subtract(sure_bg, sure_fg)
+        
+        # Marker labelling
+        _, markers = cv2.connectedComponents(sure_fg)
+        markers = markers + 1
+        markers[unknown == 255] = 0
+        
+        # Apply watershed
+        markers = cv2.watershed(image, markers)
+        image[markers == -1] = [255, 0, 0]
+        
+        self.segmented_results['watershed'] = image
+        return image
+    
+    def region_growing(self, image, seed_point, threshold=10):
+        """Simple region growing algorithm"""
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image.copy()
+        
+        height, width = gray.shape
+        segmented = np.zeros_like(gray)
+        visited = np.zeros_like(gray, dtype=bool)
+        
+        # Initialize with seed point
+        seed_value = gray[seed_point[1], seed_point[0]]
+        stack = [seed_point]
+        
+        while stack:
+            x, y = stack.pop()
+            
+            if visited[y, x]:
+                continue
+                
+            visited[y, x] = True
+            
+            # Check if pixel belongs to region
+            if abs(int(gray[y, x]) - int(seed_value)) < threshold:
+                segmented[y, x] = 255
+                
+                # Add neighbors to stack
+                for dx in [-1, 0, 1]:
+                    for dy in [-1, 0, 1]:
+                        nx, ny = x + dx, y + dy
+                        if (0 <= nx < width and 0 <= ny < height and 
+                            not visited[ny, nx]):
+                            stack.append((nx, ny))
+        
+        self.segmented_results['region_growing'] = segmented
+        return segmented
+    
+    def contour_analysis(self, binary_image):
+        """Analyze contours and extract object properties"""
+        contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        objects_info = []
+        result_image = cv2.cvtColor(binary_image, cv2.COLOR_GRAY2BGR)
+        
+        for i, contour in enumerate(contours):
+            # Calculate properties
+            area = cv2.contourArea(contour)
+            perimeter = cv2.arcLength(contour, True)
+            
+            if area > 100:  # Filter small objects
+                # Bounding rectangle
+                x, y, w, h = cv2.boundingRect(contour)
+                cv2.rectangle(result_image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                
+                # Convex hull
+                hull = cv2.convexHull(contour)
+                cv2.drawContours(result_image, [hull], -1, (255, 0, 0), 2)
+                
+                # Calculate shape properties
+                circularity = 4 * np.pi * area / (perimeter ** 2)
+                aspect_ratio = float(w) / h
+                extent = float(area) / (w * h)
+                
+                objects_info.append({
+                    'id': i,
+                    'area': area,
+                    'perimeter': perimeter,
+                    'circularity': circularity,
+                    'aspect_ratio': aspect_ratio,
+                    'extent': extent,
+                    'centroid': (x + w//2, y + h//2)
+                })
+                
+                # Add label
+                cv2.putText(result_image, f'Obj {i}', (x, y-10), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+        
+        self.segmented_results['contour_analysis'] = result_image
+        return result_image, objects_info
+    
+    def morphological_operations(self, binary_image, operation='opening', kernel_size=5):
+        """Apply morphological operations"""
+        kernel = np.ones((kernel_size, kernel_size), np.uint8)
+        
+        if operation == 'erosion':
+            result = cv2.erode(binary_image, kernel, iterations=1)
+        elif operation == 'dilation':
+            result = cv2.dilate(binary_image, kernel, iterations=1)
+        elif operation == 'opening':
+            result = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
+        elif operation == 'closing':
+            result = cv2.morphologyEx(binary_image, cv2.MORPH_CLOSE, kernel)
+        elif operation == 'gradient':
+            result = cv2.morphologyEx(binary_image, cv2.MORPH_GRADIENT, kernel)
+        elif operation == 'tophat':
+            result = cv2.morphologyEx(binary_image, cv2.MORPH_TOPHAT, kernel)
+        elif operation == 'blackhat':
+            result = cv2.morphologyEx(binary_image, cv2.MORPH_BLACKHAT, kernel)
+        
+        self.segmented_results[f'morph_{operation}'] = result
+        return result
+
+# Example usage and demonstration
+def segmentation_pipeline_demo():
+    # Create synthetic image with multiple objects
+    image = np.zeros((400, 400, 3), dtype=np.uint8)
+    
+    # Add some colored shapes
+    cv2.rectangle(image, (50, 50), (150, 150), (255, 0, 0), -1)  # Blue rectangle
+    cv2.circle(image, (300, 100), 50, (0, 255, 0), -1)         # Green circle
+    cv2.ellipse(image, (200, 300), (80, 40), 45, 0, 360, (0, 0, 255), -1)  # Red ellipse
+    
+    # Add some noise
+    noise = np.random.randint(0, 50, image.shape, dtype=np.uint8)
+    image = cv2.add(image, noise)
+    
+    # Initialize segmentation
+    segmenter = ImageSegmentation()
+    
+    # Apply different segmentation methods
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    
+    # Thresholding
+    binary = segmenter.threshold_segmentation(image, 'otsu')
+    
+    # K-means clustering
+    kmeans = segmenter.kmeans_segmentation(image, k=4)
+    
+    # Morphological operations
+    cleaned = segmenter.morphological_operations(binary, 'opening', 5)
+    
+    # Contour analysis
+    contour_img, objects = segmenter.contour_analysis(cleaned)
+    
+    print(f"Found {len(objects)} objects")
+    for obj in objects:
+        print(f"Object {obj['id']}: Area={obj['area']:.1f}, Circularity={obj['circularity']:.3f}")
+    
+    return segmenter
+
+# Run demonstration
+# demo = segmentation_pipeline_demo()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T8</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T8: Building Programs to Perform Image Segmentation Using OpenCV</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement multiple segmentation algorithms</li>
+                        <li>Create interactive thresholding applications</li>
+                        <li>Build contour detection and analysis tools</li>
+                        <li>Apply morphological operations for image cleaning</li>
+                        <li>Develop object counting and measurement systems</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 8 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Image segmentation project with multiple techniques</li>
+                        <li>ROI extraction and analysis report</li>
+                        <li>Morphological processing applications portfolio</li>
+                        <li>Object detection and counting system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 9: Feature Extraction & Mid-term -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #43e97b; margin: 0;">Week 9: Feature Extraction & Mid-term Assessment</h3>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Feature Extraction Techniques</h4>
+                <div style="background: rgba(67, 233, 123, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #43e97b;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="feature-extraction-grid">
+                    <div class="feature-card">
+                        <h5 style="color: #38f9d7; margin-bottom: 10px;">📐 Shape Features</h5>
+                        <ul style="text-align: left; margin: 0; padding-left: 20px; font-size: 0.9rem;">
+                            <li>Area & Perimeter</li>
+                            <li>Compactness</li>
+                            <li>Moments & Centroids</li>
+                            <li>Aspect Ratio</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5 style="color: #38f9d7; margin-bottom: 10px;">🎨 Color Features</h5>
+                        <ul style="text-align: left; margin: 0; padding-left: 20px; font-size: 0.9rem;">
+                            <li>Color Histograms</li>
+                            <li>Color Moments</li>
+                            <li>Dominant Colors</li>
+                            <li>Color Coherence</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h5 style="color: #38f9d7; margin-bottom: 10px;">🔲 Texture Features</h5>
+                        <ul style="text-align: left; margin: 0; padding-left: 20px; font-size: 0.9rem;">
+                            <li>LBP (Local Binary Patterns)</li>
+                            <li>GLCM (Gray-Level Co-occurrence)</li>
+                            <li>Gabor Filters</li>
+                            <li>Wavelet Transform</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">🤖 Image Classification from Features</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Feature Vector Construction:</strong> Combine multiple feature types</li>
+                        <li><strong>Feature Normalization:</strong> Scale features for ML algorithms</li>
+                        <li><strong>Traditional ML Classification:</strong> SVM, Random Forest, k-NN</li>
+                        <li><strong>Feature Selection:</strong> Choose most discriminative features</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #43e97b; margin-bottom: 15px;">💻 Comprehensive Feature Extraction System</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import cv2
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVM
+from sklearn.metrics import classification_report
+from skimage.feature import local_binary_pattern, graycomatrix, graycoprops
+import mahotas as mh
+
+class FeatureExtractor:
+    def __init__(self):
+        self.feature_names = []
+        self.scaler = None
+    
+    def extract_shape_features(self, binary_image):
+        """Extract geometric shape features"""
+        contours, _ = cv2.findContours(binary_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        if not contours:
+            return np.zeros(7)  # Return zeros if no contours found
+        
+        # Get largest contour (assuming main object)
+        contour = max(contours, key=cv2.contourArea)
+        
+        # Basic measurements
+        area = cv2.contourArea(contour)
+        perimeter = cv2.arcLength(contour, True)
+        
+        # Derived features
+        compactness = (perimeter ** 2) / area if area > 0 else 0
+        
+        # Bounding rectangle
+        x, y, w, h = cv2.boundingRect(contour)
+        aspect_ratio = float(w) / h
+        extent = float(area) / (w * h)
+        
+        # Convex hull
+        hull = cv2.convexHull(contour)
+        hull_area = cv2.contourArea(hull)
+        solidity = float(area) / hull_area if hull_area > 0 else 0
+        
+        # Moments
+        moments = cv2.moments(contour)
+        if moments['m00'] != 0:
+            cx = int(moments['m10'] / moments['m00'])
+            cy = int(moments['m01'] / moments['m00'])
+        else:
+            cx, cy = 0, 0
+        
+        features = [area, perimeter, compactness, aspect_ratio, extent, solidity, moments['m00']]
+        feature_names = ['area', 'perimeter', 'compactness', 'aspect_ratio', 'extent', 'solidity', 'zeroth_moment']
+        
+        return np.array(features), feature_names
+    
+    def extract_color_features(self, image):
+        """Extract color-based features"""
+        # Convert to different color spaces
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+        
+        features = []
+        feature_names = []
+        
+        # Color histograms
+        for i, channel in enumerate(['b', 'g', 'r']):
+            hist = cv2.calcHist([image], [i], None, [16], [0, 256])
+            hist = hist.flatten() / hist.sum()  # Normalize
+            features.extend(hist)
+            feature_names.extend([f'bgr_hist_{channel}_{j}' for j in range(16)])
+        
+        # Color moments for each channel
+        for i, color_space in enumerate([image, hsv, lab]):
+            for j in range(3):
+                channel = color_space[:, :, j]
+                mean = np.mean(channel)
+                std = np.std(channel)
+                skewness = np.mean(((channel - mean) / std) ** 3) if std > 0 else 0
+                features.extend([mean, std, skewness])
+                
+                color_spaces = ['bgr', 'hsv', 'lab']
+                channels = [['b', 'g', 'r'], ['h', 's', 'v'], ['l', 'a', 'b']]
+                feature_names.extend([f'{color_spaces[i]}_{channels[i][j]}_mean',
+                                    f'{color_spaces[i]}_{channels[i][j]}_std',
+                                    f'{color_spaces[i]}_{channels[i][j]}_skew'])
+        
+        # Dominant colors using K-means
+        pixels = image.reshape(-1, 3)
+        from sklearn.cluster import KMeans
+        kmeans = KMeans(n_clusters=3, random_state=42)
+        kmeans.fit(pixels)
+        dominant_colors = kmeans.cluster_centers_
+        features.extend(dominant_colors.flatten())
+        feature_names.extend([f'dominant_color_{i//3}_{["b","g","r"][i%3]}' for i in range(9)])
+        
+        return np.array(features), feature_names
+    
+    def extract_texture_features(self, image):
+        """Extract texture features using various methods"""
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) if len(image.shape) == 3 else image
+        
+        features = []
+        feature_names = []
+        
+        # Local Binary Pattern (LBP)
+        radius = 3
+        n_points = 8 * radius
+        lbp = local_binary_pattern(gray, n_points, radius, method='uniform')
+        lbp_hist, _ = np.histogram(lbp.ravel(), bins=n_points + 2, range=(0, n_points + 2))
+        lbp_hist = lbp_hist.astype(float)
+        lbp_hist /= (lbp_hist.sum() + 1e-7)  # Normalize
+        features.extend(lbp_hist)
+        feature_names.extend([f'lbp_bin_{i}' for i in range(len(lbp_hist))])
+        
+        # Gray-Level Co-occurrence Matrix (GLCM)
+        distances = [1, 2, 3]
+        angles = [0, 45, 90, 135]
+        
+        # Reduce gray levels for GLCM computation
+        gray_reduced = (gray // 32).astype(np.uint8)  # Reduce to 8 levels
+        
+        glcm_features = []
+        for distance in distances:
+            for angle in angles:
+                angle_rad = np.radians(angle)
+                glcm = graycomatrix(gray_reduced, [distance], [angle_rad], 
+                                  levels=8, symmetric=True, normed=True)
+                
+                # Calculate texture properties
+                contrast = graycoprops(glcm, 'contrast')[0, 0]
+                dissimilarity = graycoprops(glcm, 'dissimilarity')[0, 0]
+                homogeneity = graycoprops(glcm, 'homogeneity')[0, 0]
+                energy = graycoprops(glcm, 'energy')[0, 0]
+                correlation = graycoprops(glcm, 'correlation')[0, 0]
+                
+                glcm_features.extend([contrast, dissimilarity, homogeneity, energy, correlation])
+                
+                prop_names = ['contrast', 'dissimilarity', 'homogeneity', 'energy', 'correlation']
+                feature_names.extend([f'glcm_{prop}_{distance}_{angle}' for prop in prop_names])
+        
+        features.extend(glcm_features)
+        
+        # Gabor filter responses
+        gabor_features = []
+        for theta in range(0, 180, 30):  # 6 orientations
+            for frequency in [0.1, 0.3, 0.5]:  # 3 frequencies
+                real, _ = cv2.getGaborKernel((21, 21), 5, np.radians(theta), 
+                                          2*np.pi*frequency, 0.5, 0, ktype=cv2.CV_32F)
+                filtered = cv2.filter2D(gray, cv2.CV_8UC3, real)
+                gabor_features.append(np.mean(filtered))
+                gabor_features.append(np.std(filtered))
+                feature_names.extend([f'gabor_mean_{theta}_{frequency}', f'gabor_std_{theta}_{frequency}'])
+        
+        features.extend(gabor_features)
+        
+        return np.array(features), feature_names
+    
+    def extract_all_features(self, image, binary_mask=None):
+        """Extract comprehensive feature vector"""
+        all_features = []
+        all_feature_names = []
+        
+        # Shape features (requires binary mask)
+        if binary_mask is not None:
+            shape_feat, shape_names = self.extract_shape_features(binary_mask)
+            all_features.extend(shape_feat)
+            all_feature_names.extend(shape_names)
+        
+        # Color features
+        color_feat, color_names = self.extract_color_features(image)
+        all_features.extend(color_feat)
+        all_feature_names.extend(color_names)
+        
+        # Texture features
+        texture_feat, texture_names = self.extract_texture_features(image)
+        all_features.extend(texture_feat)
+        all_feature_names.extend(texture_names)
+        
+        self.feature_names = all_feature_names
+        return np.array(all_features)
+    
+    def build_classifier(self, features, labels, classifier_type='random_forest'):
+        """Build and train classifier"""
+        from sklearn.model_selection import train_test_split
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.metrics import accuracy_score, classification_report
+        
+        # Split data
+        X_train, X_test, y_train, y_test = train_test_split(
+            features, labels, test_size=0.3, random_state=42
+        )
+        
+        # Scale features
+        self.scaler = StandardScaler()
+        X_train_scaled = self.scaler.fit_transform(X_train)
+        X_test_scaled = self.scaler.transform(X_test)
+        
+        # Train classifier
+        if classifier_type == 'random_forest':
+            classifier = RandomForestClassifier(n_estimators=100, random_state=42)
+        elif classifier_type == 'svm':
+            from sklearn.svm import SVC
+            classifier = SVC(kernel='rbf', random_state=42)
+        
+        classifier.fit(X_train_scaled, y_train)
+        
+        # Evaluate
+        y_pred = classifier.predict(X_test_scaled)
+        accuracy = accuracy_score(y_test, y_pred)
+        report = classification_report(y_test, y_pred)
+        
+        print(f"Accuracy: {accuracy:.3f}")
+        print("\nClassification Report:")
+        print(report)
+        
+        return classifier, accuracy
+
+# Complete image classification pipeline
+def image_classification_pipeline():
+    """Demonstrate complete feature-based image classification"""
+    
+    # Initialize feature extractor
+    extractor = FeatureExtractor()
+    
+    # For demonstration, create synthetic dataset
+    # In practice, you would load real images with labels
+    
+    print("Feature-based image classification pipeline ready!")
+    print(f"Available feature types: Shape, Color, Texture")
+    print(f"Supported classifiers: Random Forest, SVM")
+    
+    return extractor
+
+# Initialize the system
+# classifier_system = image_classification_pipeline()</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T9 & Mid-term Practical</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T9: Feature Extraction & Mid-term Practical Assessment</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Build complete feature extraction system</li>
+                        <li>Implement shape, color, and texture feature extraction</li>
+                        <li>Create image classification pipeline using traditional ML</li>
+                        <li><strong>📝 Mid-term Practical:</strong> Image processing pipeline (25% of CLA-2)</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #ef4444; margin-top: 20px;">
+                    <strong>📝 Week 9 Assessment:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Mid-term Practical:</strong> 25% of CLA-2 (Image processing pipeline)</li>
+                        <li>Complete feature extraction system implementation</li>
+                        <li>Image classification project using traditional features</li>
+                        <li>Module 3 comprehensive project portfolio</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Achievement Summary -->
+        <section class="card" style="margin-top: 40px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--success-gradient);">🏆</div>
+                <div>
+                    <h3 class="card-title">Module 3 Achievement Summary</h3>
+                    <p class="card-subtitle">Computer vision mastery accomplished</p>
+                </div>
+            </div>
+            
+            <div class="overview-grid" style="margin-top: 20px;">
+                <div style="background: rgba(67, 233, 123, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #43e97b;">
+                    <h4 style="color: #43e97b; margin-bottom: 10px;">✅ CO-3 Achieved</h4>
+                    <p>Apply deep neural networks to image processing problems</p>
+                    <small style="opacity: 0.8;">Target: Week 12 | Status: On Track for CNNs</small>
+                </div>
+                
+                <div style="background: rgba(56, 249, 215, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #38f9d7;">
+                    <h4 style="color: #38f9d7; margin-bottom: 10px;">✅ Technical Skills</h4>
+                    <p>Master OpenCV and traditional computer vision</p>
+                    <small style="opacity: 0.8;">Foundation for modern CNN applications</small>
+                </div>
+                
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #3b82f6;">
+                    <h4 style="color: #3b82f6; margin-bottom: 10px;">🔄 CNN Preparation</h4>
+                    <p>Ready for convolutional neural networks</p>
+                    <small style="opacity: 0.8;">Understanding of image features → CNN feature maps</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preparation for Module 4 -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--info-gradient);">🚀</div>
+                <div>
+                    <h3 class="card-title">Preparation for Module 4</h3>
+                    <p class="card-subtitle">Transition to Convolutional Neural Networks</p>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h4>📋 Bridge to CNNs</h4>
+                <ul class="milestone-list">
+                    <li>Traditional feature extraction → Automatic feature learning</li>
+                    <li>Manual filter design → Learnable convolution kernels</li>
+                    <li>Hand-crafted pipelines → End-to-end deep learning</li>
+                    <li>Limited scalability → Deep hierarchical features</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: rgba(251, 191, 36, 0.1); border-radius: 8px; border-left: 3px solid #fbbf24;">
+                <strong>💡 Key Insight:</strong> The manual feature extraction you've mastered shows exactly why CNNs are revolutionary - they automatically learn the optimal features for each task, eliminating the need for hand-crafted feature engineering!
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--warning-gradient);">📖</div>
+                <div>
+                    <h3 class="card-title">Additional Resources</h3>
+                    <p class="card-subtitle">Computer vision learning materials</p>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h4>📚 Required Reading</h4>
+                <ul class="milestone-list">
+                    <li>Szeliski "Computer Vision: Algorithms and Applications" - Chapters 3-5</li>
+                    <li>OpenCV-Python Tutorials - Image Processing section</li>
+                    <li>Gonzalez & Woods "Digital Image Processing" - Chapters 2-4</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>🎥 Video Resources</h4>
+                <ul class="milestone-list">
+                    <li>OpenCV Python Tutorials by sentdex</li>
+                    <li>Computer Vision course by University of Michigan (Coursera)</li>
+                    <li>Image processing fundamentals by MathWorks</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>💻 Practice Datasets</h4>
+                <ul class="milestone-list">
+                    <li>CIFAR-10: Simple object classification</li>
+                    <li>Flowers dataset: Color and texture features</li>
+                    <li>Coins dataset: Shape analysis and counting</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Navigation to Next Module -->
+        <section style="text-align: center; margin-top: 40px;">
+            <div style="background: linear-gradient(135deg, #38f9d7, #4facfe); padding: 20px; border-radius: var(--border-radius); color: white;">
+                <h3 style="margin-bottom: 15px;">Ready for Module 4?</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Enter the world of Convolutional Neural Networks and Transfer Learning</p>
+                <a href="module-4.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3);">
+                    Module 4: CNNs & Transfer Learning →
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../data/course-data.js"></script>
+</body>
+</html>

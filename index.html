@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Neural Network Architectures - Course Dashboard</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header fade-in">
+            <h1 class="course-title">Deep Neural Network Architectures</h1>
+            <p class="course-subtitle">21CSE558T • M.Tech Course • SRM University</p>
+            <p style="margin: 15px 0; font-size: 1.2rem; opacity: 0.95;">
+                👨‍🏫 Prof. Ramesh Babu • 
+                <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline; opacity: 0.9;">myPage</a>
+            </p>
+            <div class="course-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">15 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Credits</span>
+                    <span class="meta-value">3 (2L + 1T + 0P)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Start Date</span>
+                    <span class="meta-value">Aug 11, 2025</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Total Hours</span>
+                    <span class="meta-value">45 Hours</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('overview')">📊 Overview</button>
+            <button class="nav-tab" onclick="showSection('monthly')">📅 Monthly View</button>
+            <button class="nav-tab" onclick="showSection('modules')">🧠 Modules</button>
+            <button class="nav-tab" onclick="showSection('timeline')">⏱️ Timeline</button>
+            <button class="nav-tab" onclick="showSection('assessments')">📝 Assessments</button>
+            <button class="nav-tab" onclick="showSection('tutorials')">💻 Tutorials</button>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="content-section active">
+            <div class="overview-grid">
+                <!-- Course Progress Card -->
+                <div class="card hover-lift">
+                    <div class="card-header">
+                        <div class="card-icon">📈</div>
+                        <div>
+                            <h3 class="card-title">Course Progress</h3>
+                            <p class="card-subtitle">Track your learning journey</p>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Overall Progress</span>
+                            <span>Week 0 of 15</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p><strong>Current Status:</strong> Course begins August 11, 2025</p>
+                        <p><strong>Next Milestone:</strong> Environment Setup & TensorFlow Installation</p>
+                    </div>
+                </div>
+
+                <!-- Learning Outcomes Card -->
+                <div class="card hover-lift">
+                    <div class="card-header">
+                        <div class="card-icon">🎯</div>
+                        <div>
+                            <h3 class="card-title">Learning Outcomes</h3>
+                            <p class="card-subtitle">Skills you'll master</p>
+                        </div>
+                    </div>
+                    <div id="learning-outcomes">
+                        <!-- Dynamic content will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Quick Stats Card -->
+                <div class="card hover-lift">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div>
+                            <h3 class="card-title">Quick Stats</h3>
+                            <p class="card-subtitle">Course at a glance</p>
+                        </div>
+                    </div>
+                    <div class="month-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <span class="stat-label">Modules</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15</span>
+                            <span class="stat-label">Tutorials</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <span class="stat-label">Assessments</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">Months</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monthly View Section -->
+        <section id="monthly" class="content-section">
+            <div class="month-grid" id="months-container">
+                <!-- Dynamic month cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Modules Section -->
+        <section id="modules" class="content-section">
+            <div class="module-grid" id="modules-container">
+                <!-- Dynamic module cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section id="timeline" class="content-section">
+            <div class="timeline-container">
+                <div class="timeline" id="timeline-container">
+                    <!-- Dynamic timeline will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessments Section -->
+        <section id="assessments" class="content-section">
+            <div class="assessment-grid" id="assessments-container">
+                <!-- Dynamic assessment cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Tutorials Section -->
+        <section id="tutorials" class="content-section">
+            <div class="section-header">
+                <h2>💻 Tutorial Instructions</h2>
+                <p>Complete step-by-step guides for all 15 hands-on tutorials</p>
+            </div>
+            <div class="tutorials-overview">
+                <div class="tutorial-stats-grid">
+                    <div class="card hover-lift">
+                        <div class="card-header">
+                            <div class="card-icon">📚</div>
+                            <div>
+                                <h3 class="card-title">Tutorial Progress</h3>
+                                <p class="card-subtitle">Track your hands-on learning</p>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Completed Tutorials</span>
+                                <span id="tutorial-progress-text">0 of 15</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="tutorial-progress-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <p><strong>Current Focus:</strong> Foundation Concepts (T1-T3)</p>
+                            <p><strong>Next Tutorial:</strong> T1 - Perceptron Implementation</p>
+                        </div>
+                    </div>
+
+                    <div class="card hover-lift">
+                        <div class="card-header">
+                            <div class="card-icon">🎯</div>
+                            <div>
+                                <h3 class="card-title">Learning Path</h3>
+                                <p class="card-subtitle">Progressive skill development</p>
+                            </div>
+                        </div>
+                        <div class="skill-progression">
+                            <div class="skill-level">
+                                <span class="skill-badge beginner">🌱 Beginner</span>
+                                <span class="skill-description">T1-T3: Basic Concepts</span>
+                            </div>
+                            <div class="skill-level">
+                                <span class="skill-badge intermediate">🔥 Intermediate</span>
+                                <span class="skill-description">T4-T9: Advanced Methods</span>
+                            </div>
+                            <div class="skill-level">
+                                <span class="skill-badge advanced">🚀 Advanced</span>
+                                <span class="skill-description">T10-T15: Expert Projects</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card hover-lift">
+                        <div class="card-header">
+                            <div class="card-icon">🛠️</div>
+                            <div>
+                                <h3 class="card-title">Technology Stack</h3>
+                                <p class="card-subtitle">Tools and frameworks</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack">
+                            <div class="tech-category">
+                                <strong>Core:</strong> Python, NumPy, Matplotlib
+                            </div>
+                            <div class="tech-category">
+                                <strong>ML/DL:</strong> TensorFlow, Keras, Scikit-learn
+                            </div>
+                            <div class="tech-category">
+                                <strong>Vision:</strong> OpenCV, PIL, Scikit-image
+                            </div>
+                            <div class="tech-category">
+                                <strong>Advanced:</strong> FastAPI, React, Docker
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tutorials-quick-access">
+                    <div class="section-header">
+                        <h3>🚀 Quick Access to Tutorials</h3>
+                        <p>Jump directly to any tutorial or start from the beginning</p>
+                    </div>
+                    
+                    <div class="tutorial-categories">
+                        <div class="tutorial-category">
+                            <h4>🧠 Foundation (T1-T3)</h4>
+                            <div class="tutorial-links">
+                                <a href="pages/tutorials/tutorial-T1.html" class="tutorial-link">T1: Perceptron Implementation</a>
+                                <a href="pages/tutorials/tutorial-T2.html" class="tutorial-link">T2: MLP & Backpropagation</a>
+                                <a href="pages/tutorials/tutorial-T3.html" class="tutorial-link">T3: TensorFlow Neural Network</a>
+                            </div>
+                        </div>
+
+                        <div class="tutorial-category">
+                            <h4>⚙️ Optimization (T4-T6)</h4>
+                            <div class="tutorial-links">
+                                <a href="pages/tutorials/tutorial-T4.html" class="tutorial-link">T4: Activation Function Analysis</a>
+                                <a href="pages/tutorials/tutorial-T5.html" class="tutorial-link">T5: Optimizer Comparison</a>
+                                <a href="pages/tutorials/tutorial-T6.html" class="tutorial-link">T6: Regularization Implementation</a>
+                            </div>
+                        </div>
+
+                        <div class="tutorial-category">
+                            <h4>🖼️ Image Processing (T7-T9)</h4>
+                            <div class="tutorial-links">
+                                <a href="pages/tutorials/tutorial-T7.html" class="tutorial-link">T7: Advanced Image Processing</a>
+                                <a href="pages/tutorials/tutorial-T8.html" class="tutorial-link">T8: Feature Extraction Methods</a>
+                                <a href="pages/tutorials/tutorial-T9.html" class="tutorial-link">T9: Classification Pipeline</a>
+                            </div>
+                        </div>
+
+                        <div class="tutorial-category">
+                            <h4>🏗️ CNNs & Transfer Learning (T10-T12)</h4>
+                            <div class="tutorial-links">
+                                <a href="pages/tutorials/tutorial-T10.html" class="tutorial-link">T10: CNN from Scratch</a>
+                                <a href="pages/tutorials/tutorial-T11.html" class="tutorial-link">T11: Transfer Learning</a>
+                                <a href="pages/tutorials/tutorial-T12.html" class="tutorial-link">T12: Model Comparison</a>
+                            </div>
+                        </div>
+
+                        <div class="tutorial-category">
+                            <h4>🎯 Object Detection (T13-T15)</h4>
+                            <div class="tutorial-links">
+                                <a href="pages/tutorials/tutorial-T13.html" class="tutorial-link">T13: Object Detection System</a>
+                                <a href="pages/tutorials/tutorial-T14.html" class="tutorial-link">T14: Real-time Processing</a>
+                                <a href="pages/tutorials/tutorial-T15.html" class="tutorial-link">T15: End-to-End Application</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 40px 0;">
+                        <a href="pages/tutorials/index.html" class="btn-primary">📚 View All Tutorial Instructions</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/course-data.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Optimization and Regularization - Course Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .lecture-card {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.05));
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            transition: var(--transition);
+        }
+        .lecture-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.2);
+        }
+        .concept-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .code-snippet {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #00f2fe;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .learning-path {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+        .prerequisite-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 242, 254, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .difficulty-beginner { background: rgba(34, 197, 94, 0.2); color: #86efac; }
+        .difficulty-intermediate { background: rgba(251, 191, 36, 0.2); color: #fde047; }
+        .difficulty-advanced { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .algorithm-comparison {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav style="margin-bottom: 30px;">
+            <a href="../../index.html" style="color: #00f2fe; text-decoration: none; font-weight: 600;">← Back to Dashboard</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="../../index.html#modules" style="color: #00f2fe; text-decoration: none;">Modules</a>
+            <span style="margin: 0 15px; opacity: 0.5;">/</span>
+            <a href="module-1.html" style="color: #60a5fa; text-decoration: none;">Module 1</a>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header fade-in">
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <div class="module-number" style="width: 80px; height: 80px; font-size: 2rem; background: var(--info-gradient);">2</div>
+                <div>
+                    <h1 class="course-title" style="font-size: 2.5rem;">Optimization and Regularization</h1>
+                    <p class="course-subtitle">Advanced Module • Weeks 4-6 • 9 Contact Hours</p>
+                </div>
+            </div>
+            <div class="course-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Duration</span>
+                    <span class="meta-value">3 Weeks</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Difficulty</span>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Prerequisites</span>
+                    <span class="meta-value">Module 1, Calculus</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Learning Outcome</span>
+                    <span class="meta-value">CO-1, CO-2 Mastery</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Module Overview -->
+        <section class="overview-grid">
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--info-gradient);">🎯</div>
+                    <div>
+                        <h3 class="card-title">Learning Objectives</h3>
+                        <p class="card-subtitle">Advanced neural network optimization</p>
+                    </div>
+                </div>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #00f2fe;">📈</span>
+                        Master gradient descent algorithm variants and optimization strategies
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #00f2fe;">⚠️</span>
+                        Understand and solve vanishing/exploding gradient problems
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #00f2fe;">🛡️</span>
+                        Apply regularization techniques to prevent overfitting
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #00f2fe;">📊</span>
+                        Implement normalization methods for stable training
+                    </li>
+                    <li style="margin-bottom: 12px; padding-left: 20px; position: relative;">
+                        <span style="position: absolute; left: 0; color: #00f2fe;">🔧</span>
+                        Design robust neural networks using advanced techniques
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--warning-gradient);">📚</div>
+                    <div>
+                        <h3 class="card-title">Prerequisites</h3>
+                        <p class="card-subtitle">Required knowledge before starting</p>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Module 1 Completion</strong>
+                        <small style="display: block; opacity: 0.8;">Neural networks, perceptron, backpropagation</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>Calculus & Derivatives</strong>
+                        <small style="display: block; opacity: 0.8;">Chain rule, partial derivatives, gradients</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #10b981; font-size: 1.2rem;">✓</span>
+                    <div>
+                        <strong>TensorFlow/Keras</strong>
+                        <small style="display: block; opacity: 0.8;">Basic model building and compilation</small>
+                    </div>
+                </div>
+                <div class="prerequisite-item">
+                    <span style="color: #fbbf24; font-size: 1.2rem;">⚠</span>
+                    <div>
+                        <strong>Linear Algebra</strong>
+                        <small style="display: block; opacity: 0.8;">Matrix operations, eigenvalues (helpful)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card hover-lift">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--success-gradient);">🏆</div>
+                    <div>
+                        <h3 class="card-title">Module Outcomes</h3>
+                        <p class="card-subtitle">Advanced skills you'll demonstrate</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #10b981;">
+                        <strong>CO-1 Mastery</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Create robust deep neural networks with advanced optimization</p>
+                    </div>
+                </div>
+                <div>
+                    <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #3b82f6;">
+                        <strong>CO-2 Foundation</strong>
+                        <p style="margin: 5px 0 0 0; font-size: 0.9rem;">Build efficient multi-layer networks with proper regularization</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Content Breakdown -->
+        <section>
+            <h2 style="text-align: center; margin: 40px 0 30px; font-size: 2rem; background: linear-gradient(45deg, #00f2fe, #4facfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Detailed Content Breakdown</h2>
+            
+            <!-- Week 4: Gradient Descent Fundamentals -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #00f2fe; margin: 0;">Week 4: Gradient Descent Algorithms</h3>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+                
+                <div class="learning-path">
+                    <h4 style="color: #fbbf24; margin-bottom: 15px;">📋 Learning Path</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(0, 242, 254, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #00f2fe; font-weight: bold;">1</div>
+                            <small>Gradient Descent</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(0, 242, 254, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #00f2fe; font-weight: bold;">2</div>
+                            <small>SGD</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(0, 242, 254, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #00f2fe; font-weight: bold;">3</div>
+                            <small>Mini-batch</small>
+                        </div>
+                        <div style="text-align: center; padding: 10px;">
+                            <div style="background: rgba(0, 242, 254, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; color: #00f2fe; font-weight: bold;">4</div>
+                            <small>Comparison</small>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Gradient Descent Fundamentals</h4>
+                <div style="background: rgba(0, 242, 254, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #00f2fe;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">📈 Gradient Descent Foundation</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Mathematical Foundation:</strong> θ = θ - α∇J(θ)</li>
+                        <li><strong>Loss Landscape:</strong> Visualizing optimization as hill climbing</li>
+                        <li><strong>Learning Rate α:</strong> Step size selection and impact</li>
+                        <li><strong>Convergence:</strong> Local vs global minima, saddle points</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">⚡ Stochastic Gradient Descent (SGD)</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Single Sample Updates:</strong> θ = θ - α∇J(θ; x⁽ⁱ⁾, y⁽ⁱ⁾)</li>
+                        <li><strong>Advantages:</strong> Faster updates, escapes local minima</li>
+                        <li><strong>Challenges:</strong> Noisy updates, oscillations</li>
+                        <li><strong>Mini-batch Compromise:</strong> Balance between speed and stability</li>
+                    </ul>
+                </div>
+
+                <div class="algorithm-comparison">
+                    <h5 style="color: #a855f7; margin-bottom: 15px;">⚖️ Algorithm Comparison</h5>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 8px;">
+                            <strong style="color: #22c55e;">Batch GD</strong>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                <li>Uses entire dataset</li>
+                                <li>Stable convergence</li>
+                                <li>Computationally expensive</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px;">
+                            <strong style="color: #fbbf24;">SGD</strong>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                <li>Uses single sample</li>
+                                <li>Fast updates</li>
+                                <li>Noisy convergence</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px;">
+                            <strong style="color: #3b82f6;">Mini-batch</strong>
+                            <ul style="margin: 10px 0 0 20px; font-size: 0.9rem;">
+                                <li>Uses small batches</li>
+                                <li>Balanced approach</li>
+                                <li>GPU-friendly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #00f2fe; margin-bottom: 15px;">💻 Python Implementation: Gradient Descent Variants</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import numpy as np
+import matplotlib.pyplot as plt
+
+class GradientDescentOptimizer:
+    def __init__(self, learning_rate=0.01):
+        self.learning_rate = learning_rate
+        self.loss_history = []
+    
+    def batch_gradient_descent(self, X, y, weights, bias, epochs):
+        """Traditional batch gradient descent"""
+        m = X.shape[0]
+        
+        for epoch in range(epochs):
+            # Forward pass
+            predictions = X.dot(weights) + bias
+            loss = np.mean((predictions - y) ** 2)
+            self.loss_history.append(loss)
+            
+            # Compute gradients for entire dataset
+            dw = (2/m) * X.T.dot(predictions - y)
+            db = (2/m) * np.sum(predictions - y)
+            
+            # Update parameters
+            weights -= self.learning_rate * dw
+            bias -= self.learning_rate * db
+        
+        return weights, bias
+    
+    def stochastic_gradient_descent(self, X, y, weights, bias, epochs):
+        """SGD with single sample updates"""
+        m = X.shape[0]
+        
+        for epoch in range(epochs):
+            # Shuffle data for each epoch
+            indices = np.random.permutation(m)
+            
+            for i in indices:
+                # Forward pass for single sample
+                prediction = X[i].dot(weights) + bias
+                error = prediction - y[i]
+                
+                # Compute gradients for single sample
+                dw = 2 * X[i] * error
+                db = 2 * error
+                
+                # Update parameters
+                weights -= self.learning_rate * dw
+                bias -= self.learning_rate * db
+        
+        return weights, bias
+    
+    def mini_batch_gradient_descent(self, X, y, weights, bias, epochs, batch_size=32):
+        """Mini-batch gradient descent"""
+        m = X.shape[0]
+        
+        for epoch in range(epochs):
+            # Shuffle data
+            indices = np.random.permutation(m)
+            
+            for i in range(0, m, batch_size):
+                # Get mini-batch
+                batch_indices = indices[i:i+batch_size]
+                X_batch = X[batch_indices]
+                y_batch = y[batch_indices]
+                
+                # Forward pass for batch
+                predictions = X_batch.dot(weights) + bias
+                
+                # Compute gradients for batch
+                batch_m = X_batch.shape[0]
+                dw = (2/batch_m) * X_batch.T.dot(predictions - y_batch)
+                db = (2/batch_m) * np.sum(predictions - y_batch)
+                
+                # Update parameters
+                weights -= self.learning_rate * dw
+                bias -= self.learning_rate * db
+        
+        return weights, bias
+
+# Example usage and comparison
+np.random.seed(42)
+X = np.random.randn(1000, 1)
+y = 3 * X.squeeze() + 2 + np.random.randn(1000) * 0.1
+
+# Initialize parameters
+weights_init = np.random.randn(1)
+bias_init = np.random.randn()
+
+# Compare different optimizers
+optimizers = {
+    'Batch GD': lambda w, b: GradientDescentOptimizer(0.01).batch_gradient_descent(X, y, w, b, 100),
+    'SGD': lambda w, b: GradientDescentOptimizer(0.001).stochastic_gradient_descent(X, y, w, b, 10),
+    'Mini-batch': lambda w, b: GradientDescentOptimizer(0.01).mini_batch_gradient_descent(X, y, w, b, 100, 32)
+}
+
+for name, optimizer in optimizers.items():
+    w, b = optimizer(weights_init.copy(), bias_init)
+    print(f"{name}: w={w[0]:.3f}, b={b:.3f}")</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T4</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T4: Building Neural Network in Python from Scratch</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement complete neural network class without libraries</li>
+                        <li>Add gradient descent optimization methods</li>
+                        <li>Compare convergence of different optimizers</li>
+                        <li>Visualize loss curves and weight updates</li>
+                        <li>Debug common optimization problems</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 4 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Gradient descent variants implementation with comparison</li>
+                        <li>Convergence analysis report with visualizations</li>
+                        <li>Neural network from scratch with optimization</li>
+                        <li>Algorithm comparison presentation (group work)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 5: Regularization Techniques -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #00f2fe; margin: 0;">Week 5: Regularization Techniques</h3>
+                    <span class="difficulty-badge difficulty-intermediate">Intermediate</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Gradient Problems & Regularization</h4>
+                <div style="background: rgba(0, 242, 254, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #00f2fe;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="warning-box">
+                    <h5 style="margin-bottom: 10px;">⚠️ Vanishing Gradient Problem</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Cause:</strong> Repeated multiplication of small gradients (< 1)</li>
+                        <li><strong>Effect:</strong> Early layers learn very slowly or not at all</li>
+                        <li><strong>Mathematical:</strong> ∂L/∂w₁ = ∂L/∂a_n × ∏(i=2 to n) ∂a_i/∂a_(i-1)</li>
+                        <li><strong>Common in:</strong> Deep networks with sigmoid/tanh activations</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box" style="background: rgba(251, 191, 36, 0.1); border-left: 4px solid #fbbf24;">
+                    <h5 style="margin-bottom: 10px;">💥 Exploding Gradient Problem</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Cause:</strong> Repeated multiplication of large gradients (> 1)</li>
+                        <li><strong>Effect:</strong> Unstable training, NaN values, divergence</li>
+                        <li><strong>Solution:</strong> Gradient clipping, proper weight initialization</li>
+                        <li><strong>Detection:</strong> Monitor gradient norms during training</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🛡️ Regularization Techniques</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>L1 Regularization (Lasso):</strong> L = L_original + λ∑|w_i| → Sparse weights</li>
+                        <li><strong>L2 Regularization (Ridge):</strong> L = L_original + λ∑w_i² → Weight decay</li>
+                        <li><strong>Dropout:</strong> Randomly set neurons to 0 during training</li>
+                        <li><strong>Early Stopping:</strong> Stop training when validation loss increases</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #00f2fe; margin-bottom: 15px;">💻 Regularization Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import tensorflow as tf
+from tensorflow.keras import layers, regularizers
+import numpy as np
+
+# Model with different regularization techniques
+def create_regularized_model(input_dim, reg_type='l2', reg_strength=0.01, dropout_rate=0.5):
+    model = tf.keras.Sequential([
+        # Input layer
+        layers.Dense(128, activation='relu', input_shape=(input_dim,)),
+        
+        # Hidden layer with regularization
+        layers.Dense(64, 
+                    activation='relu',
+                    kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01) if reg_type == 'l1_l2' 
+                    else regularizers.l1(reg_strength) if reg_type == 'l1'
+                    else regularizers.l2(reg_strength)),
+        
+        # Dropout layer
+        layers.Dropout(dropout_rate),
+        
+        # Another hidden layer
+        layers.Dense(32, activation='relu'),
+        layers.Dropout(dropout_rate * 0.5),  # Reduced dropout
+        
+        # Output layer
+        layers.Dense(1, activation='sigmoid')
+    ])
+    
+    return model
+
+# Custom dropout implementation
+class CustomDropout(tf.keras.layers.Layer):
+    def __init__(self, rate):
+        super(CustomDropout, self).__init__()
+        self.rate = rate
+    
+    def call(self, inputs, training=None):
+        if training:
+            # Create random mask
+            random_tensor = tf.random.uniform(tf.shape(inputs))
+            dropout_mask = tf.cast(random_tensor > self.rate, tf.float32)
+            
+            # Scale the remaining values
+            scaled_inputs = inputs / (1 - self.rate)
+            return scaled_inputs * dropout_mask
+        else:
+            return inputs
+
+# Gradient clipping implementation
+class GradientClippingOptimizer:
+    def __init__(self, optimizer, clip_value=1.0):
+        self.optimizer = optimizer
+        self.clip_value = clip_value
+    
+    def apply_gradients(self, grads_and_vars):
+        # Clip gradients
+        clipped_grads = []
+        for grad, var in grads_and_vars:
+            if grad is not None:
+                clipped_grad = tf.clip_by_value(grad, -self.clip_value, self.clip_value)
+                clipped_grads.append((clipped_grad, var))
+            else:
+                clipped_grads.append((grad, var))
+        
+        return self.optimizer.apply_gradients(clipped_grads)
+
+# Example: Training with regularization
+def train_with_regularization(X_train, y_train, X_val, y_val):
+    # Create model with regularization
+    model = create_regularized_model(X_train.shape[1], reg_type='l2', reg_strength=0.001)
+    
+    # Compile with gradient clipping
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.001, clipnorm=1.0)
+    model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+    
+    # Early stopping callback
+    early_stopping = tf.keras.callbacks.EarlyStopping(
+        monitor='val_loss', patience=10, restore_best_weights=True
+    )
+    
+    # Train model
+    history = model.fit(
+        X_train, y_train,
+        validation_data=(X_val, y_val),
+        epochs=100,
+        batch_size=32,
+        callbacks=[early_stopping],
+        verbose=1
+    )
+    
+    return model, history
+
+# Regularization comparison
+def compare_regularization_methods(X_train, y_train, X_val, y_val):
+    methods = {
+        'No Regularization': lambda: create_regularized_model(X_train.shape[1], reg_type=None, dropout_rate=0),
+        'L1 Regularization': lambda: create_regularized_model(X_train.shape[1], reg_type='l1'),
+        'L2 Regularization': lambda: create_regularized_model(X_train.shape[1], reg_type='l2'),
+        'Dropout Only': lambda: create_regularized_model(X_train.shape[1], reg_type=None),
+        'Combined': lambda: create_regularized_model(X_train.shape[1], reg_type='l1_l2')
+    }
+    
+    results = {}
+    for name, model_func in methods.items():
+        print(f"Training {name}...")
+        model = model_func()
+        model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+        
+        history = model.fit(X_train, y_train, validation_data=(X_val, y_val), 
+                          epochs=50, verbose=0)
+        
+        results[name] = {
+            'train_acc': history.history['accuracy'][-1],
+            'val_acc': history.history['val_accuracy'][-1],
+            'overfitting': history.history['accuracy'][-1] - history.history['val_accuracy'][-1]
+        }
+    
+    return results</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T5</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T5: Building Neural Network using Keras</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement regularized models using Keras API</li>
+                        <li>Compare L1, L2, and dropout regularization</li>
+                        <li>Add early stopping and model checkpointing</li>
+                        <li>Visualize training curves and overfitting</li>
+                        <li>Hyperparameter tuning for regularization strength</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; margin-top: 20px;">
+                    <strong>📋 Week 5 Deliverables:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Regularization techniques comparison study</li>
+                        <li>Keras neural network with multiple regularization methods</li>
+                        <li>Overfitting analysis and prevention strategies</li>
+                        <li>Hyperparameter tuning report with best practices</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 6: Normalization & Unit Test Preparation -->
+            <div class="lecture-card">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #00f2fe; margin: 0;">Week 6: Normalization & Assessment</h3>
+                    <span class="difficulty-badge difficulty-advanced">Advanced</span>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">📚 Day 3 (Wednesday): Normalization Techniques</h4>
+                <div style="background: rgba(0, 242, 254, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #00f2fe;">
+                    <strong>⏰ Time:</strong> 8:00am - 9:40am IST (1h 40m)
+                </div>
+                
+                <div class="concept-box">
+                    <h5 style="margin-bottom: 10px;">📊 Batch Normalization</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Formula:</strong> BN(x) = γ((x - μ_B)/σ_B) + β</li>
+                        <li><strong>Benefits:</strong> Faster training, higher learning rates, regularization</li>
+                        <li><strong>Internal Covariate Shift:</strong> Reduces changing input distributions</li>
+                        <li><strong>Implementation:</strong> Normalize mini-batch, scale and shift</li>
+                    </ul>
+                </div>
+
+                <div class="concept-box" style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px;">🔄 Other Normalization Methods</h5>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li><strong>Layer Normalization:</strong> Normalize across features (RNNs)</li>
+                        <li><strong>Instance Normalization:</strong> Normalize each sample independently</li>
+                        <li><strong>Group Normalization:</strong> Normalize within channel groups</li>
+                        <li><strong>Weight Normalization:</strong> Reparameterize weight vectors</li>
+                    </ul>
+                </div>
+
+                <div class="code-snippet">
+                    <h5 style="color: #00f2fe; margin-bottom: 15px;">💻 Normalization Implementation</h5>
+                    <pre style="color: #e2e8f0; margin: 0; line-height: 1.5;"><code>import tensorflow as tf
+from tensorflow.keras import layers
+import numpy as np
+
+# Custom Batch Normalization Layer
+class CustomBatchNormalization(tf.keras.layers.Layer):
+    def __init__(self, momentum=0.99, epsilon=1e-3):
+        super(CustomBatchNormalization, self).__init__()
+        self.momentum = momentum
+        self.epsilon = epsilon
+    
+    def build(self, input_shape):
+        # Learnable parameters
+        self.gamma = self.add_weight(name='gamma', shape=(input_shape[-1],),
+                                   initializer='ones', trainable=True)
+        self.beta = self.add_weight(name='beta', shape=(input_shape[-1],),
+                                  initializer='zeros', trainable=True)
+        
+        # Moving averages (not trainable)
+        self.moving_mean = self.add_weight(name='moving_mean', shape=(input_shape[-1],),
+                                         initializer='zeros', trainable=False)
+        self.moving_variance = self.add_weight(name='moving_variance', shape=(input_shape[-1],),
+                                             initializer='ones', trainable=False)
+    
+    def call(self, inputs, training=None):
+        if training:
+            # Compute batch statistics
+            batch_mean = tf.reduce_mean(inputs, axis=0)
+            batch_variance = tf.reduce_mean(tf.square(inputs - batch_mean), axis=0)
+            
+            # Update moving averages
+            self.moving_mean.assign(self.momentum * self.moving_mean + 
+                                  (1 - self.momentum) * batch_mean)
+            self.moving_variance.assign(self.momentum * self.moving_variance + 
+                                      (1 - self.momentum) * batch_variance)
+            
+            # Normalize using batch statistics
+            normalized = (inputs - batch_mean) / tf.sqrt(batch_variance + self.epsilon)
+        else:
+            # Normalize using moving averages
+            normalized = (inputs - self.moving_mean) / tf.sqrt(self.moving_variance + self.epsilon)
+        
+        # Scale and shift
+        return self.gamma * normalized + self.beta
+
+# Model with different normalization techniques
+def create_normalized_model(input_dim, norm_type='batch'):
+    model = tf.keras.Sequential()
+    model.add(layers.Dense(128, input_shape=(input_dim,)))
+    
+    # Add normalization layer
+    if norm_type == 'batch':
+        model.add(layers.BatchNormalization())
+    elif norm_type == 'layer':
+        model.add(layers.LayerNormalization())
+    elif norm_type == 'custom':
+        model.add(CustomBatchNormalization())
+    
+    model.add(layers.Activation('relu'))
+    model.add(layers.Dense(64))
+    
+    if norm_type == 'batch':
+        model.add(layers.BatchNormalization())
+    elif norm_type == 'layer':
+        model.add(layers.LayerNormalization())
+    
+    model.add(layers.Activation('relu'))
+    model.add(layers.Dense(1, activation='sigmoid'))
+    
+    return model
+
+# Learning rate scheduling
+def create_lr_schedule():
+    def schedule(epoch, lr):
+        if epoch < 10:
+            return lr
+        elif epoch < 20:
+            return lr * 0.5
+        else:
+            return lr * 0.1
+    
+    return tf.keras.callbacks.LearningRateScheduler(schedule)
+
+# Advanced optimization techniques
+def create_advanced_model_with_optimization(input_dim):
+    model = tf.keras.Sequential([
+        layers.Dense(256, input_shape=(input_dim,)),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(0.3),
+        
+        layers.Dense(128),
+        layers.BatchNormalization(), 
+        layers.Activation('relu'),
+        layers.Dropout(0.2),
+        
+        layers.Dense(64),
+        layers.BatchNormalization(),
+        layers.Activation('relu'),
+        layers.Dropout(0.1),
+        
+        layers.Dense(1, activation='sigmoid')
+    ])
+    
+    # Advanced optimizer with scheduling
+    initial_lr = 0.001
+    optimizer = tf.keras.optimizers.Adam(
+        learning_rate=initial_lr,
+        beta_1=0.9,
+        beta_2=0.999,
+        epsilon=1e-07,
+        clipnorm=1.0
+    )
+    
+    model.compile(
+        optimizer=optimizer,
+        loss='binary_crossentropy',
+        metrics=['accuracy', 'precision', 'recall']
+    )
+    
+    return model</code></pre>
+                </div>
+
+                <h4 style="color: #34d399; margin: 20px 0 10px;">💻 Day 4 (Thursday): Tutorial T6 & Unit Test 1</h4>
+                <div style="background: rgba(52, 211, 153, 0.1); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; border-left: 3px solid #34d399;">
+                    <strong>⏰ Time:</strong> 4:00pm - 4:50pm IST (50m)
+                </div>
+                <div class="tutorial-item">
+                    <strong>T6: Advanced Optimization & Unit Test 1</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Implement complete optimization pipeline</li>
+                        <li>Add batch normalization and learning rate scheduling</li>
+                        <li>Compare normalization techniques experimentally</li>
+                        <li><strong>📝 Unit Test 1:</strong> Modules 1 & 2 assessment (45 minutes)</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #ef4444; margin-top: 20px;">
+                    <strong>📝 Week 6 Assessment:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li><strong>Unit Test 1:</strong> 22.5% of total grade (Modules 1 & 2)</li>
+                        <li>Normalization techniques implementation</li>
+                        <li>Advanced optimization experiment</li>
+                        <li>Complete Module 2 portfolio submission</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Preparation -->
+        <section class="card" style="margin-top: 40px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--warning-gradient);">📝</div>
+                <div>
+                    <h3 class="card-title">Unit Test 1 Preparation</h3>
+                    <p class="card-subtitle">Comprehensive assessment covering Modules 1 & 2</p>
+                </div>
+            </div>
+            
+            <div class="overview-grid" style="margin-top: 20px;">
+                <div style="background: rgba(79, 172, 254, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #4facfe;">
+                    <h4 style="color: #4facfe; margin-bottom: 15px;">📚 Module 1 Topics</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;">✓ Biological vs artificial neurons</li>
+                        <li style="margin-bottom: 8px;">✓ Perceptron model and XOR problem</li>
+                        <li style="margin-bottom: 8px;">✓ Multilayer perceptrons</li>
+                        <li style="margin-bottom: 8px;">✓ Activation functions comparison</li>
+                        <li style="margin-bottom: 8px;">✓ Backpropagation algorithm</li>
+                        <li style="margin-bottom: 8px;">✓ TensorFlow fundamentals</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(0, 242, 254, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #00f2fe;">
+                    <h4 style="color: #00f2fe; margin-bottom: 15px;">📚 Module 2 Topics</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;">✓ Gradient descent variants</li>
+                        <li style="margin-bottom: 8px;">✓ Vanishing/exploding gradients</li>
+                        <li style="margin-bottom: 8px;">✓ L1/L2 regularization</li>
+                        <li style="margin-bottom: 8px;">✓ Dropout and early stopping</li>
+                        <li style="margin-bottom: 8px;">✓ Batch normalization</li>
+                        <li style="margin-bottom: 8px;">✓ Learning rate scheduling</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 20px; border-radius: 12px; border-left: 4px solid #22c55e;">
+                    <h4 style="color: #22c55e; margin-bottom: 15px;">💻 Practical Skills</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;">✓ Implement networks from scratch</li>
+                        <li style="margin-bottom: 8px;">✓ Apply regularization in Keras</li>
+                        <li style="margin-bottom: 8px;">✓ Debug optimization problems</li>
+                        <li style="margin-bottom: 8px;">✓ Compare training strategies</li>
+                        <li style="margin-bottom: 8px;">✓ Visualize learning curves</li>
+                        <li style="margin-bottom: 8px;">✓ Tune hyperparameters</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; padding: 20px; background: rgba(251, 191, 36, 0.1); border-radius: 12px; border-left: 4px solid #fbbf24;">
+                <h4 style="color: #fbbf24; margin-bottom: 15px;">🎯 Sample Questions</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Theory:</strong> Explain why the XOR problem cannot be solved by a single perceptron. Show the mathematical proof.
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Implementation:</strong> Implement batch normalization from scratch and explain its benefits.
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Analysis:</strong> Compare SGD, mini-batch GD, and batch GD in terms of convergence and computational efficiency.
+                    </li>
+                    <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                        <strong>Problem Solving:</strong> Design a regularization strategy for a deep network showing signs of overfitting.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Additional Resources -->
+        <section class="card" style="margin-top: 30px;">
+            <div class="card-header">
+                <div class="card-icon" style="background: var(--success-gradient);">📖</div>
+                <div>
+                    <h3 class="card-title">Additional Resources</h3>
+                    <p class="card-subtitle">Advanced learning materials</p>
+                </div>
+            </div>
+            
+            <div class="milestones">
+                <h4>📚 Required Reading</h4>
+                <ul class="milestone-list">
+                    <li>Goodfellow et al. "Deep Learning" - Chapters 6-8 (Optimization)</li>
+                    <li>Chollet "Deep Learning with Python" - Chapters 4-5</li>
+                    <li>Ioffe & Szegedy "Batch Normalization" paper (2015)</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>🎥 Video Resources</h4>
+                <ul class="milestone-list">
+                    <li>Andrew Ng: Optimization algorithms and hyperparameter tuning</li>
+                    <li>3Blue1Brown: Gradient descent and backpropagation</li>
+                    <li>Fast.ai: Practical deep learning optimization techniques</li>
+                </ul>
+            </div>
+            
+            <div class="milestones">
+                <h4>💻 Practice Platforms</h4>
+                <ul class="milestone-list">
+                    <li>Distill.pub: Interactive explanations of optimization</li>
+                    <li>TensorFlow Advanced Tutorials: Custom training loops</li>
+                    <li>Papers With Code: State-of-the-art optimization methods</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Navigation to Next Module -->
+        <section style="text-align: center; margin-top: 40px;">
+            <div style="background: var(--success-gradient); padding: 20px; border-radius: var(--border-radius); color: white;">
+                <h3 style="margin-bottom: 15px;">Ready for Module 3?</h3>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Dive into Image Processing and Deep Neural Networks</p>
+                <a href="module-3.html" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 12px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3);">
+                    Module 3: Image Processing & DNNs →
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../data/course-data.js"></script>
+</body>
+</html>

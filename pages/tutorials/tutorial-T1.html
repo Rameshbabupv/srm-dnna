@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T1: Perceptron Implementation - Tutorial Instructions</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --t1-primary: #22c55e;
+            --t1-secondary: #16a34a;
+            --t1-accent: #4ade80;
+        }
+        
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--t1-primary), var(--t1-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+        
+        .navigation-breadcrumb {
+            background: rgba(34, 197, 94, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .navigation-breadcrumb a {
+            color: var(--t1-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .navigation-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .step-section {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .step-number {
+            background: var(--t1-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--t1-primary);
+            position: relative;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--t1-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--t1-secondary);
+            transform: translateY(-1px);
+        }
+        
+        .theory-box {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .checkpoint {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .deliverable {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--t1-primary), var(--t1-secondary));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--t1-primary);
+            padding: 12px 24px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(34, 197, 94, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .progress-tracker {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-width: 150px;
+        }
+        
+        .progress-step {
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .progress-step:hover {
+            color: var(--t1-primary);
+        }
+        
+        .progress-step.completed {
+            color: var(--t1-primary);
+            font-weight: bold;
+        }
+        
+        .progress-step.current {
+            color: var(--t1-primary);
+            background: rgba(34, 197, 94, 0.1);
+            padding: 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* Code syntax highlighting improvements */
+        .code-block .comment {
+            color: #94a3b8;
+            font-style: italic;
+        }
+        
+        .code-block .keyword {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .code-block .string {
+            color: #10b981;
+        }
+        
+        .code-block .number {
+            color: #3b82f6;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .progress-tracker {
+                display: none;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .tutorial-header {
+                padding: 20px 15px;
+            }
+            
+            .step-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-header">
+        <h1>T1: Perceptron Implementation</h1>
+        <p>🌱 Beginner Level • ⏱️ 2-3 hours • 📅 Week 1</p>
+        <p style="margin: 10px 0; font-size: 1rem; opacity: 0.9;">21CSE558T • M.Tech Course • SRM University</p>
+        <p style="margin: 5px 0; font-size: 1rem;">
+            👨‍🏫 Prof. Ramesh Babu • 
+            <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline;">myPage</a>
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Python</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">NumPy</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">Matplotlib</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="index.html">💻 Tutorials</a> → 
+            <span>T1: Perceptron</span>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="theory-box">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Understand the mathematical foundation of the perceptron</li>
+                <li>Implement the perceptron learning algorithm from scratch</li>
+                <li>Visualize decision boundaries and convergence</li>
+                <li>Test on linearly separable datasets (AND, OR gates)</li>
+                <li>Understand limitations with non-linearly separable data (XOR)</li>
+            </ul>
+        </div>
+
+        <!-- Prerequisites -->
+        <div class="step-section">
+            <h2>📋 Prerequisites & Setup</h2>
+            
+            <div class="checkpoint">
+                <h3>✅ Before You Begin</h3>
+                <ul>
+                    <li>Basic Python programming knowledge</li>
+                    <li>Understanding of linear algebra (vectors, dot products)</li>
+                    <li>Familiarity with basic machine learning concepts</li>
+                </ul>
+            </div>
+
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Required installations
+pip install numpy matplotlib
+
+# Optional for enhanced visualizations
+pip install seaborn pandas
+            </div>
+        </div>
+
+        <!-- Step 1: Theory Foundation -->
+        <div class="step-section" id="step-1">
+            <div class="step-number">1</div>
+            <h2>Mathematical Foundation</h2>
+            
+            <div class="theory-box">
+                <h3>🧮 Perceptron Mathematics</h3>
+                <p>The perceptron is the simplest form of artificial neural network, consisting of:</p>
+                <ul>
+                    <li><strong>Inputs (x):</strong> Feature values</li>
+                    <li><strong>Weights (w):</strong> Learnable parameters</li>
+                    <li><strong>Bias (b):</strong> Threshold adjustment</li>
+                    <li><strong>Activation Function:</strong> Step function for binary classification</li>
+                </ul>
+                
+                <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); padding: 20px; border-radius: 10px; margin: 15px 0; color: #1f2937;">
+                    <strong style="color: var(--t1-primary); font-size: 1.1rem;">Key Equations:</strong><br><br>
+                    <div style="font-family: 'Courier New', monospace; line-height: 1.8; font-size: 1rem;">
+                        <strong>• Net Input:</strong> <span style="color: #1e40af;">z = w₁x₁ + w₂x₂ + ... + wₙxₙ + b = w·x + b</span><br>
+                        <strong>• Output:</strong> <span style="color: #7c2d12;">ŷ = 1 if z ≥ 0, else 0</span><br>
+                        <strong>• Weight Update:</strong> <span style="color: #059669;">w = w + η(y - ŷ)x</span><br>
+                        <strong>• Bias Update:</strong> <span style="color: #9333ea;">b = b + η(y - ŷ)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Implementation -->
+        <div class="step-section" id="step-2">
+            <div class="step-number">2</div>
+            <h2>Perceptron Class Implementation</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Perceptron:
+    """
+    Perceptron classifier implementation from scratch
+    """
+    def __init__(self, learning_rate=0.01, max_epochs=100):
+        self.learning_rate = learning_rate
+        self.max_epochs = max_epochs
+        self.weights = None
+        self.bias = None
+        self.errors = []  # Track errors per epoch
+        
+    def activation_function(self, z):
+        """Step function: returns 1 if z >= 0, else 0"""
+        return np.where(z >= 0, 1, 0)
+    
+    def fit(self, X, y):
+        """
+        Train the perceptron
+        
+        Parameters:
+        X: training data (n_samples, n_features)
+        y: target values (n_samples,)
+        """
+        # Initialize weights and bias
+        n_features = X.shape[1]
+        self.weights = np.zeros(n_features)
+        self.bias = 0
+        
+        # Training loop
+        for epoch in range(self.max_epochs):
+            epoch_errors = 0
+            
+            for i in range(X.shape[0]):
+                # Forward pass
+                z = np.dot(X[i], self.weights) + self.bias
+                prediction = self.activation_function(z)
+                
+                # Calculate error
+                error = y[i] - prediction
+                
+                # Update weights and bias if there's an error
+                if error != 0:
+                    self.weights += self.learning_rate * error * X[i]
+                    self.bias += self.learning_rate * error
+                    epoch_errors += 1
+            
+            self.errors.append(epoch_errors)
+            
+            # Stop if no errors (convergence)
+            if epoch_errors == 0:
+                print(f"Converged after {epoch + 1} epochs")
+                break
+    
+    def predict(self, X):
+        """Make predictions on new data"""
+        z = np.dot(X, self.weights) + self.bias
+        return self.activation_function(z)
+    
+    def score(self, X, y):
+        """Calculate accuracy"""
+        predictions = self.predict(X)
+        return np.mean(predictions == y)
+            </div>
+
+            <div class="checkpoint">
+                <h3>🔍 Code Explanation</h3>
+                <ul>
+                    <li><strong>__init__:</strong> Initialize hyperparameters</li>
+                    <li><strong>fit:</strong> Main training method implementing the perceptron learning rule</li>
+                    <li><strong>predict:</strong> Make predictions on new data</li>
+                    <li><strong>activation_function:</strong> Binary step function</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 3: Testing on Logic Gates -->
+        <div class="step-section" id="step-3">
+            <div class="step-number">3</div>
+            <h2>Testing on Logic Gates</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Test on AND gate (linearly separable)
+def test_and_gate():
+    # AND gate truth table
+    X_and = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y_and = np.array([0, 0, 0, 1])
+    
+    # Train perceptron
+    perceptron_and = Perceptron(learning_rate=0.1, max_epochs=100)
+    perceptron_and.fit(X_and, y_and)
+    
+    # Test predictions
+    predictions = perceptron_and.predict(X_and)
+    accuracy = perceptron_and.score(X_and, y_and)
+    
+    print("AND Gate Results:")
+    print(f"Inputs: {X_and}")
+    print(f"Expected: {y_and}")
+    print(f"Predicted: {predictions}")
+    print(f"Accuracy: {accuracy:.2f}")
+    print(f"Final weights: {perceptron_and.weights}")
+    print(f"Final bias: {perceptron_and.bias:.3f}")
+    
+    return perceptron_and
+
+# Test on OR gate (linearly separable)
+def test_or_gate():
+    # OR gate truth table
+    X_or = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y_or = np.array([0, 1, 1, 1])
+    
+    # Train perceptron
+    perceptron_or = Perceptron(learning_rate=0.1, max_epochs=100)
+    perceptron_or.fit(X_or, y_or)
+    
+    # Test predictions
+    predictions = perceptron_or.predict(X_or)
+    accuracy = perceptron_or.score(X_or, y_or)
+    
+    print("\nOR Gate Results:")
+    print(f"Inputs: {X_or}")
+    print(f"Expected: {y_or}")
+    print(f"Predicted: {predictions}")
+    print(f"Accuracy: {accuracy:.2f}")
+    print(f"Final weights: {perceptron_or.weights}")
+    print(f"Final bias: {perceptron_or.bias:.3f}")
+    
+    return perceptron_or
+
+# Test on XOR gate (NOT linearly separable)
+def test_xor_gate():
+    # XOR gate truth table
+    X_xor = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y_xor = np.array([0, 1, 1, 0])
+    
+    # Train perceptron
+    perceptron_xor = Perceptron(learning_rate=0.1, max_epochs=100)
+    perceptron_xor.fit(X_xor, y_xor)
+    
+    # Test predictions
+    predictions = perceptron_xor.predict(X_xor)
+    accuracy = perceptron_xor.score(X_xor, y_xor)
+    
+    print("\nXOR Gate Results (Should Fail):")
+    print(f"Inputs: {X_xor}")
+    print(f"Expected: {y_xor}")
+    print(f"Predicted: {predictions}")
+    print(f"Accuracy: {accuracy:.2f}")
+    print("Note: XOR is not linearly separable, so perceptron cannot solve it")
+    
+    return perceptron_xor
+
+# Run all tests
+and_perceptron = test_and_gate()
+or_perceptron = test_or_gate()
+xor_perceptron = test_xor_gate()
+            </div>
+        </div>
+
+        <!-- Step 4: Visualization -->
+        <div class="step-section" id="step-4">
+            <div class="step-number">4</div>
+            <h2>Decision Boundary Visualization</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def plot_decision_boundary(perceptron, X, y, title):
+    """
+    Plot decision boundary for 2D data
+    """
+    plt.figure(figsize=(10, 8))
+    
+    # Create a mesh for plotting decision boundary
+    h = 0.01
+    x_min, x_max = -0.5, 1.5
+    y_min, y_max = -0.5, 1.5
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
+                         np.arange(y_min, y_max, h))
+    
+    # Make predictions on the mesh
+    mesh_points = np.c_[xx.ravel(), yy.ravel()]
+    Z = perceptron.predict(mesh_points)
+    Z = Z.reshape(xx.shape)
+    
+    # Plot decision boundary
+    plt.contourf(xx, yy, Z, alpha=0.3, colors=['red', 'blue'])
+    
+    # Plot data points
+    scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap='RdYlBu', s=100, edgecolors='black')
+    
+    # Add labels for each point
+    for i, (x_val, y_val) in enumerate(X):
+        plt.annotate(f'({int(x_val)},{int(y_val)})', 
+                    (x_val, y_val), 
+                    xytext=(5, 5), textcoords='offset points')
+    
+    plt.xlim(x_min, x_max)
+    plt.ylim(y_min, y_max)
+    plt.xlabel('Input 1')
+    plt.ylabel('Input 2')
+    plt.title(f'{title} - Decision Boundary')
+    plt.grid(True, alpha=0.3)
+    plt.colorbar(scatter)
+    
+    # Add weight and bias information
+    w1, w2 = perceptron.weights
+    b = perceptron.bias
+    plt.text(0.02, 0.98, f'Weights: [{w1:.3f}, {w2:.3f}]\nBias: {b:.3f}', 
+             transform=plt.gca().transAxes, 
+             bbox=dict(boxstyle="round", facecolor='wheat', alpha=0.8),
+             verticalalignment='top')
+    
+    plt.tight_layout()
+    plt.show()
+
+def plot_convergence(perceptron, title):
+    """
+    Plot convergence curve showing errors per epoch
+    """
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, len(perceptron.errors) + 1), perceptron.errors, 'b-o')
+    plt.xlabel('Epoch')
+    plt.ylabel('Number of Errors')
+    plt.title(f'{title} - Convergence Curve')
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.show()
+
+# Visualize results
+X_and = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y_and = np.array([0, 0, 0, 1])
+
+X_or = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y_or = np.array([0, 1, 1, 1])
+
+X_xor = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y_xor = np.array([0, 1, 1, 0])
+
+# Plot decision boundaries
+plot_decision_boundary(and_perceptron, X_and, y_and, "AND Gate")
+plot_decision_boundary(or_perceptron, X_or, y_or, "OR Gate")
+plot_decision_boundary(xor_perceptron, X_xor, y_xor, "XOR Gate")
+
+# Plot convergence curves
+plot_convergence(and_perceptron, "AND Gate")
+plot_convergence(or_perceptron, "OR Gate")
+plot_convergence(xor_perceptron, "XOR Gate")
+            </div>
+        </div>
+
+        <!-- Step 5: Extended Experiments -->
+        <div class="step-section" id="step-5">
+            <div class="step-number">5</div>
+            <h2>Extended Experiments</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+# Experiment with different learning rates
+def learning_rate_experiment():
+    """
+    Test how different learning rates affect convergence
+    """
+    X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    y = np.array([0, 0, 0, 1])  # AND gate
+    
+    learning_rates = [0.01, 0.1, 0.5, 1.0]
+    
+    plt.figure(figsize=(15, 10))
+    
+    for i, lr in enumerate(learning_rates):
+        perceptron = Perceptron(learning_rate=lr, max_epochs=50)
+        perceptron.fit(X, y)
+        
+        plt.subplot(2, 2, i+1)
+        plt.plot(range(1, len(perceptron.errors) + 1), perceptron.errors, 'b-o')
+        plt.title(f'Learning Rate = {lr}')
+        plt.xlabel('Epoch')
+        plt.ylabel('Errors')
+        plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
+# Generate linearly separable dataset
+def generate_separable_data(n_samples=100):
+    """
+    Generate a linearly separable 2D dataset
+    """
+    np.random.seed(42)
+    
+    # Generate two clusters
+    class_0 = np.random.multivariate_normal([1, 1], [[0.5, 0], [0, 0.5]], n_samples//2)
+    class_1 = np.random.multivariate_normal([3, 3], [[0.5, 0], [0, 0.5]], n_samples//2)
+    
+    X = np.vstack([class_0, class_1])
+    y = np.hstack([np.zeros(n_samples//2), np.ones(n_samples//2)])
+    
+    # Shuffle the data
+    indices = np.random.permutation(n_samples)
+    X = X[indices]
+    y = y[indices]
+    
+    return X, y
+
+def test_on_real_data():
+    """
+    Test perceptron on a more realistic dataset
+    """
+    X, y = generate_separable_data(100)
+    
+    # Split into train and test
+    split_idx = 80
+    X_train, X_test = X[:split_idx], X[split_idx:]
+    y_train, y_test = y[:split_idx], y[split_idx:]
+    
+    # Train perceptron
+    perceptron = Perceptron(learning_rate=0.1, max_epochs=100)
+    perceptron.fit(X_train, y_train)
+    
+    # Evaluate
+    train_accuracy = perceptron.score(X_train, y_train)
+    test_accuracy = perceptron.score(X_test, y_test)
+    
+    print(f"Training Accuracy: {train_accuracy:.3f}")
+    print(f"Test Accuracy: {test_accuracy:.3f}")
+    
+    # Visualize
+    plt.figure(figsize=(12, 5))
+    
+    # Plot training data
+    plt.subplot(1, 2, 1)
+    plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='RdYlBu', s=50)
+    plt.title('Training Data')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    
+    # Plot decision boundary on full data
+    plt.subplot(1, 2, 2)
+    plot_decision_boundary(perceptron, X, y, "Full Dataset")
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return perceptron
+
+# Run experiments
+learning_rate_experiment()
+real_data_perceptron = test_on_real_data()
+            </div>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="deliverable">
+            <h2>📤 Tutorial Deliverables</h2>
+            <h3>Required Submissions:</h3>
+            <ol>
+                <li><strong>Complete Python script</strong> with all implementations</li>
+                <li><strong>Test results</strong> showing AND, OR, and XOR gate performance</li>
+                <li><strong>Visualization plots</strong>:
+                    <ul>
+                        <li>Decision boundaries for all three logic gates</li>
+                        <li>Convergence curves showing training progress</li>
+                        <li>Learning rate comparison plots</li>
+                    </ul>
+                </li>
+                <li><strong>Analysis report</strong> (1-2 pages) discussing:
+                    <ul>
+                        <li>Why perceptron succeeds on AND/OR but fails on XOR</li>
+                        <li>Effect of different learning rates on convergence</li>
+                        <li>Comparison of final weights and biases</li>
+                    </ul>
+                </li>
+                <li><strong>Extension experiment</strong> on a custom linearly separable dataset</li>
+            </ol>
+        </div>
+
+        <!-- Assessment Criteria -->
+        <div class="step-section">
+            <h2>📊 Assessment Criteria</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                <div class="theory-box">
+                    <h3>Code Quality (30%)</h3>
+                    <ul>
+                        <li>Correct implementation</li>
+                        <li>Clean, readable code</li>
+                        <li>Proper documentation</li>
+                        <li>Error handling</li>
+                    </ul>
+                </div>
+                <div class="theory-box">
+                    <h3>Results (40%)</h3>
+                    <ul>
+                        <li>Correct AND/OR gate results</li>
+                        <li>XOR failure demonstration</li>
+                        <li>Accurate visualizations</li>
+                        <li>Convergence analysis</li>
+                    </ul>
+                </div>
+                <div class="theory-box">
+                    <h3>Analysis (30%)</h3>
+                    <ul>
+                        <li>Understanding of concepts</li>
+                        <li>Insightful observations</li>
+                        <li>Comparison of results</li>
+                        <li>Extension experiments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button onclick="markAsCompleted()" class="btn-primary" style="margin: 0 10px;">✅ Mark as Completed</button>
+            <a href="tutorial-T2.html" class="btn-secondary">➡️ Next Tutorial (T2)</a>
+            <a href="index.html" class="btn-secondary">🏠 Back to Tutorials</a>
+        </div>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-tracker">
+        <h4>Tutorial Progress</h4>
+        <div class="progress-step" onclick="scrollToStep(1)">1. Theory</div>
+        <div class="progress-step" onclick="scrollToStep(2)">2. Implementation</div>
+        <div class="progress-step" onclick="scrollToStep(3)">3. Testing</div>
+        <div class="progress-step" onclick="scrollToStep(4)">4. Visualization</div>
+        <div class="progress-step" onclick="scrollToStep(5)">5. Experiments</div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre') || button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        function scrollToStep(stepNumber) {
+            const element = document.getElementById(`step-${stepNumber}`);
+            element.scrollIntoView({ behavior: 'smooth' });
+            
+            // Update progress tracker
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('current');
+                if (index + 1 <= stepNumber) {
+                    step.classList.add('completed');
+                }
+                if (index + 1 === stepNumber) {
+                    step.classList.add('current');
+                }
+            });
+        }
+        
+        function markAsCompleted() {
+            localStorage.setItem('tutorial-T1-status', 'completed');
+            localStorage.setItem('tutorial-T1-completed-date', new Date().toISOString());
+            alert('Tutorial T1 marked as completed! 🎉');
+        }
+        
+        // Track scroll position and update progress
+        window.addEventListener('scroll', () => {
+            const steps = document.querySelectorAll('.step-section');
+            let currentStep = 1;
+            
+            steps.forEach((step, index) => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top <= window.innerHeight / 2) {
+                    currentStep = index + 1;
+                }
+            });
+            
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                step.classList.remove('current');
+                if (index + 1 <= currentStep) {
+                    step.classList.add('completed');
+                }
+                if (index + 1 === currentStep) {
+                    step.classList.add('current');
+                }
+            });
+        });
+        
+        // Load tutorial status
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = localStorage.getItem('tutorial-T1-status');
+            if (status === 'completed') {
+                document.querySelector('.btn-primary').innerHTML = '✅ Completed';
+                document.querySelector('.btn-primary').style.background = 'var(--t1-primary)';
+            }
+        });
+        
+        function openMyPage() {
+            const username = 'rbabu';
+            const pin = '2228';
+            
+            // Simple authentication simulation
+            const enteredPin = prompt(`Welcome ${username}!\nPlease enter your PIN to access myPage:`);
+            
+            if (enteredPin === pin) {
+                alert('🎉 Access Granted!\n\nWelcome to Prof. Ramesh Babu\'s myPage\n\n📚 Course: Deep Neural Network Architectures\n🎓 Students: M.Tech Batch 2025\n📊 Progress Tracking Available\n💬 Office Hours: Mon-Fri 2-4 PM');
+            } else if (enteredPin !== null) {
+                alert('❌ Access Denied\nIncorrect PIN. Please contact Prof. Ramesh Babu for assistance.');
+            }
+        }
+    </script>
+</body>
+</html>

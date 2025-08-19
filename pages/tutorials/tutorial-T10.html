@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T10: CNN from Scratch - Tutorial Instructions</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --t10-primary: #dc2626;
+            --t10-secondary: #b91c1c;
+            --t10-accent: #f87171;
+        }
+        
+        .tutorial-header {
+            background: linear-gradient(135deg, var(--t10-primary), var(--t10-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .step-section {
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .step-number {
+            background: var(--t10-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid var(--t10-primary);
+            position: relative;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--t10-primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .theory-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorial-header">
+        <h1>T10: CNN from Scratch</h1>
+        <p>🚀 Advanced Level • ⏱️ 4-5 hours • 📅 Week 10</p>
+        <p style="margin: 10px 0; font-size: 1rem; opacity: 0.9;">21CSE558T • M.Tech Course • SRM University</p>
+        <p style="margin: 5px 0; font-size: 1rem;">
+            👨‍🏫 Prof. Ramesh Babu • 
+            <a href="#" onclick="openMyPage()" style="color: #fff; text-decoration: underline;">myPage</a>
+        </p>
+        <div style="margin-top: 20px;">
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">TensorFlow</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">CNN</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin: 0 5px;">CIFAR-10</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <a href="index.html">💻 Tutorials</a> → 
+            <span>T10: CNN from Scratch</span>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="theory-box">
+            <h2>🎯 Learning Objectives</h2>
+            <ul>
+                <li>Understand convolutional neural network architecture</li>
+                <li>Implement convolution and pooling operations</li>
+                <li>Build CNN from scratch using TensorFlow/Keras</li>
+                <li>Train on CIFAR-10 image classification dataset</li>
+                <li>Compare CNN performance with fully connected networks</li>
+                <li>Understand the importance of spatial hierarchies in vision</li>
+            </ul>
+        </div>
+
+        <!-- CNN Theory -->
+        <div class="step-section" id="step-1">
+            <div class="step-number">1</div>
+            <h2>CNN Theoretical Foundation</h2>
+            
+            <div class="architecture-diagram">
+                <h3>🏗️ CNN Architecture Components</h3>
+                <div style="font-family: monospace; line-height: 2; margin: 20px 0;">
+                    Input Image (32×32×3)<br>
+                    ↓<br>
+                    <strong>Conv2D(32 filters, 3×3) + ReLU</strong> → (30×30×32)<br>
+                    ↓<br>
+                    <strong>MaxPooling2D(2×2)</strong> → (15×15×32)<br>
+                    ↓<br>
+                    <strong>Conv2D(64 filters, 3×3) + ReLU</strong> → (13×13×64)<br>
+                    ↓<br>
+                    <strong>MaxPooling2D(2×2)</strong> → (6×6×64)<br>
+                    ↓<br>
+                    <strong>Conv2D(64 filters, 3×3) + ReLU</strong> → (4×4×64)<br>
+                    ↓<br>
+                    <strong>Flatten</strong> → (1024,)<br>
+                    ↓<br>
+                    <strong>Dense(64) + ReLU</strong> → (64,)<br>
+                    ↓<br>
+                    <strong>Dense(10) + Softmax</strong> → (10,)
+                </div>
+            </div>
+            
+            <div class="theory-box">
+                <h3>🧮 Mathematical Foundations</h3>
+                <h4>Convolution Operation:</h4>
+                <ul>
+                    <li><strong>Output Size:</strong> (Input - Filter + 2×Padding) / Stride + 1</li>
+                    <li><strong>Parameters:</strong> (Filter_H × Filter_W × Input_Channels + 1) × Num_Filters</li>
+                    <li><strong>Feature Maps:</strong> Detect specific patterns (edges, textures, shapes)</li>
+                </ul>
+                
+                <h4>Pooling Operation:</h4>
+                <ul>
+                    <li><strong>Max Pooling:</strong> Takes maximum value in pooling window</li>
+                    <li><strong>Average Pooling:</strong> Takes average value in pooling window</li>
+                    <li><strong>Purpose:</strong> Reduce spatial dimensions, achieve translation invariance</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Data Preparation -->
+        <div class="step-section" id="step-2">
+            <div class="step-number">2</div>
+            <h2>CIFAR-10 Data Preparation</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras import layers, models
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+
+# Set random seeds for reproducibility
+tf.random.set_seed(42)
+np.random.seed(42)
+
+def load_and_preprocess_cifar10():
+    """
+    Load and preprocess CIFAR-10 dataset
+    """
+    print("Loading CIFAR-10 dataset...")
+    
+    # Load CIFAR-10 data
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    
+    # CIFAR-10 class names
+    class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
+                   'dog', 'frog', 'horse', 'ship', 'truck']
+    
+    print(f"Training data shape: {x_train.shape}")
+    print(f"Training labels shape: {y_train.shape}")
+    print(f"Test data shape: {x_test.shape}")
+    print(f"Test labels shape: {y_test.shape}")
+    print(f"Number of classes: {len(class_names)}")
+    
+    # Normalize pixel values to [0, 1]
+    x_train = x_train.astype('float32') / 255.0
+    x_test = x_test.astype('float32') / 255.0
+    
+    # Convert labels to categorical (one-hot encoding) - optional
+    # y_train = tf.keras.utils.to_categorical(y_train, 10)
+    # y_test = tf.keras.utils.to_categorical(y_test, 10)
+    
+    return (x_train, y_train), (x_test, y_test), class_names
+
+def visualize_cifar10_samples(x_train, y_train, class_names):
+    """
+    Visualize sample images from CIFAR-10
+    """
+    plt.figure(figsize=(15, 10))
+    
+    # Show 25 random samples
+    for i in range(25):
+        plt.subplot(5, 5, i + 1)
+        
+        # Get random sample
+        idx = np.random.randint(0, len(x_train))
+        image = x_train[idx]
+        label = class_names[y_train[idx][0]]
+        
+        plt.imshow(image)
+        plt.title(f'{label}')
+        plt.axis('off')
+    
+    plt.suptitle('CIFAR-10 Dataset Samples', fontsize=16)
+    plt.tight_layout()
+    plt.show()
+
+def analyze_dataset_distribution(y_train, y_test, class_names):
+    """
+    Analyze class distribution in the dataset
+    """
+    # Count samples per class
+    train_counts = np.bincount(y_train.flatten())
+    test_counts = np.bincount(y_test.flatten())
+    
+    # Plot distribution
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+    
+    ax1.bar(class_names, train_counts)
+    ax1.set_title('Training Set Class Distribution')
+    ax1.set_ylabel('Number of Samples')
+    ax1.tick_params(axis='x', rotation=45)
+    
+    ax2.bar(class_names, test_counts)
+    ax2.set_title('Test Set Class Distribution')
+    ax2.set_ylabel('Number of Samples')
+    ax2.tick_params(axis='x', rotation=45)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Class distribution:")
+    for i, class_name in enumerate(class_names):
+        print(f"{class_name}: {train_counts[i]} train, {test_counts[i]} test")
+
+# Load and explore data
+(x_train, y_train), (x_test, y_test), class_names = load_and_preprocess_cifar10()
+visualize_cifar10_samples(x_train, y_train, class_names)
+analyze_dataset_distribution(y_train, y_test, class_names)
+            </div>
+        </div>
+
+        <!-- Building CNN Architecture -->
+        <div class="step-section" id="step-3">
+            <div class="step-number">3</div>
+            <h2>Building CNN Architecture</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def build_simple_cnn():
+    """
+    Build a simple CNN for CIFAR-10 classification
+    """
+    model = models.Sequential([
+        # First Convolutional Block
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3), name='conv1'),
+        layers.MaxPooling2D((2, 2), name='maxpool1'),
+        
+        # Second Convolutional Block
+        layers.Conv2D(64, (3, 3), activation='relu', name='conv2'),
+        layers.MaxPooling2D((2, 2), name='maxpool2'),
+        
+        # Third Convolutional Block
+        layers.Conv2D(64, (3, 3), activation='relu', name='conv3'),
+        
+        # Fully Connected Layers
+        layers.Flatten(name='flatten'),
+        layers.Dense(64, activation='relu', name='fc1'),
+        layers.Dropout(0.5, name='dropout1'),
+        layers.Dense(10, activation='softmax', name='output')
+    ])
+    
+    return model
+
+def build_improved_cnn():
+    """
+    Build an improved CNN with batch normalization and more layers
+    """
+    model = models.Sequential([
+        # First Block
+        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Second Block
+        layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+        layers.BatchNormalization(),
+        layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Third Block
+        layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+        layers.BatchNormalization(),
+        layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+        layers.MaxPooling2D((2, 2)),
+        layers.Dropout(0.25),
+        
+        # Fully Connected Layers
+        layers.Flatten(),
+        layers.Dense(512, activation='relu'),
+        layers.BatchNormalization(),
+        layers.Dropout(0.5),
+        layers.Dense(10, activation='softmax')
+    ])
+    
+    return model
+
+def visualize_model_architecture(model):
+    """
+    Visualize model architecture and parameters
+    """
+    print("Model Architecture:")
+    print("=" * 50)
+    model.summary()
+    
+    # Plot model architecture
+    tf.keras.utils.plot_model(
+        model, 
+        to_file='cnn_architecture.png', 
+        show_shapes=True, 
+        show_layer_names=True,
+        rankdir='TB'
+    )
+    
+    # Calculate parameters by layer
+    print("\nParameters by layer:")
+    print("-" * 30)
+    total_params = 0
+    for layer in model.layers:
+        params = layer.count_params()
+        total_params += params
+        print(f"{layer.name}: {params:,} parameters")
+    
+    print(f"\nTotal parameters: {total_params:,}")
+
+# Build and analyze models
+simple_cnn = build_simple_cnn()
+improved_cnn = build_improved_cnn()
+
+print("=== Simple CNN ===")
+visualize_model_architecture(simple_cnn)
+
+print("\n=== Improved CNN ===")
+visualize_model_architecture(improved_cnn)
+            </div>
+        </div>
+
+        <!-- Training and Optimization -->
+        <div class="step-section" id="step-4">
+            <div class="step-number">4</div>
+            <h2>Training and Optimization</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def create_data_augmentation():
+    """
+    Create data augmentation for better generalization
+    """
+    datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+        rotation_range=15,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        horizontal_flip=True,
+        zoom_range=0.1,
+        fill_mode='nearest'
+    )
+    
+    return datagen
+
+def compile_and_train_cnn(model, x_train, y_train, x_test, y_test, use_augmentation=True):
+    """
+    Compile and train the CNN model
+    """
+    # Compile model
+    model.compile(
+        optimizer='adam',
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    
+    # Setup callbacks
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(
+            monitor='val_loss',
+            patience=10,
+            restore_best_weights=True,
+            verbose=1
+        ),
+        tf.keras.callbacks.ReduceLROnPlateau(
+            monitor='val_loss',
+            factor=0.5,
+            patience=5,
+            min_lr=1e-7,
+            verbose=1
+        ),
+        tf.keras.callbacks.ModelCheckpoint(
+            'best_cnn_model.h5',
+            monitor='val_accuracy',
+            save_best_only=True,
+            verbose=1
+        )
+    ]
+    
+    if use_augmentation:
+        # Train with data augmentation
+        datagen = create_data_augmentation()
+        datagen.fit(x_train)
+        
+        history = model.fit(
+            datagen.flow(x_train, y_train, batch_size=32),
+            steps_per_epoch=len(x_train) // 32,
+            epochs=50,
+            validation_data=(x_test, y_test),
+            callbacks=callbacks,
+            verbose=1
+        )
+    else:
+        # Train without augmentation
+        history = model.fit(
+            x_train, y_train,
+            batch_size=32,
+            epochs=50,
+            validation_data=(x_test, y_test),
+            callbacks=callbacks,
+            verbose=1
+        )
+    
+    return history
+
+def plot_training_history(history, title="CNN Training History"):
+    """
+    Plot training and validation metrics
+    """
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+    
+    # Plot accuracy
+    axes[0, 0].plot(history.history['accuracy'], label='Training Accuracy', marker='o')
+    axes[0, 0].plot(history.history['val_accuracy'], label='Validation Accuracy', marker='s')
+    axes[0, 0].set_title('Model Accuracy')
+    axes[0, 0].set_xlabel('Epoch')
+    axes[0, 0].set_ylabel('Accuracy')
+    axes[0, 0].legend()
+    axes[0, 0].grid(True, alpha=0.3)
+    
+    # Plot loss
+    axes[0, 1].plot(history.history['loss'], label='Training Loss', marker='o')
+    axes[0, 1].plot(history.history['val_loss'], label='Validation Loss', marker='s')
+    axes[0, 1].set_title('Model Loss')
+    axes[0, 1].set_xlabel('Epoch')
+    axes[0, 1].set_ylabel('Loss')
+    axes[0, 1].legend()
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot learning rate (if available)
+    if 'lr' in history.history:
+        axes[1, 0].plot(history.history['lr'], label='Learning Rate', marker='o')
+        axes[1, 0].set_title('Learning Rate Schedule')
+        axes[1, 0].set_xlabel('Epoch')
+        axes[1, 0].set_ylabel('Learning Rate')
+        axes[1, 0].set_yscale('log')
+        axes[1, 0].legend()
+        axes[1, 0].grid(True, alpha=0.3)
+    
+    # Plot validation accuracy zoomed
+    axes[1, 1].plot(history.history['val_accuracy'], label='Validation Accuracy', marker='s', color='orange')
+    axes[1, 1].set_title('Validation Accuracy (Zoomed)')
+    axes[1, 1].set_xlabel('Epoch')
+    axes[1, 1].set_ylabel('Accuracy')
+    axes[1, 1].legend()
+    axes[1, 1].grid(True, alpha=0.3)
+    
+    plt.suptitle(title)
+    plt.tight_layout()
+    plt.show()
+
+# Train the improved CNN
+print("Training Improved CNN with Data Augmentation...")
+history = compile_and_train_cnn(improved_cnn, x_train, y_train, x_test, y_test, use_augmentation=True)
+plot_training_history(history, "Improved CNN Training with Data Augmentation")
+            </div>
+        </div>
+
+        <!-- Model Evaluation and Analysis -->
+        <div class="step-section" id="step-5">
+            <div class="step-number">5</div>
+            <h2>Model Evaluation and Analysis</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def evaluate_cnn_model(model, x_test, y_test, class_names):
+    """
+    Comprehensive evaluation of the CNN model
+    """
+    print("=== Model Evaluation ===")
+    
+    # Basic evaluation
+    test_loss, test_accuracy = model.evaluate(x_test, y_test, verbose=0)
+    print(f"Test Loss: {test_loss:.4f}")
+    print(f"Test Accuracy: {test_accuracy:.4f}")
+    
+    # Detailed predictions
+    predictions = model.predict(x_test, verbose=0)
+    predicted_classes = np.argmax(predictions, axis=1)
+    true_classes = y_test.flatten()
+    
+    # Classification report
+    print("\nClassification Report:")
+    print(classification_report(true_classes, predicted_classes, target_names=class_names))
+    
+    # Confusion matrix
+    cm = confusion_matrix(true_classes, predicted_classes)
+    plt.figure(figsize=(12, 10))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=class_names, yticklabels=class_names)
+    plt.title('Confusion Matrix')
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=0)
+    plt.tight_layout()
+    plt.show()
+    
+    # Per-class accuracy
+    class_accuracy = cm.diagonal() / cm.sum(axis=1)
+    
+    plt.figure(figsize=(12, 6))
+    bars = plt.bar(class_names, class_accuracy)
+    plt.title('Per-Class Accuracy')
+    plt.xlabel('Class')
+    plt.ylabel('Accuracy')
+    plt.xticks(rotation=45)
+    plt.ylim([0, 1])
+    
+    # Add value labels on bars
+    for bar, acc in zip(bars, class_accuracy):
+        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.01, 
+                f'{acc:.3f}', ha='center', va='bottom')
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return predictions, predicted_classes
+
+def visualize_predictions(model, x_test, y_test, class_names, num_samples=20):
+    """
+    Visualize model predictions with confidence scores
+    """
+    predictions = model.predict(x_test[:num_samples], verbose=0)
+    predicted_classes = np.argmax(predictions, axis=1)
+    
+    plt.figure(figsize=(20, 12))
+    
+    for i in range(num_samples):
+        plt.subplot(4, 5, i + 1)
+        
+        # Display image
+        plt.imshow(x_test[i])
+        
+        # Get prediction info
+        true_class = class_names[y_test[i][0]]
+        pred_class = class_names[predicted_classes[i]]
+        confidence = np.max(predictions[i])
+        
+        # Color code: green for correct, red for incorrect
+        color = 'green' if predicted_classes[i] == y_test[i][0] else 'red'
+        
+        plt.title(f'True: {true_class}\nPred: {pred_class}\nConf: {confidence:.3f}', 
+                 color=color, fontsize=10)
+        plt.axis('off')
+    
+    plt.suptitle('CNN Predictions on Test Images', fontsize=16)
+    plt.tight_layout()
+    plt.show()
+
+def analyze_feature_maps(model, x_test, layer_name='conv1'):
+    """
+    Visualize feature maps from convolutional layers
+    """
+    # Create a model that outputs feature maps
+    layer_output = model.get_layer(layer_name).output
+    feature_model = tf.keras.Model(inputs=model.input, outputs=layer_output)
+    
+    # Get feature maps for a sample image
+    sample_image = x_test[0:1]  # First test image
+    feature_maps = feature_model.predict(sample_image, verbose=0)
+    
+    # Plot original image
+    plt.figure(figsize=(15, 10))
+    plt.subplot(2, 6, 1)
+    plt.imshow(x_test[0])
+    plt.title('Original Image')
+    plt.axis('off')
+    
+    # Plot first 11 feature maps
+    for i in range(min(11, feature_maps.shape[-1])):
+        plt.subplot(2, 6, i + 2)
+        plt.imshow(feature_maps[0, :, :, i], cmap='viridis')
+        plt.title(f'Filter {i+1}')
+        plt.axis('off')
+    
+    plt.suptitle(f'Feature Maps from {layer_name}')
+    plt.tight_layout()
+    plt.show()
+
+def compare_with_fully_connected():
+    """
+    Compare CNN performance with fully connected network
+    """
+    print("=== Comparison: CNN vs Fully Connected Network ===")
+    
+    # Build fully connected model
+    fc_model = models.Sequential([
+        layers.Flatten(input_shape=(32, 32, 3)),
+        layers.Dense(512, activation='relu'),
+        layers.Dropout(0.5),
+        layers.Dense(256, activation='relu'),
+        layers.Dropout(0.5),
+        layers.Dense(10, activation='softmax')
+    ])
+    
+    fc_model.compile(
+        optimizer='adam',
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    
+    # Train for fewer epochs for comparison
+    print("Training Fully Connected Network...")
+    fc_history = fc_model.fit(
+        x_train, y_train,
+        batch_size=32,
+        epochs=20,
+        validation_data=(x_test, y_test),
+        verbose=0
+    )
+    
+    # Evaluate both models
+    cnn_accuracy = improved_cnn.evaluate(x_test, y_test, verbose=0)[1]
+    fc_accuracy = fc_model.evaluate(x_test, y_test, verbose=0)[1]
+    
+    print(f"CNN Test Accuracy: {cnn_accuracy:.4f}")
+    print(f"Fully Connected Test Accuracy: {fc_accuracy:.4f}")
+    print(f"Improvement with CNN: {((cnn_accuracy - fc_accuracy) / fc_accuracy * 100):.2f}%")
+    
+    # Compare parameter counts
+    cnn_params = improved_cnn.count_params()
+    fc_params = fc_model.count_params()
+    
+    print(f"CNN Parameters: {cnn_params:,}")
+    print(f"FC Parameters: {fc_params:,}")
+    
+    return fc_model, fc_history
+
+# Evaluate the trained model
+predictions, predicted_classes = evaluate_cnn_model(improved_cnn, x_test, y_test, class_names)
+visualize_predictions(improved_cnn, x_test, y_test, class_names, num_samples=20)
+analyze_feature_maps(improved_cnn, x_test, layer_name='conv2d')
+fc_model, fc_history = compare_with_fully_connected()
+            </div>
+        </div>
+
+        <!-- Advanced Experiments -->
+        <div class="step-section" id="step-6">
+            <div class="step-number">6</div>
+            <h2>Advanced Experiments</h2>
+            
+            <div class="code-block">
+                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+def experiment_with_architectures():
+    """
+    Experiment with different CNN architectures
+    """
+    architectures = {
+        'shallow': {
+            'layers': [
+                layers.Conv2D(16, (3, 3), activation='relu', input_shape=(32, 32, 3)),
+                layers.MaxPooling2D((2, 2)),
+                layers.Flatten(),
+                layers.Dense(64, activation='relu'),
+                layers.Dense(10, activation='softmax')
+            ],
+            'name': 'Shallow CNN'
+        },
+        'medium': {
+            'layers': [
+                layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)),
+                layers.MaxPooling2D((2, 2)),
+                layers.Conv2D(64, (3, 3), activation='relu'),
+                layers.MaxPooling2D((2, 2)),
+                layers.Flatten(),
+                layers.Dense(64, activation='relu'),
+                layers.Dense(10, activation='softmax')
+            ],
+            'name': 'Medium CNN'
+        },
+        'deep': {
+            'layers': [
+                layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)),
+                layers.Conv2D(32, (3, 3), activation='relu'),
+                layers.MaxPooling2D((2, 2)),
+                layers.Conv2D(64, (3, 3), activation='relu'),
+                layers.Conv2D(64, (3, 3), activation='relu'),
+                layers.MaxPooling2D((2, 2)),
+                layers.Conv2D(128, (3, 3), activation='relu'),
+                layers.Flatten(),
+                layers.Dense(128, activation='relu'),
+                layers.Dropout(0.5),
+                layers.Dense(10, activation='softmax')
+            ],
+            'name': 'Deep CNN'
+        }
+    }
+    
+    results = {}
+    
+    for arch_name, arch_config in architectures.items():
+        print(f"\nTraining {arch_config['name']}...")
+        
+        # Build model
+        model = models.Sequential(arch_config['layers'])
+        model.compile(
+            optimizer='adam',
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        # Train for limited epochs
+        history = model.fit(
+            x_train, y_train,
+            batch_size=32,
+            epochs=10,
+            validation_data=(x_test, y_test),
+            verbose=0
+        )
+        
+        # Evaluate
+        test_accuracy = model.evaluate(x_test, y_test, verbose=0)[1]
+        param_count = model.count_params()
+        
+        results[arch_name] = {
+            'accuracy': test_accuracy,
+            'parameters': param_count,
+            'model': model,
+            'history': history
+        }
+        
+        print(f"{arch_config['name']}: {test_accuracy:.4f} accuracy, {param_count:,} parameters")
+    
+    # Plot comparison
+    names = [architectures[k]['name'] for k in results.keys()]
+    accuracies = [results[k]['accuracy'] for k in results.keys()]
+    param_counts = [results[k]['parameters'] for k in results.keys()]
+    
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    
+    ax1.bar(names, accuracies)
+    ax1.set_title('Test Accuracy by Architecture')
+    ax1.set_ylabel('Accuracy')
+    ax1.tick_params(axis='x', rotation=45)
+    
+    ax2.bar(names, param_counts)
+    ax2.set_title('Parameter Count by Architecture')
+    ax2.set_ylabel('Number of Parameters')
+    ax2.tick_params(axis='x', rotation=45)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return results
+
+def hyperparameter_tuning_experiment():
+    """
+    Experiment with different hyperparameters
+    """
+    print("\n=== Hyperparameter Tuning Experiment ===")
+    
+    # Test different optimizers
+    optimizers = ['adam', 'sgd', 'rmsprop']
+    optimizer_results = {}
+    
+    for opt in optimizers:
+        print(f"Testing optimizer: {opt}")
+        
+        model = build_simple_cnn()
+        model.compile(
+            optimizer=opt,
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        history = model.fit(
+            x_train, y_train,
+            batch_size=32,
+            epochs=5,
+            validation_data=(x_test, y_test),
+            verbose=0
+        )
+        
+        final_accuracy = history.history['val_accuracy'][-1]
+        optimizer_results[opt] = final_accuracy
+        print(f"{opt}: {final_accuracy:.4f}")
+    
+    # Plot optimizer comparison
+    plt.figure(figsize=(10, 6))
+    plt.bar(optimizer_results.keys(), optimizer_results.values())
+    plt.title('Optimizer Comparison')
+    plt.ylabel('Validation Accuracy')
+    plt.show()
+    
+    return optimizer_results
+
+# Run experiments
+print("Running architecture comparison...")
+arch_results = experiment_with_architectures()
+
+print("\nRunning hyperparameter tuning...")
+opt_results = hyperparameter_tuning_experiment()
+            </div>
+        </div>
+
+        <!-- Deliverables -->
+        <div class="deliverable">
+            <h2>📤 Tutorial Deliverables</h2>
+            <h3>Required Submissions:</h3>
+            <ol>
+                <li><strong>Complete CNN implementation</strong> with detailed architecture</li>
+                <li><strong>CIFAR-10 classification results</strong> achieving >70% test accuracy</li>
+                <li><strong>Comprehensive analysis</strong> including:
+                    <ul>
+                        <li>Model architecture visualization and parameter analysis</li>
+                        <li>Training curves with loss and accuracy plots</li>
+                        <li>Confusion matrix and per-class performance</li>
+                        <li>Feature map visualizations from different layers</li>
+                    </ul>
+                </li>
+                <li><strong>Comparative study</strong>:
+                    <ul>
+                        <li>CNN vs Fully Connected network performance</li>
+                        <li>Different CNN architectures (shallow, medium, deep)</li>
+                        <li>Impact of data augmentation</li>
+                        <li>Hyperparameter sensitivity analysis</li>
+                    </ul>
+                </li>
+                <li><strong>Technical report</strong> (3-4 pages) discussing:
+                    <ul>
+                        <li>Why CNNs work better for image data</li>
+                        <li>Role of convolution and pooling operations</li>
+                        <li>Feature learning hierarchy in deep networks</li>
+                        <li>Best practices for CNN training</li>
+                        <li>Comparison with traditional computer vision approaches</li>
+                    </ul>
+                </li>
+                <li><strong>Code optimization</strong> demonstrating:
+                    <ul>
+                        <li>Efficient data loading and preprocessing</li>
+                        <li>Model checkpointing and early stopping</li>
+                        <li>Memory-efficient training techniques</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button onclick="markAsCompleted()" class="btn-primary" style="margin: 0 10px;">✅ Mark as Completed</button>
+            <a href="tutorial-T11.html" class="btn-secondary">➡️ Next Tutorial (T11)</a>
+            <a href="tutorial-T9.html" class="btn-secondary">⬅️ Previous Tutorial (T9)</a>
+            <a href="index.html" class="btn-secondary">🏠 Back to Tutorials</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const codeBlock = button.nextElementSibling || button.parentElement.querySelector('pre') || button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+        
+        function markAsCompleted() {
+            localStorage.setItem('tutorial-T10-status', 'completed');
+            localStorage.setItem('tutorial-T10-completed-date', new Date().toISOString());
+            alert('Tutorial T10 marked as completed! 🎉');
+        }
+        
+        // Load tutorial status
+        document.addEventListener('DOMContentLoaded', () => {
+            const status = localStorage.getItem('tutorial-T10-status');
+            if (status === 'completed') {
+                document.querySelector('.btn-primary').innerHTML = '✅ Completed';
+                document.querySelector('.btn-primary').style.background = 'var(--t10-primary)';
+            }
+        });
+        
+        function openMyPage() {
+            const username = 'rbabu';
+            const pin = '2228';
+            
+            // Simple authentication simulation
+            const enteredPin = prompt(`Welcome ${username}!\nPlease enter your PIN to access myPage:`);
+            
+            if (enteredPin === pin) {
+                alert('🎉 Access Granted!\n\nWelcome to Prof. Ramesh Babu\'s myPage\n\n📚 Course: Deep Neural Network Architectures\n🎓 Students: M.Tech Batch 2025\n📊 Progress Tracking Available\n💬 Office Hours: Mon-Fri 2-4 PM');
+            } else if (enteredPin !== null) {
+                alert('❌ Access Denied\nIncorrect PIN. Please contact Prof. Ramesh Babu for assistance.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Instructions - Deep Neural Network Architectures</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <style>
+        :root {
+            --tutorial-primary: #059669;
+            --tutorial-secondary: #047857;
+            --tutorial-accent: #10b981;
+        }
+        
+        .tutorials-header {
+            background: linear-gradient(135deg, var(--tutorial-primary), var(--tutorial-secondary));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .tutorial-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(5, 150, 105, 0.15);
+            border-color: var(--tutorial-primary);
+        }
+        
+        .tutorial-number {
+            background: var(--tutorial-primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .difficulty-beginner {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            border: 1px solid #22c55e;
+        }
+        
+        .difficulty-intermediate {
+            background: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+            border: 1px solid #fbbf24;
+        }
+        
+        .difficulty-advanced {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid #ef4444;
+        }
+        
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        
+        .tutorial-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .tool-tag {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--tutorial-primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(5, 150, 105, 0.3);
+        }
+        
+        .progress-section {
+            background: rgba(5, 150, 105, 0.05);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .progress-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid var(--tutorial-primary);
+        }
+        
+        .module-section {
+            margin: 40px 0;
+        }
+        
+        .module-header {
+            background: rgba(5, 150, 105, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--tutorial-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="tutorials-header">
+        <h1>💻 Tutorial Instructions Hub</h1>
+        <p>Complete Step-by-Step Guides for All 15 Tutorials</p>
+        <div class="tutorial-meta" style="justify-content: center; color: rgba(255,255,255,0.9);">
+            <span>📚 15 Comprehensive Tutorials</span>
+            <span>•</span>
+            <span>🎯 Progressive Learning Path</span>
+            <span>•</span>
+            <span>💻 Hands-on Implementation</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="navigation-breadcrumb">
+            <a href="../../index.html">🏠 Dashboard</a> → 
+            <span>💻 Tutorial Instructions</span>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-section">
+            <h2>📊 Your Tutorial Progress</h2>
+            <div class="progress-grid">
+                <div class="progress-item">
+                    <h3>🎯 Completed</h3>
+                    <div style="font-size: 2em; font-weight: bold; color: var(--tutorial-primary);" id="completed-count">0</div>
+                    <p>out of 15 tutorials</p>
+                </div>
+                <div class="progress-item">
+                    <h3>⚡ In Progress</h3>
+                    <div style="font-size: 2em; font-weight: bold; color: #f59e0b;" id="progress-count">0</div>
+                    <p>currently working on</p>
+                </div>
+                <div class="progress-item">
+                    <h3>📋 Remaining</h3>
+                    <div style="font-size: 2em; font-weight: bold; color: #6b7280;" id="remaining-count">15</div>
+                    <p>to be started</p>
+                </div>
+                <div class="progress-item">
+                    <h3>🏆 Overall</h3>
+                    <div style="font-size: 2em; font-weight: bold; color: var(--tutorial-primary);" id="overall-progress">0%</div>
+                    <p>completion rate</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 1 Tutorials -->
+        <div class="module-section">
+            <div class="module-header">
+                <h2>🧠 Module 1: Introduction to Deep Learning (Tutorials T1-T3)</h2>
+                <p>Foundation concepts: Perceptron, MLP, and TensorFlow basics</p>
+            </div>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card" data-tutorial="T1" onclick="location.href='tutorial-T1.html'">
+                    <div class="tutorial-number">T1</div>
+                    <div class="difficulty-badge difficulty-beginner">🌱 Beginner</div>
+                    <h3>Perceptron Implementation</h3>
+                    <p>Build a perceptron from scratch and understand the fundamental concepts of neural computation.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 2-3 hours</span>
+                        <span>📅 Week 1</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">Python</span>
+                        <span class="tool-tag">NumPy</span>
+                        <span class="tool-tag">Matplotlib</span>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>🎯 Learning Goals:</strong>
+                        <ul style="margin: 10px 0; font-size: 0.9rem;">
+                            <li>Understand perceptron mathematics</li>
+                            <li>Implement learning algorithm</li>
+                            <li>Visualize decision boundaries</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T2" onclick="location.href='tutorial-T2.html'">
+                    <div class="tutorial-number">T2</div>
+                    <div class="difficulty-badge difficulty-beginner">🌱 Beginner</div>
+                    <h3>Multi-Layer Perceptron with Backpropagation</h3>
+                    <p>Extend to multi-layer networks and implement the backpropagation algorithm.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 3-4 hours</span>
+                        <span>📅 Week 2</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">Python</span>
+                        <span class="tool-tag">NumPy</span>
+                        <span class="tool-tag">Math</span>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>🎯 Learning Goals:</strong>
+                        <ul style="margin: 10px 0; font-size: 0.9rem;">
+                            <li>Multi-layer architecture design</li>
+                            <li>Backpropagation implementation</li>
+                            <li>Gradient computation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T3" onclick="location.href='tutorial-T3.html'">
+                    <div class="tutorial-number">T3</div>
+                    <div class="difficulty-badge difficulty-beginner">🌱 Beginner</div>
+                    <h3>TensorFlow Neural Network</h3>
+                    <p>Create your first neural network using TensorFlow and Keras APIs.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 2-3 hours</span>
+                        <span>📅 Week 3</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Keras</span>
+                        <span class="tool-tag">Python</span>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>🎯 Learning Goals:</strong>
+                        <ul style="margin: 10px 0; font-size: 0.9rem;">
+                            <li>TensorFlow framework basics</li>
+                            <li>Model compilation and training</li>
+                            <li>Performance evaluation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2 Tutorials -->
+        <div class="module-section">
+            <div class="module-header">
+                <h2>⚙️ Module 2: Optimization & Regularization (Tutorials T4-T6)</h2>
+                <p>Advanced training techniques: Activation functions, optimizers, and regularization</p>
+            </div>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card" data-tutorial="T4" onclick="location.href='tutorial-T4.html'">
+                    <div class="tutorial-number">T4</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Activation Function Analysis</h3>
+                    <p>Compare different activation functions and their impact on network performance.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 2-3 hours</span>
+                        <span>📅 Week 4</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Matplotlib</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T5" onclick="location.href='tutorial-T5.html'">
+                    <div class="tutorial-number">T5</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Optimizer Comparison</h3>
+                    <p>Implement and compare SGD, Adam, and RMSprop optimizers.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 3-4 hours</span>
+                        <span>📅 Week 5</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Optimization</span>
+                        <span class="tool-tag">Benchmarking</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T6" onclick="location.href='tutorial-T6.html'">
+                    <div class="tutorial-number">T6</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Regularization Implementation</h3>
+                    <p>Apply L1/L2 regularization and dropout to prevent overfitting.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 2-3 hours</span>
+                        <span>📅 Week 6</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Regularization</span>
+                        <span class="tool-tag">Validation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3 Tutorials -->
+        <div class="module-section">
+            <div class="module-header">
+                <h2>🖼️ Module 3: Image Processing & Deep Neural Networks (Tutorials T7-T9)</h2>
+                <p>Image processing fundamentals and feature extraction techniques</p>
+            </div>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card" data-tutorial="T7" onclick="location.href='tutorial-T7.html'">
+                    <div class="tutorial-number">T7</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Advanced Image Processing</h3>
+                    <p>Implement Fourier transforms, filtering, and enhancement techniques.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 3-4 hours</span>
+                        <span>📅 Week 7</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">OpenCV</span>
+                        <span class="tool-tag">NumPy</span>
+                        <span class="tool-tag">SciPy</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T8" onclick="location.href='tutorial-T8.html'">
+                    <div class="tutorial-number">T8</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Feature Extraction Methods</h3>
+                    <p>Implement SIFT, HOG, and LBP feature extraction algorithms.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 4-5 hours</span>
+                        <span>📅 Week 8</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">OpenCV</span>
+                        <span class="tool-tag">Scikit-image</span>
+                        <span class="tool-tag">Features</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T9" onclick="location.href='tutorial-T9.html'">
+                    <div class="tutorial-number">T9</div>
+                    <div class="difficulty-badge difficulty-intermediate">🔥 Intermediate</div>
+                    <h3>Image Classification Pipeline</h3>
+                    <p>Build end-to-end classification system with traditional machine learning.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 3-4 hours</span>
+                        <span>📅 Week 9</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">Scikit-learn</span>
+                        <span class="tool-tag">OpenCV</span>
+                        <span class="tool-tag">Classification</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4 Tutorials -->
+        <div class="module-section">
+            <div class="module-header">
+                <h2>🏗️ Module 4: CNNs & Transfer Learning (Tutorials T10-T12)</h2>
+                <p>Convolutional neural networks and pre-trained model utilization</p>
+            </div>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card" data-tutorial="T10" onclick="location.href='tutorial-T10.html'">
+                    <div class="tutorial-number">T10</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>CNN from Scratch</h3>
+                    <p>Build and train convolutional neural network architecture manually.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 4-5 hours</span>
+                        <span>📅 Week 10</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">CNN</span>
+                        <span class="tool-tag">CIFAR-10</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T11" onclick="location.href='tutorial-T11.html'">
+                    <div class="tutorial-number">T11</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>Transfer Learning Implementation</h3>
+                    <p>Use pre-trained models for custom image classification tasks.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 3-4 hours</span>
+                        <span>📅 Week 11</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Pre-trained</span>
+                        <span class="tool-tag">Fine-tuning</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T12" onclick="location.href='tutorial-T12.html'">
+                    <div class="tutorial-number">T12</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>Model Comparison & Analysis</h3>
+                    <p>Compare different CNN architectures and training strategies.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 4-5 hours</span>
+                        <span>📅 Week 12</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">Benchmarking</span>
+                        <span class="tool-tag">Analysis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 5 Tutorials -->
+        <div class="module-section">
+            <div class="module-header">
+                <h2>🎯 Module 5: Object Detection & Localization (Tutorials T13-T15)</h2>
+                <p>Advanced object detection systems and real-world applications</p>
+            </div>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-card" data-tutorial="T13" onclick="location.href='tutorial-T13.html'">
+                    <div class="tutorial-number">T13</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>Object Detection System</h3>
+                    <p>Implement YOLO or SSD object detection from scratch.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 5-6 hours</span>
+                        <span>📅 Week 13</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">YOLO</span>
+                        <span class="tool-tag">Detection</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T14" onclick="location.href='tutorial-T14.html'">
+                    <div class="tutorial-number">T14</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>Real-time Processing System</h3>
+                    <p>Optimize detection for real-time video processing applications.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 4-5 hours</span>
+                        <span>📅 Week 14</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">OpenCV</span>
+                        <span class="tool-tag">Optimization</span>
+                        <span class="tool-tag">Real-time</span>
+                    </div>
+                </div>
+
+                <div class="tutorial-card" data-tutorial="T15" onclick="location.href='tutorial-T15.html'">
+                    <div class="tutorial-number">T15</div>
+                    <div class="difficulty-badge difficulty-advanced">🚀 Advanced</div>
+                    <h3>End-to-End Application</h3>
+                    <p>Create complete computer vision application with deployment.</p>
+                    
+                    <div class="tutorial-meta">
+                        <span>⏱️ 6-8 hours</span>
+                        <span>📅 Week 15</span>
+                    </div>
+                    
+                    <div class="tutorial-tools">
+                        <span class="tool-tag">Full Stack</span>
+                        <span class="tool-tag">Deployment</span>
+                        <span class="tool-tag">Integration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="../../index.html" class="btn-primary">🏠 Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        // Tutorial progress tracking
+        const tutorials = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15'];
+        
+        function updateProgressDisplay() {
+            let completed = 0;
+            let inProgress = 0;
+            
+            tutorials.forEach(tutorial => {
+                const status = localStorage.getItem(`tutorial-${tutorial}-status`);
+                if (status === 'completed') completed++;
+                else if (status === 'in-progress') inProgress++;
+            });
+            
+            const remaining = tutorials.length - completed - inProgress;
+            const overallProgress = Math.round((completed / tutorials.length) * 100);
+            
+            document.getElementById('completed-count').textContent = completed;
+            document.getElementById('progress-count').textContent = inProgress;
+            document.getElementById('remaining-count').textContent = remaining;
+            document.getElementById('overall-progress').textContent = `${overallProgress}%`;
+            
+            // Update card appearances based on status
+            tutorials.forEach(tutorial => {
+                const card = document.querySelector(`[data-tutorial="${tutorial}"]`);
+                const status = localStorage.getItem(`tutorial-${tutorial}-status`);
+                
+                if (status === 'completed') {
+                    card.style.background = 'rgba(34, 197, 94, 0.1)';
+                    card.style.borderColor = '#22c55e';
+                } else if (status === 'in-progress') {
+                    card.style.background = 'rgba(251, 191, 36, 0.1)';
+                    card.style.borderColor = '#fbbf24';
+                }
+            });
+        }
+        
+        // Initialize progress display
+        document.addEventListener('DOMContentLoaded', updateProgressDisplay);
+    </script>
+</body>
+</html>
